@@ -9,7 +9,7 @@ import Tabs from "@mui/material/Tabs"
 import Tab from "@mui/material/Tab"
 import Typography from "@mui/material/Typography"
 import Box from "@mui/material/Box"
-import CardProject from "../Components/Card"
+import CardProject from "../components/CardProject"
 import PIcon from "../Components/CardIcon"
 import AOS from "aos"
 import "aos/dist/aos.css"
@@ -60,29 +60,44 @@ export default function FullWidthTabs() {
 	const [showAllProjects, setShowAllProjects] = useState(false)
 	const [showAllCertificates, setShowAllCertificates] = useState(false)
 
+
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const projectCollection = collection(db, "projects")
-				const certificateCollection = collection(db, "certificates")
-				const projectQuerySnapshot = await getDocs(projectCollection)
-				const certificateQuerySnapshot = await getDocs(certificateCollection)
+				// Fetch data dari koleksi Firestore
+				const projectCollection = collection(db, "projects");
+				const certificateCollection = collection(db, "certificates");
 
-				const projectData = projectQuerySnapshot.docs.map((doc) => doc.data())
-				const certificateData = certificateQuerySnapshot.docs.map((doc) => doc.data())
+				const projectQuerySnapshot = await getDocs(projectCollection);
+				const certificateQuerySnapshot = await getDocs(certificateCollection);
 
-				console.log("Projects:", projectData)
-				console.log("Certificates:", certificateData)
+				// Format data untuk Projects
+				const projectData = projectQuerySnapshot.docs.map((doc) => ({
+					id: doc.id, // Tambahkan ID dokumen
+					...doc.data(), // Tambahkan data lainnya
+				}));
 
-				setProjects(projectData)
-				setCertificates(certificateData)
+				// Format data untuk Certificates
+				const certificateData = certificateQuerySnapshot.docs.map((doc) => doc.data());
+
+				// Simpan data ke state
+				setProjects(projectData);
+				setCertificates(certificateData);
+
+				// Simpan data ke localStorage
+				localStorage.setItem("projects", JSON.stringify(projectData));
+				localStorage.setItem("certificates", JSON.stringify(certificateData));
+
+				console.log("Data berhasil di-fetch dan disimpan ke localStorage!");
 			} catch (error) {
-				console.error("Error fetching data from Firebase:", error)
+				console.error("Error fetching data from Firebase:", error);
 			}
-		}
+		};
 
-		fetchData()
-	}, [])
+		// Lakukan fetch data setiap kali website dibuka
+		fetchData();
+	}, []);
+	  
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue)
@@ -157,16 +172,17 @@ export default function FullWidthTabs() {
 					<TabPanel value={value} index={0} dir={theme.direction}>
 						<div className="container mx-auto flex justify-center items-center overflow-hidden ">
 							<div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-								{(showAllProjects ? projects : projects.slice(0, 6)).map((project, index) => (
-									<div key={index} data-aos="fade-up" data-aos-duration="1000">
-										<CardProject
-											Img={project.Img}
-											Title={project.Title}
-											Description={project.Description}
-											Link={project.Link}
-										/>
-									</div>
-								))}
+							{(showAllProjects ? projects : projects.slice(0, 6)).map((project, index) => (
+  <div key={project.id || index} data-aos="fade-up" data-aos-duration="1000">
+    <CardProject
+      Img={project.Img}
+      Title={project.Title}
+      Description={project.Description}
+      Link={project.Link}
+      id={project.id} 
+    />
+  </div>
+))}
 							</div>
 						</div>
 						{projects.length > 6 && (
@@ -226,6 +242,7 @@ export default function FullWidthTabs() {
 								<PIcon PIcon="firebase.svg" Language="Firebase" />
 								<PIcon PIcon="MUI.svg" Language="Material UI" />
 							</div>
+							
 						</div>
 					</TabPanel>
 				</SwipeableViews>

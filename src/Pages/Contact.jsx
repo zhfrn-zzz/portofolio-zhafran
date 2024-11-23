@@ -1,95 +1,100 @@
-import React, { useEffect } from "react"
-import SocialMedia from "../components/SocialMedia"
-import AOS from "aos"
-import "aos/dist/aos.css"
+import React, { useState } from "react"
+import Komentar from "../components/commentar"
+import { Send,Share2 } from "lucide-react"
+import SocialLinks from "../components/SocialLinks"
 
-const ContactForm = () => {
-	useEffect(() => {
-		AOS.init()
-		AOS.refresh()
-	}, [])
 
-	return (
-		<div className="relative border-2" id="Contact">
-			<div className="h-auto md:mt-20 mt-10 md:px-[10%] px-[6%]">
-				<h1
-					className="text-4xl font-bold mb-10 text-[#ced4d7]"
-					data-aos="fade-up"
-					data-aos-duration="600">
-					Contact Me
-				</h1>
-				<div className="max-w-5xl">
-					<div className="flex flex-col md:flex-row ">
-						<div className="md:w-1/2 w-auto" data-aos="fade-up" data-aos-duration="1000">
-							<SocialMedia />
-						</div>
-						<div className="md:w-1/2 w-auto">
-							<div
-								className="text-[#ced4d7] font-semibold md:mt-0 md:pl-1 mt-10 text-base mb-3 opacity-60"
-								data-aos="fade-up"
-								data-aos-duration="600">
-								Have something to discuss? Send me a message and let's talk.
-							</div>
-							<form
-								action="https://formsubmit.co/ekizulfarrachman@gmail.com"
-								method="POST"
-								className="md:p-1 p-0"
-								data-aos="fade-up"
-								data-aos-duration="1000">
-								<div className="mb-6" data-aos="fade-up" data-aos-duration="600">
-									<label htmlFor="name" className="block text-[#ced4d7] font-semibold mb-2">
-										Name
-									</label>
-									<input
-										required
-										type="text"
-										name="name"
-										id="name"
-										autoComplete="off"
-										placeholder="Your Name"
-										className="w-full px-3 py-2 border h-14 rounded-lg focus:outline-none focus:border-[#ced4d7] bg-transparent text-[#a6adba]"
-									/>
-								</div>
-								<div className="mb-6" data-aos="fade-up" data-aos-duration="800">
-									<label htmlFor="from" className="block text-[#ced4d7] font-semibold mb-2">
-										From
-									</label>
-									<input
-										required
-										type="text"
-										name="from"
-										id="from"
-										placeholder="From"
-										autoComplete="off"
-										className="w-full px-3 py-2 border h-14 rounded-lg focus:outline-none focus:border-[#ced4d7] bg-transparent text-[#a6adba]"
-									/>
-								</div>
-								<div className="mb-5" data-aos="fade-up" data-aos-duration="1000">
-									<label htmlFor="message" className="block text-[#ced4d7] font-semibold mb-2">
-										Message
-									</label>
-									<textarea
-										required
-										type="text"
-										name="message"
-										id="message"
-										placeholder="Message"
-										className="w-full px-3 py-2 md:h-48 h-40 border rounded-lg focus:outline-none focus:border-[#ced4d7] bg-transparent text-[#a6adba]"></textarea>
-								</div>
-								<input type="hidden" name="_captcha" value="false" />
-								<input type="hidden" name="_template" value="table" />
-								<button
-									type="submit"
-									className="text-center bg-[#ced4d7] text-[#212121] mb-20 font-semibold py-2 px-4 rounded-lg hover:bg-[#1f2937] hover:text-[#ced4d7] transition-all duration-200 ease-out">
-									Send
-								</button>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	)
+const ContactPage = () => {
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        message: ""
+    })
+    const [hoveredField, setHoveredField] = useState(null)
+
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        console.log("Form submitted:", formData)
+    }
+
+   
+
+    return (
+        <div className="min-h-screen flex items-center justify-center px-4 py-12">
+            <div className="w-full mx-[10%] flex flex-col md:flex-row gap-8">
+                {/* Contact Form Section */}
+                <div className="w-full md:w-[35%] bg-white/5 backdrop-blur-lg rounded-3xl shadow-2xl p-12 relative">
+                    <div className="absolute top-6 right-6">
+                        <Share2 className="w-8 h-8 text-[#6366f1] opacity-50" />
+                    </div>
+                    
+                    <h2 className="text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]">
+                        Contact Me
+                    </h2>
+                    <p className="text-gray-400 mb-8">
+                        Have something to discuss? Send me a message and let's talk.
+                    </p>
+                    
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        {['name', 'email', 'message'].map((field) => (
+                            <div 
+                                key={field}
+                                className="relative group"
+                                onMouseEnter={() => setHoveredField(field)}
+                                onMouseLeave={() => setHoveredField(null)}
+                            >
+                                <input 
+                                    type={field === 'email' ? 'email' : (field === 'message' ? 'text' : 'text')}
+                                    name={field}
+                                    placeholder={`Your ${field.charAt(0).toUpperCase() + field.slice(1)}`}
+                                    value={formData[field]}
+                                    onChange={handleChange}
+                                    className={`w-full p-4 bg-white/10 rounded-lg border transition-all duration-300 
+                                        ${hoveredField === field 
+                                            ? 'border-[#6366f1] ring-2 ring-[#6366f1]/50' 
+                                            : 'border-white/20'
+                                        } 
+                                        text-white placeholder-gray-500 focus:outline-none
+                                        ${field === 'message' ? 'h-32' : ''}`}
+                                    required
+                                />
+                                {hoveredField === field && (
+                                    <div className="absolute inset-0 border-2 border-[#6366f1] rounded-lg animate-pulse-border pointer-events-none"></div>
+                                )}
+                            </div>
+                        ))}
+                        
+                        <button 
+                            type="submit"
+                            className="w-full p-4 bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-white rounded-lg 
+                            hover:scale-[1.02] transition-transform duration-300 flex items-center justify-center gap-2 group"
+                        >
+                            <Send className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                            Send Message
+                        </button>
+                    </form>
+
+                    {/* Social Links */}
+                    <div className="mt-8 flex justify-center space-x-4">
+                        <SocialLinks/>
+                    </div>
+                </div>
+
+                {/* Comment System Section */}
+                <div className="w-full md:w-[65%]">
+                   <Komentar/>
+                </div>
+            </div>
+        </div>
+    )
 }
 
-export default ContactForm
+export default ContactPage

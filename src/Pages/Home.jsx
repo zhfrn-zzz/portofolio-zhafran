@@ -5,7 +5,7 @@ import Spline from "@splinetool/react-spline"
 const Home = () => {
 	const [text, setText] = useState("")
 	const [isTyping, setIsTyping] = useState(true)
-	const words = ["Front-End Developer", "Student in Computer Network Engineering"]
+	const words = ["Web Developer", "Network & Telecom Student", "Tech Enthusiast", "Coding Specialist"];
 	const [wordIndex, setWordIndex] = useState(0)
 	const [charIndex, setCharIndex] = useState(0)
 	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -87,7 +87,7 @@ const Home = () => {
 										<span className="relative inline-block">
 											<span className="absolute -inset-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] blur-2xl opacity-20"></span>
 											<span className="relative bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
-												Creative
+												Frontend
 											</span>
 										</span>
 										<br />
@@ -110,8 +110,7 @@ const Home = () => {
 
 								{/* Description */}
 								<p className="text-gray-400 text-base sm:text-lg max-w-xl leading-relaxed font-light">
-									Creating Innovative Websites that are Attractive, Functional, and Easy to Use to
-									Provide Solutions in Every Digital Aspect.
+								Menciptakan Website Yang Inovatif, Fungsional, dan User-Friendly untuk Solusi Digital.
 								</p>
 
 								{/* Tech Stack */}
