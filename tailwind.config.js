@@ -3,6 +3,9 @@ export default {
 	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 	theme: {
 		extend: {
+			backdropBlur: {
+				sm: '4px',
+			  },
 			animation: {
 			  marquee: 'marquee var(--duration) linear infinite',
 			  'marquee-vertical': 'marquee-vertical var(--duration) linear infinite',

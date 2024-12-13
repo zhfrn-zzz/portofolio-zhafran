@@ -1,29 +1,18 @@
 import React, { useState, useEffect } from "react"
 import { Github, Linkedin, Mail, ExternalLink, Globe2, Sparkles } from "lucide-react"
-import Spline from "@splinetool/react-spline"
+import { DotLottieReact } from '@lottiefiles/dotlottie-react'
 
 const Home = () => {
 	const [text, setText] = useState("")
 	const [isTyping, setIsTyping] = useState(true)
-	const words = ["Web Developer", "Network & Telecom Student", "Tech Enthusiast", "Coding Specialist"];
+	const words = ["Network & Telecom Student", "Tech Enthusiast"];
 	const [wordIndex, setWordIndex] = useState(0)
 	const [charIndex, setCharIndex] = useState(0)
-	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 	const [isLoaded, setIsLoaded] = useState(false)
+	const [isHovering, setIsHovering] = useState(false)
 
 	useEffect(() => {
 		setIsLoaded(true)
-	}, [])
-
-	useEffect(() => {
-		const handleMouseMove = (e) => {
-			const x = (e.clientX / window.innerWidth - 0.5) * 20
-			const y = (e.clientY / window.innerHeight - 0.5) * 20
-			setMousePosition({ x, y })
-		}
-
-		window.addEventListener("mousemove", handleMouseMove)
-		return () => window.removeEventListener("mousemove", handleMouseMove)
 	}, [])
 
 	useEffect(() => {
@@ -52,30 +41,24 @@ const Home = () => {
 	}, [charIndex, isTyping, wordIndex])
 
 	return (
-		<div className="min-h-screen bg-[#030014] overflow-hidden ">
+		<div className="min-h-screen bg-[#030014] overflow-hidden" id="Home">
 			<div
 				className={`relative z-10 transition-all duration-1000 ${
 					isLoaded ? "opacity-100" : "opacity-0"
 				}`}>
-				<div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 min-h-screen">
-					<div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+				<div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-24 min-h-screen">
+					<div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-20">
 						{/* Left Column */}
-						<div className="w-full lg:w-1/2 space-y-8">
-							<div
-								className="space-y-6 transform transition-all duration-500"
-								style={{
-									transform: `perspective(1000px) rotateX(${mousePosition.y * 0.1}deg) rotateY(${
-										mousePosition.x * 0.1
-									}deg)`,
-								}}>
+						<div className="w-full lg:w-1/2 space-y-8 text-center lg:text-left">
+							<div className="space-y-6">
 								{/* Status Badge */}
-								<div className="inline-block animate-float">
+								<div className="inline-block animate-float mx-auto lg:mx-0">
 									<div className="relative group">
 										<div className="absolute -inset-0.5 bg-gradient-to-r from-[#6366f1] to-[#a855f7] rounded-full blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
 										<div className="relative px-4 py-2 rounded-full bg-black/40 backdrop-blur-xl border border-white/10">
-											<span className="bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-transparent bg-clip-text text-sm font-medium flex items-center">
+											<span className="bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-transparent bg-clip-text text-sm font-medium flex items-center justify-center">
 												<Sparkles className="w-4 h-4 mr-2 text-blue-400" />
-												Open to Work
+												Ready to Innovate
 											</span>
 										</div>
 									</div>
@@ -101,7 +84,7 @@ const Home = () => {
 								</div>
 
 								{/* Typing Effect */}
-								<div className="h-8 flex items-center">
+								<div className="h-8 flex items-center justify-center lg:justify-start">
 									<span className="text-xl sm:text-2xl bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent font-light">
 										{text}
 									</span>
@@ -109,12 +92,12 @@ const Home = () => {
 								</div>
 
 								{/* Description */}
-								<p className="text-gray-400 text-base sm:text-lg max-w-xl leading-relaxed font-light">
-								Menciptakan Website Yang Inovatif, Fungsional, dan User-Friendly untuk Solusi Digital.
+								<p className="text-gray-400 text-base sm:text-lg max-w-xl leading-relaxed font-light mx-auto lg:mx-0 text-center lg:text-left">
+									Menciptakan Website Yang Inovatif, Fungsional, dan User-Friendly untuk Solusi Digital.
 								</p>
 
 								{/* Tech Stack */}
-								<div className="flex flex-wrap gap-3">
+								<div className="flex flex-wrap gap-3 justify-center lg:justify-start">
 									{["React", "Javascript", "Node.js", "Tailwind"].map((tech, index) => (
 										<div
 											key={index}
@@ -125,7 +108,7 @@ const Home = () => {
 								</div>
 
 								{/* CTA Buttons */}
-								<div className="flex flex-wrap gap-4">
+								<div className="flex flex-wrap gap-4 justify-center lg:justify-start">
 									<button className="group relative">
 										<div className="absolute -inset-0.5 bg-gradient-to-r from-[#6366f1] to-[#a855f7] rounded-lg blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
 										<div className="relative px-6 py-3 bg-black rounded-lg leading-none flex items-center">
@@ -143,7 +126,7 @@ const Home = () => {
 								</div>
 
 								{/* Social Links */}
-								<div className="flex gap-4">
+								<div className="flex gap-4 justify-center lg:justify-start">
 									{[
 										{ icon: Github, label: "GitHub" },
 										{ icon: Linkedin, label: "LinkedIn" },
@@ -160,24 +143,50 @@ const Home = () => {
 							</div>
 						</div>
 
-						{/* Right Column - Spline 3D Scene */}
-						<div className="w-full h-[600px] lg:h-[750px] xl:h-[800px] relative">
-							{/* Spline Container with Enhanced Positioning */}
-							<div className="relative w-full h-full flex items-end justify-end">
-								<Spline
-									scene="https://prod.spline.design/O7sWMm8KOBxBAXqR/scene.splinecode"
-									className="w-full h-full object-contain md:relative block md:left-[5%]"
-									style={{
-										clipPath: "inset(0 10% 8% 0)", // Crop bottom-right corner
-										transform: "scale(1.05)", // Optional slight scale to adjust the view
-									}}
-								/>
-							</div>
+						{/* Right Column - DotLottie Animation with Hover Effects */}
+						<div 
+							className="w-full lg:w-1/2 h-[400px] md:h-[500px] lg:h-[600px] xl:h-[750px] relative flex items-center justify-center"
+							onMouseEnter={() => setIsHovering(true)}
+							onMouseLeave={() => setIsHovering(false)}
+						>
+							<div className="relative w-full">
+								{/* Dynamic Hover Background */}
+								<div className={`absolute inset-0 bg-gradient-to-r from-[#6366f1]/10 to-[#a855f7]/10 
+									rounded-3xl blur-3xl transition-all duration-700 ease-in-out ${
+										isHovering 
+											? "opacity-50 scale-105" 
+											: "opacity-20 scale-100"
+									}`}>
+								</div>
 
-							{/* Interactive Light Effects */}
-							<div className="absolute inset-0 pointer-events-none">
-								{/* Center floating light */}
-								<div className="opacity-90 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-indigo-500/10 to-purple-500/10 blur-3xl animate-[pulse_6s_cubic-bezier(0.4,0,0.6,1)_infinite] delay-500"></div>
+								{/* DotLottie Animation Container */}
+								<div className={`relative z-10 w-full opacity-90 transform transition-transform duration-500 ${
+									isHovering ? "scale-105" : "scale-100"
+								}`}>
+									<DotLottieReact
+										src="https://lottie.host/09c845ac-08ed-4a8a-b93d-b6147607abaf/k84qvCJIpl.json"
+										loop
+										autoplay
+										className={`w-full h-full transition-all duration-500 ${
+											isHovering 
+												? "scale-[145%] rotate-2" 
+												: "scale-[140%]"
+										}`}
+									/>
+								</div>
+
+								{/* Interactive Light Effects */}
+								<div className={`absolute inset-0 pointer-events-none transition-all duration-700 ${
+									isHovering ? "opacity-50" : "opacity-20"
+								}`}>
+									<div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+										w-[400px] h-[400px] 
+										bg-gradient-to-br from-indigo-500/10 to-purple-500/10 
+										blur-3xl animate-[pulse_6s_cubic-bezier(0.4,0,0.6,1)_infinite] 
+										transition-all duration-700 
+										${isHovering ? "scale-110" : "scale-100"}`}>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

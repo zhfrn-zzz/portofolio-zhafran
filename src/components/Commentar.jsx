@@ -1,56 +1,103 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { getDocs, addDoc, collection, onSnapshot, query, orderBy, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
-import { MessageCircle, Send } from 'lucide-react';
+import { MessageCircle, Send, UserCircle2 } from 'lucide-react';
 
 const Komentar = () => {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [userName, setUserName] = useState('');
+    const commentsEndRef = useRef(null);
+    const commentsContainerRef = useRef(null);
+
+    // Fungsi untuk scroll ke bawah
+    const scrollToBottom = () => {
+        if (commentsEndRef.current) {
+            commentsEndRef.current.scrollIntoView({ behavior: "auto" });
+        }
+    };
 
     useEffect(() => {
-        // Fetch comments from Firestore in real-time
         const commentsRef = collection(db, 'portfolio-comments');
-        const q = query(commentsRef, orderBy('createdAt', 'desc'));
+        const q = query(commentsRef, orderBy('createdAt', 'asc'));
+        
+        // Ambil data comments dan scroll ke bawah
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const commentsData = querySnapshot.docs.map((doc) => ({
                 id: doc.id,
                 ...doc.data(),
             }));
             setComments(commentsData);
+            
+            // Tunggu sedikit agar DOM ter-render terlebih dahulu
+            setTimeout(scrollToBottom, 100);
         });
+
+        // Scroll ke bawah saat komponen pertama kali dimuat
+        setTimeout(scrollToBottom, 200);
 
         return unsubscribe;
     }, []);
+
+
+    useEffect(() => {
+    window.scrollTo(0, 0); // Scroll ke atas
+}, []);
+
 
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
         if (newComment.trim() && userName.trim()) {
             try {
-                // Add new comment to Firestore
                 await addDoc(collection(db, 'portfolio-comments'), {
                     content: newComment,
                     userName: userName,
                     createdAt: serverTimestamp(),
                 });
+                // Clear input fields
                 setNewComment('');
+                setUserName('');
+
+                // Scroll ke bawah setelah komentar ditambahkan
+                setTimeout(scrollToBottom, 100);
             } catch (error) {
                 console.error('Error adding document: ', error);
             }
         }
     };
 
+    // Fungsi format tanggal yang sama
+    const formatDate = (timestamp) => {
+        if (!timestamp) return '';
+        const date = timestamp.toDate();
+        return new Intl.DateTimeFormat('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        }).format(date);
+    };
+
     return (
-        <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 h-full flex flex-col">
-            <div className="flex items-center mb-6">
+        <div className="w-full bg-white/5 backdrop-blur-lg rounded-2xl p-6 h-[700px] flex flex-col border-2">
+            {/* Header */}
+            <div className="flex items-center mb-4">
                 <MessageCircle className="w-8 h-8 mr-3 text-[#6366f1]" />
                 <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]">
                     Community Comments
                 </h3>
             </div>
 
-            {/* Comments Display Area */}
-            <div className="flex-grow overflow-y-auto space-y-4 mb-6 pr-2">
+            {/* Comments Area - Custom Scrollbar */}
+            <div 
+                ref={commentsContainerRef}
+                className="flex-grow overflow-y-auto space-y-4 mb-4 pr-2"
+                style={{
+                    scrollbarWidth: 'thin',
+                    scrollbarColor: 'rgba(99, 102, 241, 0.5) rgba(255,255,255,0.1)'
+                }}
+            >
                 {comments.length === 0 ? (
                     <div className="text-gray-400 text-center py-4">
                         No comments yet. Be the first to comment!
@@ -59,20 +106,27 @@ const Komentar = () => {
                     comments.map((comment) => (
                         <div 
                             key={comment.id} 
-                            className="bg-white/10 p-4 rounded-lg shadow-md"
+                            className="bg-white/10 p-4 rounded-lg shadow-md flex items-start space-x-3"
                         >
-                            <div className="flex justify-between items-center mb-2">
-                                <span className="font-semibold text-[#6366f1]">
-                                    {comment.userName}
-                                </span>
-                                <span className="text-xs text-gray-400">
-                                    {comment.createdAt?.toDate()?.toLocaleString()}
-                                </span>
+                            <UserCircle2 className="w-8 h-8 text-[#6366f1] flex-shrink-0 mt-1" />
+                            <div className="flex-grow">
+                                <div className="flex justify-between items-center mb-2">
+                                    <span className="font-semibold text-[#6366f1] truncate max-w-[60%]">
+                                        {comment.userName}
+                                    </span>
+                                    <span className="text-xs text-gray-400">
+                                        {formatDate(comment.createdAt)}
+                                    </span>
+                                </div>
+                                <p className="text-gray-300 break-words">
+                                    {comment.content}
+                                </p>
                             </div>
-                            <p className="text-gray-300">{comment.content}</p>
                         </div>
                     ))
                 )}
+                {/* Ref untuk scroll ke bawah */}
+                <div ref={commentsEndRef} />
             </div>
 
             {/* Comment Input Form */}
@@ -108,6 +162,21 @@ const Komentar = () => {
                     Post Comment
                 </button>
             </form>
+
+            {/* Custom CSS for Scrollbar */}
+            <style jsx global>{`
+                .overflow-y-auto::-webkit-scrollbar {
+                    width: 8px;
+                }
+                .overflow-y-auto::-webkit-scrollbar-track {
+                    background: rgba(255,255,255,0.1);
+                    border-radius: 10px;
+                }
+                .overflow-y-auto::-webkit-scrollbar-thumb {
+                    background: rgba(99, 102, 241, 0.5);
+                    border-radius: 10px;
+                }
+            `}</style>
         </div>
     );
 };

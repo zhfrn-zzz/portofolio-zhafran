@@ -18,7 +18,7 @@ const Certificate = ({ ImgSertif }) => {
 		<Box component="div" sx={{ width: "100%" }}>
 			{/* Thumbnail Container */}
 			<Box
-				className="pt-5"
+				className=""
 				sx={{
 					position: "relative",
 					overflow: "hidden",
