@@ -121,6 +121,21 @@ export default function FullWidthTabs() {
     setShowAllCertificates(false);
   };
 
+  const techStacks = [
+    { icon: "html.svg", language: "HTML" },
+    { icon: "css.svg", language: "CSS" },
+    { icon: "javascript.svg", language: "JavaScript" },
+    { icon: "tailwind.svg", language: "Tailwind CSS" },
+    { icon: "reactjs.svg", language: "ReactJS" },
+    { icon: "vite.svg", language: "Vite" },
+    { icon: "nodejs.svg", language: "Node JS" },
+    { icon: "bootstrap.svg", language: "Bootstrap" },
+    { icon: "firebase.svg", language: "Firebase" },
+    { icon: "MUI.svg", language: "Material UI" },
+    { icon: "vercel.svg", language: "Vercel" },
+    { icon: "SweetAlert.svg", language: "SweetAlert2" },
+  ];
+
   return (
     <div
       className="md:px-[10%] w-full  bg-[#030014] overflow-hidden"
@@ -134,7 +149,7 @@ export default function FullWidthTabs() {
         <h2 className="text-4xl md:text-5xl font-bold  text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]">
           Portfolio Showcase
         </h2>
-        <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base">
+        <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base mt-2">
           Explore my journey through projects, certifications, and technical
           expertise. Each section represents a milestone in my continuous
           learning path.
@@ -244,9 +259,22 @@ export default function FullWidthTabs() {
                 {(showAllProjects ? projects : projects.slice(0, 6)).map(
                   (project, index) => (
                     <div
-                      key={project.id || index}
-                      data-aos="fade-up"
-                      data-aos-duration="1000"
+                         key={project.id || index}
+        data-aos={
+          index % 3 === 0 
+            ? "fade-up-right" 
+            : index % 3 === 1 
+            ? "fade-up"
+            : "fade-up-left"
+        }
+        data-aos-duration={
+          index % 3 === 0 
+            ? "1000" 
+            : index % 3 === 1 
+            ? "1200"
+            : "1000"
+        }
+      
                     >
                       <CardProject
                         Img={project.Img}
@@ -401,7 +429,21 @@ export default function FullWidthTabs() {
                   ? certificates
                   : certificates.slice(0, 6)
                 ).map((Sertifikat, index) => (
-                  <div key={index} data-aos="fade-up" data-aos-duration="1000">
+                  <div key={index}    
+                  data-aos={
+                    index % 3 === 0 
+                      ? "fade-up-right" 
+                      : index % 3 === 1 
+                      ? "fade-up"
+                      : "fade-up-left"
+                  }
+                  data-aos-duration={
+                    index % 3 === 0 
+                      ? "1000" 
+                      : index % 3 === 1 
+                      ? "1200"
+                      : "1000"
+                  }>
                     <Certificate ImgSertif={Sertifikat.Img} />
                   </div>
                 ))}
@@ -542,23 +584,32 @@ export default function FullWidthTabs() {
             )}
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
-            <div className="container mx-auto flex justify-center items-center overflow-hidden">
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8 gap-5">
-                {/* Programming icon / tech stack  */}
-                <TechStackIcon TechStackIcon="html.svg" Language="HTML" />
-                <TechStackIcon TechStackIcon="css.svg" Language="CSS" />
-                <TechStackIcon TechStackIcon="javascript.svg" Language="JavaScript" />
-                <TechStackIcon TechStackIcon="tailwind.svg" Language="Tailwind CSS" />
-                <TechStackIcon TechStackIcon="reactjs.svg" Language="ReactJS" />
-                <TechStackIcon TechStackIcon="vite.svg" Language="Vite" />
-                <TechStackIcon TechStackIcon="nodejs.svg" Language="Node JS" />
-                <TechStackIcon TechStackIcon="bootstrap.svg" Language="Bootstrap" />
-                <TechStackIcon TechStackIcon="firebase.svg" Language="Firebase" />
-                <TechStackIcon TechStackIcon="MUI.svg" Language="Material UI" />
-                <TechStackIcon TechStackIcon="vercel.svg" Language="Vercel" />
-                <TechStackIcon TechStackIcon="SweetAlert.svg" Language="SweetAlert2" />
-              </div>
-            </div>
+          <div className="container mx-auto flex justify-center items-center overflow-hidden pb-[5%]">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8 gap-5">
+          {techStacks.map((stack, index) => (
+          <div
+            key={index}
+            data-aos={
+              index % 3 === 0 
+                ? "fade-up-right" 
+                : index % 3 === 1 
+                ? "fade-up"
+                : "fade-up-left"
+            }
+            data-aos-duration={
+              index % 3 === 0 
+                ? "1000" 
+                : index % 3 === 1 
+                ? "1200"
+                : "1000"
+            }
+       
+          >
+            <TechStackIcon TechStackIcon={stack.icon} Language={stack.language} />
+          </div>
+        ))}
+      </div>
+    </div>
           </TabPanel>
         </SwipeableViews>
       </Box>

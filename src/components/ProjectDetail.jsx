@@ -10,7 +10,6 @@ import {
   Layers,
   Layout,
   Globe,
-  Terminal,
   Package,
   Cpu,
   Code,
@@ -21,11 +20,11 @@ import Swal from 'sweetalert2';
 const TECH_ICONS = {
   React: Globe,
   Tailwind: Layout,
-  "Node.js": Terminal,
-  Firebase: Package,
   Express: Cpu,
   Python: Code,
-  MongoDB: Package,
+  Javascript : Code,
+  HTML: Code,
+  CSS: Code,
   default: Package,
 };
 

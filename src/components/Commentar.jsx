@@ -10,39 +10,20 @@ const Komentar = () => {
     const commentsEndRef = useRef(null);
     const commentsContainerRef = useRef(null);
 
-    // Fungsi untuk scroll ke bawah
-    const scrollToBottom = () => {
-        if (commentsEndRef.current) {
-            commentsEndRef.current.scrollIntoView({ behavior: "auto" });
-        }
-    };
-
     useEffect(() => {
         const commentsRef = collection(db, 'portfolio-comments');
-        const q = query(commentsRef, orderBy('createdAt', 'asc'));
+        const q = query(commentsRef, orderBy('createdAt', 'desc'));
         
-        // Ambil data comments dan scroll ke bawah
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const commentsData = querySnapshot.docs.map((doc) => ({
                 id: doc.id,
                 ...doc.data(),
             }));
             setComments(commentsData);
-            
-            // Tunggu sedikit agar DOM ter-render terlebih dahulu
-            setTimeout(scrollToBottom, 100);
         });
-
-        // Scroll ke bawah saat komponen pertama kali dimuat
-        setTimeout(scrollToBottom, 200);
-
+    
         return unsubscribe;
     }, []);
-
-
-    useEffect(() => {
-    window.scrollTo(0, 0); // Scroll ke atas
-}, []);
 
 
     const handleCommentSubmit = async (e) => {
@@ -59,7 +40,7 @@ const Komentar = () => {
                 setUserName('');
 
                 // Scroll ke bawah setelah komentar ditambahkan
-                setTimeout(scrollToBottom, 100);
+        /*         setTimeout(scrollToBottom, 100); */
             } catch (error) {
                 console.error('Error adding document: ', error);
             }
@@ -80,7 +61,7 @@ const Komentar = () => {
     };
 
     return (
-        <div className="w-full bg-white/5 backdrop-blur-lg rounded-2xl p-6 h-[700px] flex flex-col border-2">
+        <div className="w-full bg-white/5 backdrop-blur-lg rounded-2xl p-6 h-[650px] flex flex-col   ">
             {/* Header */}
             <div className="flex items-center mb-4">
                 <MessageCircle className="w-8 h-8 mr-3 text-[#6366f1]" />
@@ -111,7 +92,7 @@ const Komentar = () => {
                             <UserCircle2 className="w-8 h-8 text-[#6366f1] flex-shrink-0 mt-1" />
                             <div className="flex-grow">
                                 <div className="flex justify-between items-center mb-2">
-                                    <span className="font-semibold text-[#6366f1] truncate max-w-[60%]">
+                                    <span className="font-semibold text-[#6366f1] truncate ">
                                         {comment.userName}
                                     </span>
                                     <span className="text-xs text-gray-400">
