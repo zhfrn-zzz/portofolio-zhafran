@@ -15,13 +15,11 @@ const Home = () => {
 
     useEffect(() => {
         AOS.init({
-            duration: 1000,
-            once: false,
-            mirror: true,
-            easing: 'ease-in-out',
-            offset: 0,
+            once: true, // Hanya animasi pertama
+            offset: 10, // Jarak saat animasi di-trigger
         });
-    }, [])
+    }, []);
+    
 
     useEffect(() => {
         setIsLoaded(true)
