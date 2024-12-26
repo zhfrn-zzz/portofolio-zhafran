@@ -6,6 +6,7 @@ const AnimatedBackground = () => {
 		{ x: -4, y: 0 },
 		{ x: -4, y: 0 },
 		{ x: 20, y: -8 },
+		{ x: 20, y: -8 },
 	]
 
 	useEffect(() => {
@@ -54,6 +55,9 @@ const AnimatedBackground = () => {
 				<div
 					ref={(ref) => (blobRefs.current[2] = ref)}
 					className="absolute -bottom-8 left-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20"></div>
+					<div
+					ref={(ref) => (blobRefs.current[3] = ref)}
+					className="absolute -bottom-10 right-20 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-10"></div>
 			</div>
 			<div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f10_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f10_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 		</div>

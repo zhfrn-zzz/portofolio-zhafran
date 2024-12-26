@@ -30,19 +30,19 @@ const AboutPage = () => {
 
   return (
     <div
-      className="h-auto pb-[10%] text-white overflow-hidden px-4 sm:px-[5%] lg:px-[10%]"
+      className="h-auto pb-[10%] text-white overflow-hidden px-[5%] sm:px-[5%] lg:px-[10%] mt-10 sm-mt-0" 
       id="About"
     >
     
      {/* Modern Header */}
-     <div className="text-center lg:mb-8 mb-2 px-[5%]">
+     <div className="text-center lg:mb-8 mb-2 px-[5%] ">
           <div className="inline-block relative group">
             <h2 className="text-4xl md:text-5xl font-bold  text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]" data-aos="zoom-in-up"
 							data-aos-duration="600">
               About Me
             </h2>
           </div>
-          <p className="mt-4 text-gray-400 max-w-2xl mx-auto text-base sm:text-lg flex items-center justify-center gap-2" data-aos="zoom-in-up"
+          <p className="mt-2 text-gray-400 max-w-2xl mx-auto text-base sm:text-lg flex items-center justify-center gap-2" data-aos="zoom-in-up"
 							data-aos-duration="800">
             <Sparkles className="w-5 h-5 text-purple-400" />
             Transforming ideas into digital experiences
@@ -50,41 +50,42 @@ const AboutPage = () => {
           </p>
         </div>
 
-      <div className="w-full mx-auto pt-8 sm:pt-12 relative">
-        <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-          {/* About Section */}
-          <div className="space-y-6 text-center lg:text-left   ">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold" data-aos="fade-right"
-							data-aos-duration="1000">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]" >
-                Hello, I'm
-              </span>{" "}
-              <span className="block mt-2 text-gray-200" data-aos="fade-right"
-							data-aos-duration="1300">
-                Eki Zulfar Rachman
-              </span>
-            </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-gray-400 leading-relaxed " data-aos="fade-right"
-							data-aos-duration="1500">
-              seorang siswa Teknik Jaringan Komputer dan Telekomunikasi yang
-              tertarik dalam pengembangan Front-End. Saya berfokus pada
-              menciptakan pengalaman digital yang menarik dan selalu berusaha
-              memberikan solusi terbaik dalam setiap proyek.
-            </p>
-            <div className="flex justify-center lg:justify-start space-x-4 ">
-              <button data-aos="fade-up"
-							data-aos-duration="800" className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-white font-medium transition-all duration-300 hover:scale-105 flex items-center gap-2 shadow-lg hover:shadow-xl animate-bounce-slow">
-                <FileText className="w-4 h-4 sm:w-5 sm:h-5" /> Download CV
-              </button>
-              <button data-aos="fade-up"
-							data-aos-duration="1000" className="px-4 sm:px-6 py-2 sm:py-3 rounded-lg border border-[#a855f7]/50 text-[#a855f7] font-medium transition-all duration-300 hover:scale-105 flex items-center gap-2 hover:bg-[#a855f7]/10 animate-bounce-slow delay-200">
-                <Code className="w-4 h-4 sm:w-5 sm:h-5" /> View Projects
-              </button>
-            </div>
-          </div>
+        <div className="w-full mx-auto pt-8 sm:pt-12 relative ">
+  <div className="flex flex-col-reverse lg:grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+    <div className="space-y-6 text-center lg:text-left">
+      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold" data-aos="fade-right" data-aos-duration="1000">
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]">
+          Hello, I'm
+        </span>
+        <span className="block mt-2 text-gray-200" data-aos="fade-right" data-aos-duration="1300">
+          Eki Zulfar Rachman
+        </span>
+      </h2>
+      
+      <p className="text-base sm:text-lg lg:text-xl text-gray-400 leading-relaxed text-justify pb-4 sm:pb-0" data-aos="fade-right" data-aos-duration="1500">
+  seorang siswa Teknik Jaringan Komputer dan Telekomunikasi yang
+  tertarik dalam pengembangan Front-End. Saya berfokus pada
+  menciptakan pengalaman digital yang menarik dan selalu berusaha
+  memberikan solusi terbaik dalam setiap proyek.
+</p>
+
+
+      <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 lg:gap-4 lg:px-0 w-full">
+        <button data-aos="fade-up" data-aos-duration="800" 
+          className="w-full sm:w-auto sm:px-6 py-2 sm:py-3 rounded-lg bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-white font-medium transition-all duration-300 hover:scale-105 flex items-center justify-center lg:justify-start gap-2 shadow-lg hover:shadow-xl animate-bounce-slow">
+          <FileText className="w-4 h-4 sm:w-5 sm:h-5" /> Download CV
+        </button>
+        <button data-aos="fade-up" data-aos-duration="1000"
+          className="w-full sm:w-auto sm:px-6 py-2 sm:py-3 rounded-lg border border-[#a855f7]/50 text-[#a855f7] font-medium transition-all duration-300 hover:scale-105 flex items-center justify-center lg:justify-start gap-2 hover:bg-[#a855f7]/10 animate-bounce-slow delay-200">
+          <Code className="w-4 h-4 sm:w-5 sm:h-5" /> View Projects
+        </button>
+      </div>
+    </div>
+
+
 
           {/* Enhanced Photo Section */}
-          <div className="flex justify-end items-center p-12">
+          <div className="flex justify-end items-center sm:p-12 sm:py-0 sm:pb-0 p-0 py-2 pb-2">
       <div 
         className="relative group" 
         data-aos="fade-up"

@@ -33,7 +33,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: { xs: 1, sm: 3 } }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -138,7 +138,7 @@ export default function FullWidthTabs() {
 
   return (
     <div
-      className="md:px-[10%] w-full  bg-[#030014] overflow-hidden"
+      className="md:px-[10%] px-[5%] w-full sm:mt-0 mt-[3rem]  bg-[#030014] overflow-hidden"
       id="Portofolio"
     >
       <div
@@ -146,9 +146,18 @@ export default function FullWidthTabs() {
         data-aos="fade-up"
         data-aos-duration="1000"
       >
-        <h2 className="text-4xl md:text-5xl font-bold  text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]">
-          Portfolio Showcase
-        </h2>
+
+       <h2 className="inline-block text-3xl md:text-5xl font-bold text-center  mx-auto text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]">
+       <span style={{
+        color: '#6366f1',
+        backgroundImage: 'linear-gradient(45deg, #6366f1 10%, #a855f7 93%)',
+        WebkitBackgroundClip: 'text',
+        backgroundClip: 'text',
+        WebkitTextFillColor: 'transparent'
+      }}>
+        Portfolio Showcase
+      </span>
+</h2>
         <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base mt-2">
           Explore my journey through projects, certifications, and technical
           expertise. Each section represents a milestone in my continuous
@@ -179,7 +188,7 @@ export default function FullWidthTabs() {
               zIndex: 0,
             },
           }}
-          className="px-2 md:px-4"
+          className=" md:px-4"
         >
           <Tabs
             value={value}
@@ -195,7 +204,7 @@ export default function FullWidthTabs() {
                 color: "#94a3b8",
                 textTransform: "none",
                 transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                padding: "20px 12px",
+                padding: "20px 0",
                 zIndex: 1,
                 margin: "8px",
                 borderRadius: "12px",
@@ -255,7 +264,7 @@ export default function FullWidthTabs() {
         >
           <TabPanel value={value} index={0} dir={theme.direction}>
             <div className="container mx-auto flex justify-center items-center overflow-hidden ">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-5">
                 {(showAllProjects ? projects : projects.slice(0, 6)).map(
                   (project, index) => (
                     <div
