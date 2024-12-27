@@ -17,7 +17,7 @@ const LandingPage = () => {
   return (
     <>
       <Navbar />
-  {/*     <TestAOS/> */}
+      <TestAOS/>
       <AnimatedBackground />
       <Home />
       <About />
