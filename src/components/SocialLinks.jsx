@@ -20,7 +20,7 @@ const socialLinks = [
   },
   {
     name: "Instagram",
-    displayName: "Photos",
+    displayName: "Instagram",
     subText: "@ekizr_",
     icon: Instagram,
     url: "https://instagram.com/ekizulfarrachman",
@@ -30,7 +30,7 @@ const socialLinks = [
   {
     name: "YouTube",
     displayName: "Videos",
-    subText: "@ekizr_",
+    subText: "@eki zulfar",
     icon: Youtube,
     url: "https://youtube.com/@ekizr_",
     color: "#FF0000",
@@ -38,8 +38,8 @@ const socialLinks = [
   },
   {
     name: "GitHub",
-    displayName: "Code",
-    subText: "@ekizr_",
+    displayName: "Github",
+    subText: "@EkiZR",
     icon: Github,
     url: "https://github.com/ekizulfarrachman",
     color: "#ffffff",
@@ -47,8 +47,8 @@ const socialLinks = [
   },
   {
     name: "TikTok",
-    displayName: "Shorts",
-    subText: "@ekizr_",
+    displayName: "Tiktok",
+    subText: "@eki_zulfar",
     icon: ({ className, ...props }) => (
      <svg width="24px" height="24px" viewBox="0 0 45 45" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>Tiktok</title>

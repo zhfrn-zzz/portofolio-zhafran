@@ -10,14 +10,13 @@ import ContactPage from "./Pages/Contact";
 import ProjectDetails from "./components/ProjectDetail";
 import WelcomeScreen from "./Pages/WelcomeScreen";
 import { AnimatePresence } from 'framer-motion';
-import TestAOS from "./Pages/testing";
+
 
 
 const LandingPage = () => {
   return (
     <>
       <Navbar />
-      <TestAOS/>
       <AnimatedBackground />
       <Home />
       <About />
