@@ -10,7 +10,6 @@ import ContactPage from "./Pages/Contact";
 import ProjectDetails from "./components/ProjectDetail";
 import WelcomeScreen from "./Pages/WelcomeScreen";
 import { AnimatePresence } from 'framer-motion';
-import ThankYouPage from "./Pages/ThankYou";
 
 const LandingPage = ({ showWelcome, setShowWelcome }) => {
   return (
@@ -73,7 +72,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage showWelcome={showWelcome} setShowWelcome={setShowWelcome} />} />
-        <Route path="/thank-you" element={<ThankYouPage />} />
         <Route path="/project/:id" element={<ProjectPageLayout />} />
       </Routes>
     </BrowserRouter>

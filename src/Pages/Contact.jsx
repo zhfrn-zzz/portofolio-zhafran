@@ -3,6 +3,7 @@ import { Share2, User, Mail, MessageSquare, Send } from "lucide-react";
 import { Link } from "react-router-dom";
 import SocialLinks from "../components/SocialLinks";
 import Komentar from "../components/Commentar";
+import Swal from "sweetalert2";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -12,6 +13,7 @@ const ContactPage = () => {
     email: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     AOS.init({
@@ -25,6 +27,55 @@ const ContactPage = () => {
       ...prev,
       [name]: value,
     }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    Swal.fire({
+      title: 'Sending Message...',
+      html: 'Please wait while we send your message',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    try {
+      // Get form data
+      const form = e.target;
+      const formData = new FormData(form);
+
+      // Submit form
+      await form.submit();
+
+      // Show success message
+      Swal.fire({
+        title: 'Success!',
+        text: 'Your message has been sent successfully!',
+        icon: 'success',
+        confirmButtonColor: '#6366f1',
+        timer: 2000,
+        timerProgressBar: true
+      });
+
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Something went wrong. Please try again later.',
+        icon: 'error',
+        confirmButtonColor: '#6366f1'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -82,12 +133,12 @@ const ContactPage = () => {
             <form 
               action="https://formsubmit.co/ekizulfarrachman@gmail.com"
               method="POST"
+              onSubmit={handleSubmit}
               className="space-y-6"
             >
               {/* FormSubmit Configuration */}
               <input type="hidden" name="_template" value="table" />
               <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_next" value="https://www.eki.my.id/thank-you" />
 
               <div
                 data-aos="fade-up"
@@ -101,7 +152,8 @@ const ContactPage = () => {
                   placeholder="Your Name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full p-4 pl-12 bg-white/10 rounded-xl border border-white/20 placeholder-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-[#6366f1]/30 transition-all duration-300 hover:border-[#6366f1]/30"
+                  disabled={isSubmitting}
+                  className="w-full p-4 pl-12 bg-white/10 rounded-xl border border-white/20 placeholder-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-[#6366f1]/30 transition-all duration-300 hover:border-[#6366f1]/30 disabled:opacity-50"
                   required
                 />
               </div>
@@ -117,7 +169,8 @@ const ContactPage = () => {
                   placeholder="Your Email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full p-4 pl-12 bg-white/10 rounded-xl border border-white/20 placeholder-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-[#6366f1]/30 transition-all duration-300 hover:border-[#6366f1]/30"
+                  disabled={isSubmitting}
+                  className="w-full p-4 pl-12 bg-white/10 rounded-xl border border-white/20 placeholder-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-[#6366f1]/30 transition-all duration-300 hover:border-[#6366f1]/30 disabled:opacity-50"
                   required
                 />
               </div>
@@ -132,7 +185,8 @@ const ContactPage = () => {
                   placeholder="Your Message"
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full resize-none p-4 pl-12 bg-white/10 rounded-xl border border-white/20 placeholder-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-[#6366f1]/30 transition-all duration-300 hover:border-[#6366f1]/30 h-[9.9rem]"
+                  disabled={isSubmitting}
+                  className="w-full resize-none p-4 pl-12 bg-white/10 rounded-xl border border-white/20 placeholder-gray-500 text-white focus:outline-none focus:ring-2 focus:ring-[#6366f1]/30 transition-all duration-300 hover:border-[#6366f1]/30 h-[9.9rem] disabled:opacity-50"
                   required
                 />
               </div>
@@ -140,10 +194,11 @@ const ContactPage = () => {
                 data-aos="fade-up"
                 data-aos-delay="400"
                 type="submit"
-                className="w-full bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-white py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#6366f1]/20 active:scale-[0.98] flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-white py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#6366f1]/20 active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 <Send className="w-5 h-5" />
-                Send Message
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
 
