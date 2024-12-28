@@ -8,11 +8,11 @@ import "aos/dist/aos.css";
 
 const Comment = memo(({ comment, formatDate, index }) => (
     <div 
-        className="p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all group hover:shadow-lg hover:-translate-y-0.5"
+        className="px-4 pt-4 pb-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all group hover:shadow-lg hover:-translate-y-0.5"
         data-aos="fade-up"
         data-aos-delay={index * 100}
     >
-        <div className="flex items-start gap-3">
+        <div className="flex items-start gap-3 ">
             {comment.profileImage ? (
                 <img
                     src={comment.profileImage}
@@ -32,7 +32,7 @@ const Comment = memo(({ comment, formatDate, index }) => (
                         {formatDate(comment.createdAt)}
                     </span>
                 </div>
-                <p className="text-gray-300 text-sm break-words leading-relaxed">{comment.content}</p>
+                <p className="text-gray-300 text-sm break-words leading-relaxed relative bottom-2">{comment.content}</p>
             </div>
         </div>
     </div>

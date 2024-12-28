@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useCallback, memo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Code2, Github, Globe, User } from 'lucide-react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
-// Previous memoized components remain the same...
-const TypewriterEffect = memo(({ text }) => {
+const TypewriterEffect = ({ text }) => {
   const [displayText, setDisplayText] = useState('');
   
   useEffect(() => {
@@ -15,7 +16,7 @@ const TypewriterEffect = memo(({ text }) => {
       } else {
         clearInterval(timer);
       }
-    }, 150);
+    }, 260);
     
     return () => clearInterval(timer);
   }, [text]);
@@ -26,32 +27,34 @@ const TypewriterEffect = memo(({ text }) => {
       <span className="animate-pulse">|</span>
     </span>
   );
-});
+};
 
-const BackgroundEffect = memo(() => (
+const BackgroundEffect = () => (
   <div className="absolute inset-0 overflow-hidden">
     <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-purple-600/20 blur-3xl animate-pulse" />
     <div className="absolute inset-0 bg-gradient-to-tr from-indigo-600/10 via-transparent to-purple-600/10 blur-2xl animate-float" />
   </div>
-));
+);
 
-const IconButton = memo(({ Icon }) => (
-  <motion.div
-    className="relative group"
-    whileHover={{ scale: 1.1 }}
-    transition={{ type: 'spring', stiffness: 400, damping: 10 }}
-  >
+const IconButton = ({ Icon }) => (
+  <div className="relative group hover:scale-110 transition-transform duration-300">
     <div className="absolute -inset-2 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full blur opacity-30 group-hover:opacity-75 transition duration-300" />
-    <div className="relative p-3 bg-black/50 backdrop-blur-sm rounded-full border border-white/10">
-      <Icon className="w-6 h-6 text-white sm:w-8 sm:h-8" />
+    <div className="relative p-2 sm:p-3 bg-black/50 backdrop-blur-sm rounded-full border border-white/10">
+      <Icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white" />
     </div>
-  </motion.div>
-));
+  </div>
+);
 
-const WelcomeScreen = memo(({ onLoadingComplete }) => {
+const WelcomeScreen = ({ onLoadingComplete }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: false,
+      mirror: false,
+    });
+
     const timer = setTimeout(() => {
       setIsLoading(false);
       setTimeout(() => {
@@ -91,51 +94,62 @@ const WelcomeScreen = memo(({ onLoadingComplete }) => {
     <AnimatePresence>
       {isLoading && (
         <motion.div
-          className="fixed inset-0 bg-[#030014] overflow-hidden"
+          className="fixed inset-0 bg-[#030014]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit="exit"
           variants={containerVariants}
         >
           <BackgroundEffect />
-
-          <div className="container mx-auto px-4 min-h-screen flex items-center justify-center">
-            <div className="w-full max-w-4xl mx-auto py-4 sm:py-8">
+          
+          <div className="relative min-h-screen flex items-center justify-center px-4">
+            <div className="w-full max-w-4xl mx-auto">
+              {/* Icons */}
               <motion.div 
-                className="flex justify-center gap-4 sm:gap-8 mb-8 sm:mb-12"
+                className="flex justify-center gap-3 sm:gap-4 md:gap-8 mb-6 sm:mb-8 md:mb-12"
                 variants={childVariants}
               >
                 {[Code2, User, Github].map((Icon, index) => (
-                  <IconButton key={index} Icon={Icon} />
+                  <div key={index} data-aos="fade-down" data-aos-delay={index * 200}>
+                    <IconButton Icon={Icon} />
+                  </div>
                 ))}
               </motion.div>
 
+              {/* Welcome Text */}
               <motion.div 
-                className="text-center space-y-4 sm:space-y-6 mb-8 sm:mb-12"
+                className="text-center mb-6 sm:mb-8 md:mb-12"
                 variants={childVariants}
               >
-                <h1 className="text-4xl sm:text-6xl font-bold tracking-tight">
-                  <span className="relative inline-block px-2">
-                    <span className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 blur-xl opacity-20" />
-                    <span className="relative bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
-                      Welcome To My
+                <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold space-y-2 sm:space-y-4">
+                  <div className="mb-2 sm:mb-4">
+                    <span data-aos="fade-right" data-aos-delay="200" className="inline-block px-2 bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
+                      Welcome
+                    </span>{' '}
+                    <span data-aos="fade-right" data-aos-delay="400" className="inline-block px-2 bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
+                      To
+                    </span>{' '}
+                    <span data-aos="fade-right" data-aos-delay="600" className="inline-block px-2 bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
+                      My
                     </span>
-                  </span>
-                </h1>
-
-                <h1 className="text-4xl sm:text-6xl font-bold tracking-tight">
-                  <span className="relative inline-block px-2">
-                    <span className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 blur-xl opacity-20" />
-                    <span className="relative bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                      Portfolio Website
+                  </div>
+                  <div>
+                    <span data-aos="fade-up" data-aos-delay="800" className="inline-block px-2 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                      Portfolio
+                    </span>{' '}
+                    <span data-aos="fade-up" data-aos-delay="1000" className="inline-block px-2 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                      Website
                     </span>
-                  </span>
+                  </div>
                 </h1>
               </motion.div>
 
+              {/* Website Link */}
               <motion.div 
                 className="text-center"
                 variants={childVariants}
+                data-aos="fade-up"
+                data-aos-delay="1200"
               >
                 <a
                   href="https://www.eki.my.id"
@@ -144,8 +158,8 @@ const WelcomeScreen = memo(({ onLoadingComplete }) => {
                   rel="noopener noreferrer"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/20 to-purple-600/20 rounded-full blur-md group-hover:blur-lg transition-all duration-300" />
-                  <div className="relative flex items-center gap-2 text-xl sm:text-2xl">
-                    <Globe className="w-5 h-5 text-indigo-600" />
+                  <div className="relative flex items-center gap-2 text-lg sm:text-xl md:text-2xl">
+                    <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600" />
                     <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
                       <TypewriterEffect text="www.eki.my.id" />
                     </span>
@@ -158,6 +172,6 @@ const WelcomeScreen = memo(({ onLoadingComplete }) => {
       )}
     </AnimatePresence>
   );
-});
+};
 
 export default WelcomeScreen;
