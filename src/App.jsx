@@ -48,7 +48,6 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
 
 const ProjectPageLayout = () => (
   <>
-    <Navbar />
     <ProjectDetails />
     <footer>
       <center>
