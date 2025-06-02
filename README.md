@@ -98,7 +98,8 @@ The portfolio data is stored in Firebase Firestore. To configure Firebase:
    service cloud.firestore {
      match /databases/{database}/documents {
        match /{document=**} {
-         allow read, write: if true;
+        allow read: if true;
+        allow write: if false;
        }
      }
    }
