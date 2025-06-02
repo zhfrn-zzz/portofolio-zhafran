@@ -106,10 +106,10 @@ The portfolio data is stored in Firebase Firestore. To configure Firebase:
 
 5. **Collection Structure:**
    Set up your Firestore collections as shown below:
-   
-   ![Collection Structure Example 1](https://github.com/user-attachments/assets/38580122-08a4-4499-a8fd-0f253652a239)
-   
-   ![Collection Structure Example 2](https://github.com/user-attachments/assets/d563d7ad-f1ab-46ff-8185-640dcebd0363)
+
+   ![Collection Structure Example 1](https://github.com/user-attachments/assets/8d7cec06-88ee-425e-b693-6384c908062e)
+
+   ![Collection Structure Example 2](https://github.com/user-attachments/assets/7da52ebf-6967-4fb4-b3c3-a329affe878a)
 
 6. **Environment Variables Setup:**
    Add your Firebase configuration to the `.env` file:
