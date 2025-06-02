@@ -202,14 +202,6 @@ The comment system is powered by Supabase. To configure Supabase:
    TO public
    USING (bucket_id = 'profile-images');
 
-   -- Optional: Insert a sample pinned comment (replace with your own)
-   INSERT INTO portfolio_comments (content, user_name, is_pinned, created_at)
-   VALUES (
-     'Welcome to my portfolio! Feel free to leave your thoughts and feedback here. I read every comment and appreciate your input!',
-     'Portfolio Owner',
-     true,
-     NOW()
-   );
    ```
 
 3. **Enable Realtime:**
