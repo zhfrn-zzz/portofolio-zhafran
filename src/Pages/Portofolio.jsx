@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { db, collection } from "../firebase";
-import { getDocs } from "firebase/firestore";
+
+import { supabase } from "../supabase"; 
+
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material/styles";
@@ -16,7 +17,7 @@ import "aos/dist/aos.css";
 import Certificate from "../components/Certificate";
 import { Code, Award, Boxes } from "lucide-react";
 
-// Separate ShowMore/ShowLess button component
+
 const ToggleButton = ({ onClick, isShowingMore }) => (
   <button
     onClick={onClick}
@@ -69,6 +70,7 @@ const ToggleButton = ({ onClick, isShowingMore }) => (
   </button>
 );
 
+
 function TabPanel({ children, value, index, ...other }) {
   return (
     <div
@@ -80,7 +82,7 @@ function TabPanel({ children, value, index, ...other }) {
     >
       {value === index && (
         <Box sx={{ p: { xs: 1, sm: 3 } }}>
-          <Typography>{children}</Typography>
+          <Typography component="div">{children}</Typography>
         </Box>
       )}
     </div>
@@ -100,6 +102,7 @@ function a11yProps(index) {
   };
 }
 
+// techStacks tetap sama
 const techStacks = [
   { icon: "html.svg", language: "HTML" },
   { icon: "css.svg", language: "CSS" },
@@ -126,43 +129,52 @@ export default function FullWidthTabs() {
   const initialItems = isMobile ? 4 : 6;
 
   useEffect(() => {
-    // Initialize AOS once
     AOS.init({
-      once: false, // This will make animations occur only once
+      once: false,
     });
   }, []);
 
+
   const fetchData = useCallback(async () => {
     try {
-      const projectCollection = collection(db, "projects");
-      const certificateCollection = collection(db, "certificates");
-
-      const [projectSnapshot, certificateSnapshot] = await Promise.all([
-        getDocs(projectCollection),
-        getDocs(certificateCollection),
+      // Mengambil data dari Supabase secara paralel
+      const [projectsResponse, certificatesResponse] = await Promise.all([
+        supabase.from("projects").select("*").order('id', { ascending: true }),
+        supabase.from("certificates").select("*").order('id', { ascending: true }), 
       ]);
 
-      const projectData = projectSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-        TechStack: doc.data().TechStack || [],
-      }));
+      // Error handling untuk setiap request
+      if (projectsResponse.error) throw projectsResponse.error;
+      if (certificatesResponse.error) throw certificatesResponse.error;
 
-      const certificateData = certificateSnapshot.docs.map((doc) => doc.data());
+      // Supabase mengembalikan data dalam properti 'data'
+      const projectData = projectsResponse.data || [];
+      const certificateData = certificatesResponse.data || [];
 
       setProjects(projectData);
       setCertificates(certificateData);
 
-      // Store in localStorage
+      // Store in localStorage (fungsionalitas ini tetap dipertahankan)
       localStorage.setItem("projects", JSON.stringify(projectData));
       localStorage.setItem("certificates", JSON.stringify(certificateData));
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching data from Supabase:", error.message);
     }
   }, []);
 
+
+
   useEffect(() => {
-    fetchData();
+    // Coba ambil dari localStorage dulu untuk laod lebih cepat
+    const cachedProjects = localStorage.getItem('projects');
+    const cachedCertificates = localStorage.getItem('certificates');
+
+    if (cachedProjects && cachedCertificates) {
+        setProjects(JSON.parse(cachedProjects));
+        setCertificates(JSON.parse(cachedCertificates));
+    }
+    
+    fetchData(); // Tetap panggil fetchData untuk sinkronisasi data terbaru
   }, [fetchData]);
 
   const handleChange = (event, newValue) => {
@@ -180,6 +192,7 @@ export default function FullWidthTabs() {
   const displayedProjects = showAllProjects ? projects : projects.slice(0, initialItems);
   const displayedCertificates = showAllCertificates ? certificates : certificates.slice(0, initialItems);
 
+  // Sisa dari komponen (return statement) tidak ada perubahan
   return (
     <div className="md:px-[10%] px-[5%] w-full sm:mt-0 mt-[3rem] bg-[#030014] overflow-hidden" id="Portofolio">
       {/* Header section - unchanged */}
@@ -234,7 +247,6 @@ export default function FullWidthTabs() {
             indicatorColor="secondary"
             variant="fullWidth"
             sx={{
-              // Existing styles remain unchanged
               minHeight: "70px",
               "& .MuiTab-root": {
                 fontSize: { xs: "0.9rem", md: "1rem" },
@@ -329,7 +341,7 @@ export default function FullWidthTabs() {
               <div className="grid grid-cols-1 md:grid-cols-3 md:gap-5 gap-4">
                 {displayedCertificates.map((certificate, index) => (
                   <div
-                    key={index}
+                    key={certificate.id || index}
                     data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
                     data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
                   >

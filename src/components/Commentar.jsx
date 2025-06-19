@@ -3,7 +3,8 @@ import { createClient } from '@supabase/supabase-js';
 import { MessageCircle, UserCircle2, Loader2, AlertCircle, Send, ImagePlus, X, Pin } from 'lucide-react';
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { supabase } from '../supabase-config-comment';
+import { supabase } from '../supabase';
+
 
 const Comment = memo(({ comment, formatDate, index, isPinned = false }) => (
     <div 
@@ -24,7 +25,7 @@ const Comment = memo(({ comment, formatDate, index, isPinned = false }) => (
                 <img
                     src={comment.profile_image}
                     alt={`${comment.user_name}'s profile`}
-                    className={`w-10 h-10 rounded-full object-cover border-2 ${
+                    className={`w-10 h-10 rounded-full object-cover border-2 flex-shrink-0  ${
                         isPinned ? 'border-indigo-500/50' : 'border-indigo-500/30'
                     }`}
                     loading="lazy"
@@ -109,6 +110,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
         
         onSubmit({ newComment, userName, imageFile });
         setNewComment('');
+        setUserName('');
         setImagePreview(null);
         setImageFile(null);
         if (fileInputRef.current) fileInputRef.current.value = '';
@@ -125,6 +127,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
                     type="text"
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
+                     maxLength={15}
                     placeholder="Enter your name"
                     className="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
                     required
@@ -138,6 +141,8 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
                 <textarea
                     ref={textareaRef}
                     value={newComment}
+                     maxLength={200}
+
                     onChange={handleTextareaChange}
                     placeholder="Write your message here..."
                     className="w-full p-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all resize-none min-h-[120px]"
@@ -376,7 +381,7 @@ const Komentar = () => {
     const totalComments = comments.length + (pinnedComment ? 1 : 0);
 
     return (
-        <div className="w-full bg-gradient-to-b from-white/10 to-white/5 rounded-2xl overflow-hidden backdrop-blur-xl shadow-xl" data-aos="fade-up" data-aos-duration="1000">
+        <div className="w-full bg-gradient-to-b from-white/10 to-white/5 rounded-2xl  backdrop-blur-xl shadow-xl" data-aos="fade-up" data-aos-duration="1000">
             <div className="p-6 border-b border-white/10" data-aos="fade-down" data-aos-duration="800">
                 <div className="flex items-center gap-3">
                     <div className="p-2 rounded-xl bg-indigo-500/20">
@@ -399,7 +404,7 @@ const Komentar = () => {
                     <CommentForm onSubmit={handleCommentSubmit} isSubmitting={isSubmitting} error={error} />
                 </div>
 
-                <div className="space-y-4 h-[328px] overflow-y-auto custom-scrollbar pt-1" data-aos="fade-up" data-aos-delay="200">
+                <div className="space-y-4 h-[328px] overflow-y-auto overflow-x-hidden custom-scrollbar pt-1 pr-1 " data-aos="fade-up" data-aos-delay="200">
                     {/* Pinned Comment */}
                     {pinnedComment && (
                         <div data-aos="fade-down" data-aos-duration="800">
