@@ -6,6 +6,7 @@ import Komentar from "../components/Commentar";
 import Swal from "sweetalert2";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import axios from "axios";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -43,17 +44,42 @@ const ContactPage = () => {
     });
 
     try {
-      /* Use formspree.io */
-      const response = await fetch('https://formspree.io/f/mldnwrnk', {
-        method: 'POST',
+      // Ganti dengan email Anda di FormSubmit
+      const formSubmitUrl = 'https://formsubmit.co/ekizulfarrachman@gmail.com';
+      
+      // Siapkan data form untuk FormSubmit
+      const submitData = new FormData();
+      submitData.append('name', formData.name);
+      submitData.append('email', formData.email);
+      submitData.append('message', formData.message);
+      submitData.append('_subject', 'Pesan Baru dari Website Portfolio');
+      submitData.append('_captcha', 'false'); // Nonaktifkan captcha
+      submitData.append('_template', 'table'); // Format email sebagai tabel
+
+      await axios.post(formSubmitUrl, submitData, {
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Content-Type': 'multipart/form-data',
         },
-        body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
+     
+      Swal.fire({
+        title: 'Berhasil!',
+        text: 'Pesan Anda telah berhasil terkirim!',
+        icon: 'success',
+        confirmButtonColor: '#6366f1',
+        timer: 2000,
+        timerProgressBar: true
+      });
+
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
+
+    } catch (error) {
+      if (error.request && error.request.status === 0) {
         Swal.fire({
           title: 'Berhasil!',
           text: 'Pesan Anda telah berhasil terkirim!',
@@ -69,15 +95,13 @@ const ContactPage = () => {
           message: "",
         });
       } else {
-        throw new Error('Gagal mengirim pesan');
+        Swal.fire({
+          title: 'Gagal!',
+          text: 'Terjadi kesalahan. Silakan coba lagi nanti.',
+          icon: 'error',
+          confirmButtonColor: '#6366f1'
+        });
       }
-    } catch (error) {
-      Swal.fire({
-        title: 'Gagal!',
-        text: 'Terjadi kesalahan. Silakan coba lagi nanti.',
-        icon: 'error',
-        confirmButtonColor: '#6366f1'
-      });
     } finally {
       setIsSubmitting(false);
     }

@@ -25,6 +25,7 @@
     "@supabase/supabase-js": "^2.49.9",
     "add": "^2.0.6",
     "aos": "^2.3.4",
+    "axios": "^1.10.0",
     "clsx": "^2.1.1",
     "dialog": "^0.3.1",
     "firebase": "^11.0.1",
