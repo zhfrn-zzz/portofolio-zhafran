@@ -183,9 +183,8 @@ VALUES ('Created By Eki Zulfar Rachman', 'ekizr');
 
 ### 3\. Enable Realtime (for Comment System)
 
-  - Go to **Database \> Replication**.
-  - Under "Source", click on the "0 tables" text.
-  - Enable replication for the `portfolio_comments` table by toggling the switch. This will make the comment section update in real-time.
+  - Go to **Table Editor > portofolio_comments**.
+  - Enable Realtime for the `portfolio_comments`.
 
 ## 🔧 Environment Variables Setup
 
