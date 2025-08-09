@@ -2,11 +2,11 @@
 
 Hello everyone\! 👋
 
-Let me introduce myself, I'm **Eki Zulfar Rachman**. On this occasion, I'd like to share the portfolio website project that I've developed.
-
+Let me introduce myself, I'm **Zhafran Anindhito Nur Tsaqib**. On this occasion, I'd like to share the portfolio website project that I've developed.
+**Zhafran Anindhito Nur Tsaqib**
 ## 🚀 Live Demo
 
-**Website Link:** [https://www.eki.my.id/](https://www.eki.my.id/)
+**Website Link:** [https://www.zhafran.my.id/](https://www.zhafran.my.id/)
 
 ## 🛠️ Tech Stack
 
@@ -177,7 +177,7 @@ VALUES ('REPLACE_WITH_YOUR_CERTIFICATE_IMAGE_URL.png');
 
 -- Insert one example comment
 INSERT INTO public.portfolio_comments (content, user_name) 
-VALUES ('Created By Eki Zulfar Rachman', 'ekizr');
+VALUES ('Created By Zhafran Anindhito Nur Tsaqib', 'zhafran');
 
 ```
 
@@ -237,7 +237,8 @@ We would appreciate it if you decide to use this project. Please include proper 
 
 If you have any questions or need help with the setup, feel free to reach out\!
 
-**Eki Zulfar Rachman**
+**Zhafran Anindhito Nur Tsaqib**
+**Zhafran Anindhito Nur Tsaqib**
 
   - Website: [https://www.eki.my.id/](https://www.eki.my.id/)
   - GitHub: [EkiZR](https://github.com/EkiZR)
