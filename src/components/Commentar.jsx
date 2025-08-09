@@ -247,16 +247,14 @@ const Komentar = () => {
                     .from('portfolio_comments')
                     .select('*')
                     .eq('is_pinned', true)
-                    .single();
-                
-                if (error && error.code !== 'PGRST116') {
+                    .order('created_at', { ascending: false })
+                    .limit(1)
+                    .maybeSingle();
+                if (error) {
                     console.error('Error fetching pinned comment:', error);
                     return;
                 }
-                
-                if (data) {
-                    setPinnedComment(data);
-                }
+                setPinnedComment(data || null);
             } catch (error) {
                 console.error('Error fetching pinned comment:', error);
             }
@@ -436,7 +434,7 @@ const Komentar = () => {
                     )}
                 </div>
             </div>
-            <style jsx>{`
+            <style>{`
                 .custom-scrollbar::-webkit-scrollbar {
                     width: 6px;
                 }

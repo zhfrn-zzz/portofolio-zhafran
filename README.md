@@ -240,7 +240,7 @@ If you have any questions or need help with the setup, feel free to reach out\!
 **Zhafran Anindhito Nur Tsaqib**
 **Zhafran Anindhito Nur Tsaqib**
 
-  - Website: [https://www.eki.my.id/](https://www.eki.my.id/)
+  - Website: [https://www.zhafran.my.id/](https://www.zhafran.my.id/)
   - GitHub: [EkiZR](https://github.com/EkiZR)
 
 -----
