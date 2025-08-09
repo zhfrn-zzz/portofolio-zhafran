@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useTheme } from './ThemeProvider';
 import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState("Home");
+    const { theme, toggle } = useTheme();
+    const [animating, setAnimating] = useState(false);
+    const [goingRight, setGoingRight] = useState(true);
     
     const navItems = [
         { href: "#Home", label: "Home" },
@@ -69,9 +73,9 @@ const Navbar = () => {
         <nav
             className={`fixed w-full top-0 z-50 transition-all duration-500 ${
                 isOpen
-                    ? "bg-[#030014]"
+                    ? "dark:bg-[#030014] bg-lightbg"
                     : scrolled
-                    ? "bg-[#030014]/50 backdrop-blur-xl"
+                    ? "dark:bg-[#030014]/50 bg-lightbg/60 backdrop-blur-xl"
                     : "bg-transparent"
             }`}
         >
@@ -82,14 +86,14 @@ const Navbar = () => {
                         <a
                             href="#Home"
                             onClick={(e) => scrollToSection(e, "#Home")}
-                            className="text-xl font-bold bg-gradient-to-r from-[#a855f7] to-[#6366f1] bg-clip-text text-transparent"
+                            className="text-xl font-bold bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-[#a855f7] dark:to-[#6366f1] bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)]"
                         >
                             Zhafran
                         </a>
                     </div>
         
                     {/* Desktop Navigation */}
-                    <div className="hidden md:block">
+                    <div className="hidden md:flex items-center gap-4">
                         <div className="ml-8 flex items-center space-x-8">
                             {navItems.map((item) => (
                                 <a
@@ -101,29 +105,76 @@ const Navbar = () => {
                                     <span
                                         className={`relative z-10 transition-colors duration-300 ${
                                             activeSection === item.href.substring(1)
-                                                ? "bg-gradient-to-r from-[#6366f1] to-[#a855f7] bg-clip-text text-transparent font-semibold"
-                                                : "text-[#e2d3fd] group-hover:text-white"
+                                                ? "dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] dark:bg-clip-text dark:text-transparent font-semibold text-lighttext"
+                                                : "dark:text-[#e2d3fd] dark:group-hover:text-white text-lighttext group-hover:text-[var(--text)]"
                                         }`}
                                     >
                                         {item.label}
                                     </span>
                                     <span
-                                        className={`absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-[#6366f1] to-[#a855f7] transform origin-left transition-transform duration-300 ${
+                                        className={`absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ${
                                             activeSection === item.href.substring(1)
-                                                ? "scale-x-100"
-                                                : "scale-x-0 group-hover:scale-x-100"
+                                                ? "scale-x-100 dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-lightaccent"
+                                                : "scale-x-0 group-hover:scale-x-100 dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-lightaccent/60"
                                         }`}
                                     />
                                 </a>
                             ))}
-                        </div>
+                                                </div>
+                                                {/* Theme Toggle */}
+                                                <button
+                                                    onClick={() => { setGoingRight(theme==='dark'); setAnimating(true); toggle(); }}
+                                                    aria-label="Toggle theme"
+                                                    className={`relative w-14 h-8 rounded-full transition-colors duration-700 ease-out
+                                                        ${theme === 'dark' ? 'bg-[#111827]' : 'bg-lightaccent/60'}
+                                                        border border-white/10 dark:border-white/10 overflow-hidden`}
+                                                >
+                                                    {/* sun/moon hints */}
+                                                    <span className={`absolute left-2 top-1/2 -translate-y-1/2 text-[10px] select-none transition-opacity duration-500 ${theme==='dark'?'opacity-0':'opacity-70'}`}>☀️</span>
+                                                    <span className={`absolute right-2 top-1/2 -translate-y-1/2 text-[10px] select-none transition-opacity duration-500 ${theme==='dark'?'opacity-70':'opacity-0'}`}>🌙</span>
+
+                                                    {/* knob */}
+                                                    <span
+                                                        className={`absolute top-1 left-1 w-6 h-6 rounded-full bg-white shadow-md ${theme==='dark' ? 'translate-x-0' : 'translate-x-6'}`}
+                                                        style={{
+                                                            animation: animating ? 'knob-move 700ms cubic-bezier(0.22, 1, 0.36, 1)' : 'none',
+                                                            ['--from']: goingRight ? '0' : '24px',
+                                                            ['--to']: goingRight ? '24px' : '0',
+                                                            willChange: 'transform'
+                                                        }}
+                                                        onAnimationEnd={() => setAnimating(false)}
+                                                    />
+                                                    {/* subtle glow */}
+                                                    <span className={`absolute inset-0 rounded-full pointer-events-none transition-opacity duration-700 ${theme === 'dark' ? 'opacity-20' : 'opacity-40'} bg-white`} style={{filter:'blur(10px)'}} />
+                                                </button>
                     </div>
         
                     {/* Mobile Menu Button */}
-                    <div className="md:hidden">
+                                        <div className="md:hidden flex items-center gap-3">
+                                                {/* Theme toggle mobile */}
+                                                <button
+                                                    onClick={() => { setGoingRight(theme==='dark'); setAnimating(true); toggle(); }}
+                                                    aria-label="Toggle theme"
+                                                    className={`relative w-12 h-7 rounded-full transition-colors duration-700 ease-out
+                                                        ${theme === 'dark' ? 'bg-[#111827]' : 'bg-lightaccent/60'}
+                                                        border border-white/10 dark:border-white/10 overflow-hidden`}
+                                                >
+                                                    <span className={`absolute left-1.5 top-1/2 -translate-y-1/2 text-[9px] select-none transition-opacity duration-500 ${theme==='dark'?'opacity-0':'opacity-70'}`}>☀️</span>
+                                                    <span className={`absolute right-1.5 top-1/2 -translate-y-1/2 text-[9px] select-none transition-opacity duration-500 ${theme==='dark'?'opacity-70':'opacity-0'}`}>🌙</span>
+                                                    <span
+                                                        className={`absolute top-1 left-1 w-5 h-5 rounded-full bg-white shadow-md ${theme==='dark' ? 'translate-x-0' : 'translate-x-5'}`}
+                                                        style={{
+                                                            animation: animating ? 'knob-move 700ms cubic-bezier(0.22, 1, 0.36, 1)' : 'none',
+                                                            ['--from']: goingRight ? '0' : '20px',
+                                                            ['--to']: goingRight ? '20px' : '0',
+                                                            willChange: 'transform'
+                                                        }}
+                                                        onAnimationEnd={() => setAnimating(false)}
+                                                    />
+                                                </button>
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className={`relative p-2 text-[#e2d3fd] hover:text-white transition-transform duration-300 ease-in-out transform ${
+                            className={`relative p-2 dark:text-[#e2d3fd] text-lighttext hover:text-white transition-transform duration-300 ease-in-out transform ${
                                 isOpen ? "rotate-90 scale-125" : "rotate-0 scale-100"
                             }`}
                         >
@@ -153,8 +204,8 @@ const Navbar = () => {
                             onClick={(e) => scrollToSection(e, item.href)}
                             className={`block px-4 py-3 text-lg font-medium transition-all duration-300 ease ${
                                 activeSection === item.href.substring(1)
-                                    ? "bg-gradient-to-r from-[#6366f1] to-[#a855f7] bg-clip-text text-transparent font-semibold"
-                                    : "text-[#e2d3fd] hover:text-white"
+                                    ? "dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)] bg-clip-text text-transparent font-semibold"
+                                    : "dark:text-[#e2d3fd] text-lighttext hover:dark:text-white hover:text-[var(--text)]"
                             }`}
                             style={{
                                 transitionDelay: `${index * 100}ms`,

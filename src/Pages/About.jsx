@@ -8,7 +8,7 @@ const Header = memo(() => (
   <div className="text-center lg:mb-8 mb-2 px-[5%]">
     <div className="inline-block relative group">
       <h2 
-        className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]" 
+        className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)]" 
         data-aos="zoom-in-up"
         data-aos-duration="600"
       >
@@ -16,13 +16,13 @@ const Header = memo(() => (
       </h2>
     </div>
     <p 
-      className="mt-2 text-gray-400 max-w-2xl mx-auto text-base sm:text-lg flex items-center justify-center gap-2"
+      className="mt-2 dark:text-gray-400 text-lighttext/80 max-w-2xl mx-auto text-base sm:text-lg flex items-center justify-center gap-2"
       data-aos="zoom-in-up"
       data-aos-duration="800"
     >
-      <Sparkles className="w-5 h-5 text-purple-400" />
+      <Sparkles className="w-5 h-5 dark:text-purple-400 text-lightaccent" />
       Transforming ideas into digital experiences
-      <Sparkles className="w-5 h-5 text-purple-400" />
+      <Sparkles className="w-5 h-5 dark:text-purple-400 text-lightaccent" />
     </p>
   </div>
 ));
@@ -35,10 +35,11 @@ const ProfileImage = memo(() => (
       data-aos-duration="1000"
     >
       {/* Optimized gradient backgrounds with reduced complexity for mobile */}
-      <div className="absolute -inset-6 opacity-[25%] z-0 hidden sm:block">
-        <div className="absolute inset-0 bg-gradient-to-r from-violet-600 via-indigo-500 to-purple-600 rounded-full blur-2xl animate-spin-slower" />
-        <div className="absolute inset-0 bg-gradient-to-l from-fuchsia-500 via-rose-500 to-pink-600 rounded-full blur-2xl animate-pulse-slow opacity-50" />
-        <div className="absolute inset-0 bg-gradient-to-t from-blue-600 via-cyan-500 to-teal-400 rounded-full blur-2xl animate-float opacity-50" />
+      <div className="absolute -inset-6 dark:opacity-[25%] opacity-50 z-0 hidden sm:block">
+        <div className="absolute inset-0 rounded-full blur-2xl animate-spin-slower dark:bg-gradient-to-r dark:from-violet-600 dark:via-indigo-500 dark:to-purple-600 bg-gradient-to-r from-[var(--accent)]/35 via-[var(--muted)]/20 to-[var(--accent)]/35" />
+        <div className="absolute inset-0 rounded-full blur-2xl animate-pulse-slow opacity-70 dark:bg-gradient-to-l dark:from-fuchsia-500 dark:via-rose-500 dark:to-pink-600 bg-gradient-to-l from-[var(--muted)]/25 via-transparent to-[var(--accent)]/25" />
+        <div className="absolute inset-0 rounded-full blur-2xl animate-float opacity-70 dark:bg-gradient-to-t dark:from-blue-600 dark:via-cyan-500 dark:to-teal-400 bg-gradient-to-t from-[var(--accent)]/25 via-transparent to-[var(--muted)]/25" />
+        <div className="absolute inset-8 rounded-full ring-4 dark:ring-[#a855f7]/20 ring-[var(--accent)]/25" />
       </div>
 
       <div className="relative">
@@ -47,7 +48,7 @@ const ProfileImage = memo(() => (
           
           {/* Optimized overlay effects - disabled on mobile */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 z-10 transition-opacity duration-700 group-hover:opacity-0 hidden sm:block" />
-          <div className="absolute inset-0 bg-gradient-to-t from-purple-500/20 via-transparent to-blue-500/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 hidden sm:block" />
+          <div className="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 hidden sm:block bg-gradient-to-t dark:from-purple-500/20 dark:via-transparent dark:to-blue-500/20 from-[var(--accent)]/25 via-transparent to-[var(--muted)]/25" />
           
           <img
             src="/Photo.jpg"
@@ -70,15 +71,15 @@ const ProfileImage = memo(() => (
 
 const StatCard = memo(({ icon: Icon, color, value, label, description, animation }) => (
   <div data-aos={animation} data-aos-duration={1300} className="relative group">
-    <div className="relative z-10 bg-gray-900/50 backdrop-blur-lg rounded-2xl p-6 border border-white/10 overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl h-full flex flex-col justify-between">
-      <div className={`absolute -z-10 inset-0 bg-gradient-to-br ${color} opacity-10 group-hover:opacity-20 transition-opacity duration-300`}></div>
+  <div className="relative z-10 dark:bg-gray-900/50 bg-lightaccent/10 backdrop-blur-lg rounded-2xl p-6 border dark:border-white/10 border-lightaccent/30 overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl h-full flex flex-col justify-between">
+      <div className="absolute -z-10 inset-0 bg-gradient-to-br dark:from-[#6366f1] dark:to-[#a855f7] from-[var(--accent)] to-[var(--muted)] opacity-10 group-hover:opacity-20 transition-opacity duration-300"></div>
       
-      <div className="flex items-center justify-between mb-4">
+  <div className="flex items-center justify-between mb-4">
         <div className="w-16 h-16 rounded-full flex items-center justify-center bg-white/10 transition-transform group-hover:rotate-6">
-          <Icon className="w-8 h-8 text-white" />
+          <Icon className="w-8 h-8 dark:text-white text-lighttext" />
         </div>
         <span 
-          className="text-4xl font-bold text-white"
+          className="text-4xl font-bold dark:text-white text-lighttext"
           data-aos="fade-up-left"
           data-aos-duration="1500"
           data-aos-anchor-placement="top-bottom"
@@ -98,14 +99,14 @@ const StatCard = memo(({ icon: Icon, color, value, label, description, animation
         </p>
         <div className="flex items-center justify-between">
           <p 
-            className="text-xs text-gray-400"
+            className="text-xs dark:text-gray-400 text-lighttext/70"
             data-aos="fade-up"
             data-aos-duration="1000"
             data-aos-anchor-placement="top-bottom"
           >
             {description}
           </p>
-          <ArrowUpRight className="w-4 h-4 text-white/50 group-hover:text-white transition-colors" />
+          <ArrowUpRight className="w-4 h-4 dark:text-white/50 text-lighttext/60 group-hover:dark:text-white group-hover:text-lighttext transition-colors" />
         </div>
       </div>
     </div>
@@ -184,7 +185,7 @@ const AboutPage = () => {
 
   return (
     <div
-      className="h-auto pb-[10%] text-white overflow-hidden px-[5%] sm:px-[5%] lg:px-[10%] mt-10 sm-mt-0" 
+      className="h-auto pb-[10%] dark:text-white text-lighttext overflow-hidden px-[5%] sm:px-[5%] lg:px-[10%] mt-10 sm-mt-0" 
       id="About"
     >
       <Header />
@@ -197,11 +198,11 @@ const AboutPage = () => {
               data-aos="fade-right"
               data-aos-duration="1000"
             >
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]">
+              <span className="text-transparent bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)]">
                 Hello, I'm
               </span>
               <span 
-                className="block mt-2 text-gray-200"
+                className="block mt-2 bg-clip-text dark:text-transparent text-white dark:bg-gradient-to-r dark:from-white dark:to-white"
                 data-aos="fade-right"
                 data-aos-duration="1300"
               >
@@ -210,31 +211,31 @@ const AboutPage = () => {
             </h2>
             
             <p 
-              className="text-base sm:text-lg lg:text-xl text-gray-400 leading-relaxed text-justify pb-4 sm:pb-0"
+              className="text-base sm:text-lg lg:text-xl dark:text-gray-400 text-lighttext/80 leading-relaxed text-justify pb-4 sm:pb-0"
               data-aos="fade-right"
               data-aos-duration="1500"
-            >
-             Seorang lulusan Teknik Jaringan Komputer dan Telekomunikasi yang memiliki ketertarikan besar dalam pengembangan Front-End. Saya berfokus pada menciptakan pengalaman digital yang menarik dan selalu berusaha memberikan solusi terbaik dalam setiap proyek yang saya kerjakan.
+            > 
+             Seorang siswa Teknik Jaringan Komputer dan Telekomunikasi yang memiliki rasa ingin tahu yang besar. Seperti di bidang Coding, Film Maker, 3D Generalist, Fotography, Cyber Security, Ai, dan IoT. Saya selalu berusaha untuk belajar dan mengembangkan diri dalam bidang-bidang tersebut.
             </p>
 
                {/* Quote Section */}
       <div 
-        className="relative bg-gradient-to-br from-[#6366f1]/5 via-transparent to-[#a855f7]/5 border border-gradient-to-r border-[#6366f1]/30 rounded-2xl p-4 my-6 backdrop-blur-md shadow-2xl overflow-hidden"
+  className="relative dark:bg-gradient-to-br dark:from-[#6366f1]/5 dark:via-transparent dark:to-[#a855f7]/5 bg-gradient-to-br from-lightaccent/10 via-transparent to-lightmuted/10 border dark:border-[#6366f1]/30 border-lightaccent/30 rounded-2xl p-4 my-6 backdrop-blur-md shadow-2xl overflow-hidden"
         data-aos="fade-up"
         data-aos-duration="1700"
       >
         {/* Floating orbs background */}
-        <div className="absolute top-2 right-4 w-16 h-16 bg-gradient-to-r from-[#6366f1]/20 to-[#a855f7]/20 rounded-full blur-xl"></div>
-        <div className="absolute -bottom-4 -left-2 w-12 h-12 bg-gradient-to-r from-[#a855f7]/20 to-[#6366f1]/20 rounded-full blur-lg"></div>
+        <div className="absolute top-2 right-4 w-16 h-16 rounded-full blur-xl bg-gradient-to-r dark:from-[#6366f1]/20 dark:to-[#a855f7]/20 from-[var(--accent)]/20 to-[var(--muted)]/20"></div>
+        <div className="absolute -bottom-4 -left-2 w-12 h-12 rounded-full blur-lg bg-gradient-to-r dark:from-[#a855f7]/20 dark:to-[#6366f1]/20 from-[var(--muted)]/20 to-[var(--accent)]/20"></div>
         
         {/* Quote icon */}
-        <div className="absolute top-3 left-4 text-[#6366f1] opacity-30">
+        <div className="absolute top-3 left-4 dark:text-[#6366f1] text-[var(--accent)] opacity-30">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z"/>
           </svg>
         </div>
         
-        <blockquote className="text-gray-300 text-center lg:text-left italic font-medium text-sm relative z-10 pl-6">
+  <blockquote className="dark:text-gray-300 text-lighttext/80 text-center lg:text-left italic font-medium text-sm relative z-10 pl-6">
           "Leveraging AI as a professional tool, not a replacement."
         </blockquote>
       </div>
@@ -244,7 +245,7 @@ const AboutPage = () => {
               <button 
                 data-aos="fade-up"
                 data-aos-duration="800"
-                className="w-full lg:w-auto sm:px-6 py-2 sm:py-3 rounded-lg bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-white font-medium transition-all duration-300 hover:scale-105 flex items-center justify-center lg:justify-start gap-2 shadow-lg hover:shadow-xl "
+                className="w-full lg:w-auto sm:px-6 py-2 sm:py-3 rounded-lg dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-lightaccent text-white font-medium transition-all duration-300 hover:scale-105 flex items-center justify-center lg:justify-start gap-2 shadow-lg hover:shadow-xl "
               >
                 <FileText className="w-4 h-4 sm:w-5 sm:h-5" /> Download CV
               </button>
@@ -253,7 +254,7 @@ const AboutPage = () => {
               <button 
                 data-aos="fade-up"
                 data-aos-duration="1000"
-                className="w-full lg:w-auto sm:px-6 py-2 sm:py-3 rounded-lg border border-[#a855f7]/50 text-[#a855f7] font-medium transition-all duration-300 hover:scale-105 flex items-center justify-center lg:justify-start gap-2 hover:bg-[#a855f7]/10 "
+                className="w-full lg:w-auto sm:px-6 py-2 sm:py-3 rounded-lg border dark:border-[#a855f7]/50 border-lightaccent text-lighttext dark:text-[#a855f7] font-medium transition-all duration-300 hover:scale-105 flex items-center justify-center lg:justify-start gap-2 dark:hover:bg-[#a855f7]/10 hover:bg-lightaccent/15 "
               >
                 <Code className="w-4 h-4 sm:w-5 sm:h-5" /> View Projects
               </button>
@@ -273,7 +274,7 @@ const AboutPage = () => {
         </a>
       </div>
 
-  <style>{`
+      <style jsx>{`
         @keyframes float {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-20px); }

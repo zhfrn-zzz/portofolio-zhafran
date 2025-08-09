@@ -107,12 +107,12 @@ const SocialLinks = () => {
   }, []);
 
   return (
-    <div className="w-full bg-gradient-to-br from-white/10 to-white/5 rounded-2xl p-6 py-8 backdrop-blur-xl">
+    <div className="w-full rounded-2xl p-6 py-8 backdrop-blur-xl dark:bg-gradient-to-br dark:from-white/10 dark:to-white/5 bg-lightaccent/10 border dark:border-white/10 border-lightaccent/30">
       <h3
-        className="text-xl font-semibold text-white mb-6 flex items-center gap-2"
-        data-aos="fade-down" 
+        className="text-xl font-semibold mb-6 flex items-center gap-2 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)]"
+        data-aos="fade-down"
       >
-        <span className="inline-block w-8 h-1 bg-indigo-500 rounded-full"></span>
+        <span className="inline-block w-8 h-1 rounded-full dark:bg-indigo-500" style={{ background: 'linear-gradient(90deg, var(--text), var(--accent))' }}></span>
         Connect With Me
       </h3>
 
@@ -123,15 +123,14 @@ const SocialLinks = () => {
           target="_blank"
           rel="noopener noreferrer"
           className="group relative flex items-center justify-between p-4 rounded-lg 
-                     bg-white/5 border border-white/10 overflow-hidden
-                     hover:border-white/20 transition-all duration-500"
+                     dark:bg-white/5 bg-lightaccent/15 border dark:border-white/10 border-lightaccent/30 overflow-hidden
+                     dark:hover:border-white/20 hover:border-lightaccent/50 transition-all duration-500"
           data-aos="fade-up"
           data-aos-delay="100" 
         >
           {/* Hover Gradient Background */}
           <div
-            className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500
-                       bg-gradient-to-r ${linkedIn.gradient}`}
+            className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 bg-gradient-to-r ${linkedIn.gradient} dark:from-[#6366f1] dark:to-[#a855f7]`}
           />
 
           {/* Content Container */}
@@ -139,8 +138,7 @@ const SocialLinks = () => {
             {/* Icon Container */}
             <div className="relative flex items-center justify-center">
               <div
-                className="absolute inset-0 opacity-20 rounded-md transition-all duration-500
-                               group-hover:scale-110 group-hover:opacity-30"
+                className="absolute inset-0 opacity-20 dark:opacity-0 rounded-md transition-all duration-500 group-hover:scale-110 group-hover:opacity-30"
                 style={{ backgroundColor: linkedIn.color }}
               />
               <div className="relative p-2 rounded-md">
@@ -153,10 +151,10 @@ const SocialLinks = () => {
 
             {/* Text Container */}
             <div className="flex flex-col">
-              <span className="text-lg font-bold pt-[0.2rem] text-gray-200 tracking-tight leading-none group-hover:text-white transition-colors duration-300">
+              <span className="text-lg font-bold pt-[0.2rem] dark:text-gray-200 text-lighttext tracking-tight leading-none group-hover:dark:text-white group-hover:text-lighttext transition-colors duration-300">
                 {linkedIn.displayName}
               </span>
-              <span className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+              <span className="text-sm dark:text-gray-400 text-lighttext/80 group-hover:dark:text-gray-300 group-hover:text-lighttext transition-colors duration-300">
                 {linkedIn.subText}
               </span>
             </div>
@@ -187,20 +185,18 @@ const SocialLinks = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="group relative flex items-center gap-3 p-4 rounded-xl 
-                               bg-white/5 border border-white/10 overflow-hidden
-                               hover:border-white/20 transition-all duration-500"
+                               dark:bg-white/5 bg-lightaccent/15 border dark:border-white/10 border-lightaccent/30 overflow-hidden
+                               dark:hover:border-white/20 hover:border-lightaccent/50 transition-all duration-500"
               data-aos="fade-up" 
               data-aos-delay={200 + index * 100} 
             >
               <div
-                className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500
-                                     bg-gradient-to-r ${link.gradient}`}
+                className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 bg-gradient-to-r ${link.gradient} dark:from-[#6366f1] dark:via-[#7c3aed] dark:to-[#a855f7]`}
               />
 
               <div className="relative flex items-center justify-center">
                 <div
-                  className="absolute inset-0 opacity-20 rounded-lg transition-all duration-500
-                                       group-hover:scale-125 group-hover:opacity-30"
+                  className="absolute inset-0 opacity-20 dark:opacity-0 rounded-lg transition-all duration-500 group-hover:scale-125 group-hover:opacity-30"
                   style={{ backgroundColor: link.color }}
                 />
                 <div className="relative p-2 rounded-lg">
@@ -213,10 +209,10 @@ const SocialLinks = () => {
 
               {/* Text Container */}
               <div className="flex flex-col min-w-0">
-                <span className="text-sm font-bold text-gray-200 group-hover:text-white transition-colors duration-300">
+                <span className="text-sm font-bold dark:text-gray-200 text-lighttext group-hover:dark:text-white group-hover:text-lighttext transition-colors duration-300">
                   {link.displayName}
                 </span>
-                <span className="text-xs text-gray-400 truncate group-hover:text-gray-300 transition-colors duration-300">
+                <span className="text-xs dark:text-gray-400 text-lighttext/80 truncate group-hover:dark:text-gray-300 group-hover:text-lighttext transition-colors duration-300">
                   {link.subText}
                 </span>
               </div>
@@ -246,20 +242,18 @@ const SocialLinks = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="group relative flex items-center gap-3 p-4 rounded-xl 
-                               bg-white/5 border border-white/10 overflow-hidden
-                               hover:border-white/20 transition-all duration-500"
+                               dark:bg-white/5 bg-lightaccent/15 border dark:border-white/10 border-lightaccent/30 overflow-hidden
+                               dark:hover:border-white/20 hover:border-lightaccent/50 transition-all duration-500"
               data-aos="fade-up" 
               data-aos-delay={400 + index * 100}
             >
               <div
-                className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500
-                                     bg-gradient-to-r ${link.gradient}`}
+                className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 bg-gradient-to-r ${link.gradient} dark:from-[#6366f1] dark:via-[#7c3aed] dark:to-[#a855f7]`}
               />
 
               <div className="relative flex items-center justify-center">
                 <div
-                  className="absolute inset-0 opacity-20 rounded-lg transition-all duration-500
-                                       group-hover:scale-125 group-hover:opacity-30"
+                  className="absolute inset-0 opacity-20 dark:opacity-0 rounded-lg transition-all duration-500 group-hover:scale-125 group-hover:opacity-30"
                   style={{ backgroundColor: link.color }}
                 />
                 <div className="relative p-2 rounded-lg">
@@ -272,10 +266,10 @@ const SocialLinks = () => {
 
               {/* Text Container */}
               <div className="flex flex-col min-w-0">
-                <span className="text-sm font-bold text-gray-200 group-hover:text-white transition-colors duration-300">
+                <span className="text-sm font-bold dark:text-gray-200 text-lighttext group-hover:dark:text-white group-hover:text-lighttext transition-colors duration-300">
                   {link.displayName}
                 </span>
-                <span className="text-xs text-gray-400 truncate group-hover:text-gray-300 transition-colors duration-300">
+                <span className="text-xs dark:text-gray-400 text-lighttext/80 truncate group-hover:dark:text-gray-300 group-hover:text-lighttext transition-colors duration-300">
                   {link.subText}
                 </span>
               </div>

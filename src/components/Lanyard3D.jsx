@@ -60,8 +60,8 @@ export default function Lanyard3D({ frontUrl, backUrl, strapColor = '#1f1f1f', s
   return (
     <div className={className} style={{ height: '100%', width: '100%' }}>
       <Canvas camera={{ position: [0, 0.3, 5], fov: 42 }} shadows>
-        <ambientLight intensity={0.6} />
-        <directionalLight position={[5, 5, 5]} castShadow intensity={1} />
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[5, 5, 5]} castShadow intensity={0.8} />
         <Suspense fallback={null}>
           <Card frontUrl={frontUrl} backUrl={backUrl} strapColor={strapColor} showGloss={showGloss} />
           <Environment preset="city" />

@@ -3,6 +3,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Light theme base colors */
+:root:not(.dark) {
+	--bg: theme(colors.lightbg);
+	--accent: theme(colors.lightaccent);
+	--muted: theme(colors.lightmuted);
+	--text: theme(colors.lighttext);
+}
+
+/* Apply to body */
+body {
+	background-color: var(--bg);
+	color: var(--text);
+}
+
+/* Dark mode keeps your current design (already inline classes). */
+
 * {
 	margin: 0;
 	padding: 0;
@@ -16,8 +32,21 @@
 html,
 body {
 	overflow-x: hidden;
-	background: #030014;
+	background: var(--bg);
 	scroll-behavior: smooth !important;
+}
+
+/* Smooth theme transition (applies only while toggling) */
+html.theme-transition, html.theme-transition * {
+	transition-property: background-color, color, border-color, fill, stroke;
+	transition-duration: 600ms;
+	transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); /* ease-out expo-like */
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.theme-transition, html.theme-transition * {
+		transition-duration: 1ms !important;
+	}
 }
 
 @keyframes blob {
@@ -40,6 +69,22 @@ body {
 
 .animation-delay-4000 {
 	animation-delay: 4s;
+}
+
+/* Spring-like knob motion for theme toggle (direction via --from/--to) */
+@keyframes knob-move {
+	0% {
+		transform: translateX(var(--from, 0)) scale(1);
+	}
+	60% {
+		transform: translateX(calc(var(--to, 0) + 2px)) scale(1.04);
+	}
+	85% {
+		transform: translateX(calc(var(--to, 0) - 1px)) scale(0.998);
+	}
+	100% {
+		transform: translateX(var(--to, 0)) scale(1);
+	}
 }
 
 /* Enhanced Custom Scrollbar Styles */

@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-
-import { supabase } from "../supabase"; 
-
+import { supabase } from "../supabase";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material/styles";
@@ -17,14 +15,13 @@ import "aos/dist/aos.css";
 import Certificate from "../components/Certificate";
 import { Code, Award, Boxes } from "lucide-react";
 
-
 const ToggleButton = ({ onClick, isShowingMore }) => (
   <button
     onClick={onClick}
     className="
-      px-3 py-1.5
-      text-slate-300 
-      hover:text-white 
+  px-3 py-1.5
+  dark:text-slate-300 text-lighttext 
+  dark:hover:text-white hover:text-lighttext 
       text-sm 
       font-medium 
       transition-all 
@@ -33,12 +30,12 @@ const ToggleButton = ({ onClick, isShowingMore }) => (
       flex 
       items-center 
       gap-2
-      bg-white/5 
-      hover:bg-white/10
+  dark:bg-white/5 bg-lightaccent/10 
+  dark:hover:bg-white/10 hover:bg-lightaccent/15
       rounded-md
       border 
-      border-white/10
-      hover:border-white/20
+  dark:border-white/10 border-lightaccent/30
+  dark:hover:border-white/20 hover:border-lightaccent/50
       backdrop-blur-sm
       group
       relative
@@ -66,9 +63,14 @@ const ToggleButton = ({ onClick, isShowingMore }) => (
         <polyline points={isShowingMore ? "18 15 12 9 6 15" : "6 9 12 15 18 9"}></polyline>
       </svg>
     </span>
-    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-500/50 transition-all duration-300 group-hover:w-full"></span>
+    <span className="absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full dark:bg-purple-500/50 bg-[var(--accent)]/60"></span>
   </button>
 );
+
+ToggleButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  isShowingMore: PropTypes.bool.isRequired,
+};
 
 
 function TabPanel({ children, value, index, ...other }) {
@@ -194,21 +196,13 @@ export default function FullWidthTabs() {
 
   // Sisa dari komponen (return statement) tidak ada perubahan
   return (
-    <div className="md:px-[10%] px-[5%] w-full sm:mt-0 mt-[3rem] bg-[#030014] overflow-hidden" id="Portofolio">
+  <div className="md:px-[10%] px-[5%] w-full sm:mt-0 mt-[3rem] dark:bg-[#030014] bg-[var(--bg)] overflow-hidden" id="Portofolio">
       {/* Header section - unchanged */}
       <div className="text-center pb-10" data-aos="fade-up" data-aos-duration="1000">
-        <h2 className="inline-block text-3xl md:text-5xl font-bold text-center mx-auto text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]">
-          <span style={{
-            color: '#6366f1',
-            backgroundImage: 'linear-gradient(45deg, #6366f1 10%, #a855f7 93%)',
-            WebkitBackgroundClip: 'text',
-            backgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
-          }}>
-            Portfolio Showcase
-          </span>
+        <h2 className="inline-block text-3xl md:text-5xl font-bold text-center mx-auto text-transparent bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)]">
+          Portfolio Showcase
         </h2>
-        <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base mt-2">
+  <p className="dark:text-slate-400 text-lighttext/80 max-w-2xl mx-auto text-sm md:text-base mt-2">
           Explore my journey through projects, certifications, and technical expertise. 
           Each section represents a milestone in my continuous learning path.
         </p>
@@ -221,24 +215,23 @@ export default function FullWidthTabs() {
           elevation={0}
           sx={{
             bgcolor: "transparent",
-            border: "1px solid rgba(255, 255, 255, 0.1)",
+            border: theme.palette.mode === 'dark' ? "1px solid rgba(255, 255, 255, 0.1)" : "1px solid rgba(0,0,0,0.06)",
             borderRadius: "20px",
             position: "relative",
             overflow: "hidden",
-            "&::before": {
-              content: '""',
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              background: "linear-gradient(180deg, rgba(139, 92, 246, 0.03) 0%, rgba(59, 130, 246, 0.03) 100%)",
-              backdropFilter: "blur(10px)",
-              zIndex: 0,
-            },
           }}
           className="md:px-4"
         >
+          {/* theme-aware overlay to avoid yellow in dark mode */}
+          <Box
+            className="absolute inset-0 rounded-[20px] pointer-events-none backdrop-blur-md"
+            sx={{ 
+              zIndex: 0,
+              background: theme.palette.mode === 'dark'
+                ? 'linear-gradient(180deg, rgba(99,102,241,0.10) 0%, rgba(168,85,247,0.10) 100%)'
+                : 'linear-gradient(180deg, rgba(255,184,35,0.14) 0%, rgba(112,138,88,0.12) 100%)'
+            }}
+          />
           {/* Tabs remain unchanged */}
           <Tabs
             value={value}
@@ -260,7 +253,7 @@ export default function FullWidthTabs() {
                 borderRadius: "12px",
                 "&:hover": {
                   color: "#ffffff",
-                  backgroundColor: "rgba(139, 92, 246, 0.1)",
+                  backgroundColor: "rgba(99,102,241,0.12)",
                   transform: "translateY(-2px)",
                   "& .lucide": {
                     transform: "scale(1.1) rotate(5deg)",
@@ -268,10 +261,10 @@ export default function FullWidthTabs() {
                 },
                 "&.Mui-selected": {
                   color: "#fff",
-                  background: "linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2))",
-                  boxShadow: "0 4px 15px -3px rgba(139, 92, 246, 0.2)",
+                  background: "linear-gradient(135deg, rgba(99,102,241,0.25), rgba(168,85,247,0.25))",
+                  boxShadow: "0 4px 15px -3px rgba(99,102,241,0.25)",
                   "& .lucide": {
-                    color: "#a78bfa",
+                    color: "#6366f1",
                   },
                 },
               },

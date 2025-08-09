@@ -21,8 +21,8 @@ const TechBadge = ({ tech }) => {
   const Icon = TECH_ICONS[tech] || TECH_ICONS["default"];
   
   return (
-    <div className="group relative overflow-hidden px-3 py-2 md:px-4 md:py-2.5 bg-gradient-to-r from-blue-600/10 to-purple-600/10 rounded-xl border border-blue-500/10 hover:border-blue-500/30 transition-all duration-300 cursor-default">
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 transition-all duration-500" />
+    <div className="group relative overflow-hidden px-3 py-2 md:px-4 md:py-2.5 rounded-xl transition-all duration-300 cursor-default bg-gradient-to-r dark:from-blue-600/10 dark:to-purple-600/10 from-[var(--accent)]/10 to-[var(--muted)]/10 border dark:border-blue-500/10 border-[var(--accent)]/20 hover:dark:border-blue-500/30 hover:border-[var(--accent)]/40">
+      <div className="absolute inset-0 transition-all duration-500 bg-gradient-to-r dark:from-blue-500/0 dark:to-purple-500/0 from-[var(--accent)]/0 to-[var(--muted)]/0 group-hover:dark:from-blue-500/10 group-hover:dark:to-purple-500/10 group-hover:from-[var(--accent)]/10 group-hover:to-[var(--muted)]/10" />
       <div className="relative flex items-center gap-1.5 md:gap-2">
         <Icon className="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-400 group-hover:text-blue-300 transition-colors" />
         <span className="text-xs md:text-sm font-medium text-blue-300/90 group-hover:text-blue-200 transition-colors">
@@ -35,10 +35,10 @@ const TechBadge = ({ tech }) => {
 
 const FeatureItem = ({ feature }) => {
   return (
-    <li className="group flex items-start space-x-3 p-2.5 md:p-3.5 rounded-xl hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/10">
+  <li className="group flex items-start space-x-3 p-2.5 md:p-3.5 rounded-xl transition-all duration-300 border border-transparent hover:border-white/10 hover:dark:bg-white/5 hover:bg-lightaccent/10">
       <div className="relative mt-2">
-        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-full blur group-hover:opacity-100 opacity-0 transition-opacity duration-300" />
-        <div className="relative w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 group-hover:scale-125 transition-transform duration-300" />
+    <div className="absolute -inset-1 rounded-full blur group-hover:opacity-100 opacity-0 transition-opacity duration-300 bg-gradient-to-r dark:from-blue-600/20 dark:to-purple-600/20 from-[var(--accent)]/20 to-[var(--muted)]/20" />
+    <div className="relative w-1.5 h-1.5 md:w-2 md:h-2 rounded-full group-hover:scale-125 transition-transform duration-300 bg-gradient-to-r dark:from-blue-400 dark:to-purple-400 from-[var(--text)] to-[var(--accent)]" />
       </div>
       <span className="text-sm md:text-base text-gray-300 group-hover:text-white transition-colors">
         {feature}
@@ -53,7 +53,7 @@ const ProjectStats = ({ project }) => {
 
   return (
     <div className="grid grid-cols-2 gap-3 md:gap-4 p-3 md:p-4 bg-[#0a0a1a] rounded-xl overflow-hidden relative">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20 opacity-50 blur-2xl z-0" />
+      <div className="absolute inset-0 opacity-50 blur-2xl z-0 bg-gradient-to-br dark:from-blue-900/20 dark:to-purple-900/20 from-[var(--accent)]/15 to-[var(--muted)]/15" />
 
       <div className="relative z-10 flex items-center space-x-2 md:space-x-3 bg-white/5 p-2 md:p-3 rounded-lg border border-blue-500/20 transition-all duration-300 hover:scale-105 hover:border-blue-500/50 hover:shadow-lg">
         <div className="bg-blue-500/20 p-1.5 md:p-2 rounded-full">
@@ -65,12 +65,12 @@ const ProjectStats = ({ project }) => {
         </div>
       </div>
 
-      <div className="relative z-10 flex items-center space-x-2 md:space-x-3 bg-white/5 p-2 md:p-3 rounded-lg border border-purple-500/20 transition-all duration-300 hover:scale-105 hover:border-purple-500/50 hover:shadow-lg">
-        <div className="bg-purple-500/20 p-1.5 md:p-2 rounded-full">
-          <Layers className="text-purple-300 w-4 h-4 md:w-6 md:h-6" strokeWidth={1.5} />
+      <div className="relative z-10 flex items-center space-x-2 md:space-x-3 bg-white/5 p-2 md:p-3 rounded-lg border dark:border-purple-500/20 border-[var(--accent)]/20 transition-all duration-300 hover:scale-105 hover:dark:border-purple-500/50 hover:border-[var(--accent)]/50 hover:shadow-lg">
+        <div className="dark:bg-purple-500/20 bg-[var(--accent)]/20 p-1.5 md:p-2 rounded-full">
+          <Layers className="dark:text-purple-300 text-[var(--accent)] w-4 h-4 md:w-6 md:h-6" strokeWidth={1.5} />
         </div>
         <div className="flex-grow">
-          <div className="text-lg md:text-xl font-semibold text-purple-200">{featuresCount}</div>
+          <div className="text-lg md:text-xl font-semibold dark:text-purple-200 text-[var(--accent)]">{featuresCount}</div>
           <div className="text-[10px] md:text-xs text-gray-400">Fitur Utama</div>
         </div>
       </div>
@@ -118,7 +118,7 @@ const ProjectDetails = () => {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-[#030014] flex items-center justify-center">
+      <div className="min-h-screen dark:bg-[#030014] bg-[var(--bg)] flex items-center justify-center">
         <div className="text-center space-y-6 animate-fadeIn">
           <div className="w-16 h-16 md:w-24 md:h-24 mx-auto border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
           <h2 className="text-xl md:text-3xl font-bold text-white">Loading Project...</h2>
@@ -128,7 +128,7 @@ const ProjectDetails = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#030014] px-[2%] sm:px-0 relative overflow-hidden">
+    <div className="min-h-screen dark:bg-[#030014] bg-[var(--bg)] px-[2%] sm:px-0 relative overflow-hidden">
       {/* Background animations remain unchanged */}
       <div className="fixed inset-0">
         <div className="absolute -inset-[10px] opacity-20">
@@ -253,7 +253,7 @@ const ProjectDetails = () => {
         </div>
       </div>
 
-  <style>{`
+      <style jsx>{`
         @keyframes blob {
           0% {
             transform: translate(0px, 0px) scale(1);
