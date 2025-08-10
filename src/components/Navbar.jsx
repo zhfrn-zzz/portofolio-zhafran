@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from './ThemeProvider';
 import { Menu, X, Volume2, VolumeX } from "lucide-react";
 import { useAudio } from './AudioProvider';
@@ -11,6 +12,7 @@ const Navbar = () => {
     const [animating, setAnimating] = useState(false);
     const [goingRight, setGoingRight] = useState(true);
     const audio = useAudio();
+    const navigate = useNavigate();
     
     const navItems = [
         { href: "#Home", label: "Home" },
@@ -23,32 +25,45 @@ const Navbar = () => {
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 20);
-            const sections = navItems.map(item => {
-                const section = document.querySelector(item.href);
-                if (section) {
-                    return {
-                        id: item.href.replace("#", ""),
-                        offset: section.offsetTop - 550,
-                        height: section.offsetHeight
-                    };
-                }
-                return null;
+
+            const viewportH = window.innerHeight || document.documentElement.clientHeight;
+            const entries = navItems.map(item => {
+                const el = document.querySelector(item.href);
+                if (!el) return null;
+                const rect = el.getBoundingClientRect();
+                const visible = Math.max(0, Math.min(rect.bottom, viewportH) - Math.max(rect.top, 0));
+                const centerDistance = Math.abs((rect.top + rect.bottom) / 2 - viewportH / 2);
+                return { id: item.href.substring(1), visible, centerDistance };
             }).filter(Boolean);
 
-            const currentPosition = window.scrollY;
-            const active = sections.find(section => 
-                currentPosition >= section.offset && 
-                currentPosition < section.offset + section.height
-            );
+            // Near bottom: prefer Contact if it exists; otherwise last visible
+            const atBottom = window.innerHeight + window.scrollY >= (document.body.scrollHeight - 2);
+            if (atBottom) {
+                const contactExists = !!document.querySelector('#Contact');
+                if (contactExists) {
+                    setActiveSection('Contact');
+                    return;
+                }
+                if (entries.length) {
+                    setActiveSection(entries[entries.length - 1].id);
+                    return;
+                }
+            }
 
-            if (active) {
-                setActiveSection(active.id);
+            if (entries.length) {
+                let best = entries[0];
+                for (const e of entries) {
+                    if (e.visible > best.visible + 5 || (Math.abs(e.visible - best.visible) <= 5 && e.centerDistance < best.centerDistance)) {
+                        best = e;
+                    }
+                }
+                if (best.visible > 1) setActiveSection(best.id);
             }
         };
 
-        window.addEventListener("scroll", handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
         handleScroll();
-        return () => window.removeEventListener("scroll", handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     useEffect(() => {
@@ -61,13 +76,42 @@ const Navbar = () => {
 
     const scrollToSection = (e, href) => {
         e.preventDefault();
-        const section = document.querySelector(href);
-        if (section) {
-            const top = section.offsetTop - 100;
-            window.scrollTo({
-                top: top,
-                behavior: "smooth"
-            });
+        const id = href.replace('#','');
+        // Highlight immediately for better UX
+        setActiveSection(id);
+
+        const doScroll = () => {
+            const start = Date.now();
+            const tryScroll = () => {
+                const el = document.querySelector(href);
+                if (el) {
+                    const rect = el.getBoundingClientRect();
+                    const top = rect.top + window.scrollY - 100;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                    return;
+                }
+                if (Date.now() - start < 4000) setTimeout(tryScroll, 100);
+            };
+            tryScroll();
+        };
+
+        const isHome = typeof window !== 'undefined' && window.location && window.location.pathname === '/';
+        const present = !!document.querySelector(href);
+        if (!present) {
+            if (!isHome) {
+                navigate('/');
+                try { history.replaceState(null, '', '#' + id); } catch {}
+                setTimeout(doScroll, 120);
+            } else {
+                // Nudge scroll to encourage deferred mount
+                try {
+                    const targetY = Math.max(0, document.body.scrollHeight - window.innerHeight * 0.8);
+                    window.scrollTo({ top: targetY, behavior: 'smooth' });
+                } catch {}
+                setTimeout(doScroll, 150);
+            }
+        } else {
+            doScroll();
         }
         setIsOpen(false);
     };

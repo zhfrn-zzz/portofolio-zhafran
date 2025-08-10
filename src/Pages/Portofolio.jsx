@@ -104,20 +104,42 @@ function a11yProps(index) {
   };
 }
 
-// techStacks tetap sama
-const techStacks = [
-  { icon: "html.svg", language: "HTML" },
-  { icon: "css.svg", language: "CSS" },
-  { icon: "javascript.svg", language: "JavaScript" },
-  { icon: "tailwind.svg", language: "Tailwind CSS" },
-  { icon: "reactjs.svg", language: "ReactJS" },
-  { icon: "vite.svg", language: "Vite" },
-  { icon: "nodejs.svg", language: "Node JS" },
-  { icon: "bootstrap.svg", language: "Bootstrap" },
-  { icon: "firebase.svg", language: "Firebase" },
-  { icon: "MUI.svg", language: "Material UI" },
-  { icon: "vercel.svg", language: "Vercel" },
-  { icon: "SweetAlert.svg", language: "SweetAlert2" },
+// Tech Stack grouped for a cleaner layout
+const techGroups = [
+  {
+    label: 'Web Core',
+    items: [
+      { icon: 'html.svg', language: 'HTML' },
+      { icon: 'css.svg', language: 'CSS' },
+      { icon: 'javascript.svg', language: 'JavaScript' },
+      { icon: 'tailwind.svg', language: 'Tailwind CSS' },
+      { icon: 'reactjs.svg', language: 'ReactJS' },
+      { icon: 'vite.svg', language: 'Vite' },
+      { icon: 'vercel.svg', language: 'Vercel' },
+    ],
+  },
+  {
+    label: 'Editing',
+    items: [
+  { icon: 'davinci.svg', language: 'DaVinci' },
+  { icon: 'photoshop.png', language: 'Photoshop' },
+      { icon: 'sony.svg', language: 'Sony' },
+    ],
+  },
+  {
+    label: 'Networking',
+    items: [
+  { icon: 'mikrotik.svg', language: 'Mikrotik' },
+  { icon: 'cisco.svg', language: 'Cisco' },
+  { icon: 'ruijie.webp', language: 'Ruijie' },
+    ],
+  },
+  {
+    label: '3D & Graphics',
+    items: [
+      { icon: 'blender.svg', language: 'Blender' },
+    ],
+  },
 ];
 
 export default function FullWidthTabs() {
@@ -294,6 +316,11 @@ export default function FullWidthTabs() {
         >
           <TabPanel value={value} index={0} dir={theme.direction}>
             <div className="container mx-auto flex justify-center items-center overflow-hidden">
+              {projects.length === 0 ? (
+                <div className="py-10 text-center w-full">
+                  <p className="text-lg md:text-xl dark:text-gray-300 text-lighttext/80">Coming soon</p>
+                </div>
+              ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-5">
                 {displayedProjects.map((project, index) => (
                   <div
@@ -311,8 +338,9 @@ export default function FullWidthTabs() {
                   </div>
                 ))}
               </div>
+              )}
             </div>
-            {projects.length > initialItems && (
+            {projects.length > 0 && projects.length > initialItems && (
               <div className="mt-6 w-full flex justify-start">
                 <ToggleButton
                   onClick={() => toggleShowMore('projects')}
@@ -324,6 +352,11 @@ export default function FullWidthTabs() {
 
           <TabPanel value={value} index={1} dir={theme.direction}>
             <div className="container mx-auto flex justify-center items-center overflow-hidden">
+              {certificates.length === 0 ? (
+                <div className="py-10 text-center w-full">
+                  <p className="text-lg md:text-xl dark:text-gray-300 text-lighttext/80">Coming soon</p>
+                </div>
+              ) : (
               <div className="grid grid-cols-1 md:grid-cols-3 md:gap-5 gap-4">
                 {displayedCertificates.map((certificate, index) => (
                   <div
@@ -335,8 +368,9 @@ export default function FullWidthTabs() {
                   </div>
                 ))}
               </div>
+              )}
             </div>
-            {certificates.length > initialItems && (
+            {certificates.length > 0 && certificates.length > initialItems && (
               <div className="mt-6 w-full flex justify-start">
                 <ToggleButton
                   onClick={() => toggleShowMore('certificates')}
@@ -347,18 +381,26 @@ export default function FullWidthTabs() {
           </TabPanel>
 
           <TabPanel value={value} index={2} dir={theme.direction}>
-            <div className="container mx-auto flex justify-center items-center overflow-hidden pb-[5%]">
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8 gap-5">
-                {techStacks.map((stack, index) => (
-                  <div
-                    key={index}
-                    data-aos={index % 3 === 0 ? "fade-up-right" : index % 3 === 1 ? "fade-up" : "fade-up-left"}
-                    data-aos-duration={index % 3 === 0 ? "1000" : index % 3 === 1 ? "1200" : "1000"}
-                  >
-                    <TechStackIcon TechStackIcon={stack.icon} Language={stack.language} />
+            <div className="container mx-auto overflow-hidden pb-[5%] space-y-8">
+              {techGroups.map((group, gIdx) => (
+                <section key={group.label}>
+                  <h3 className="text-base md:text-lg font-semibold mb-4 dark:text-gray-200 text-lighttext flex items-center gap-2" data-aos="fade-up" data-aos-delay={100 + gIdx*50}>
+                    <span className="inline-block w-2 h-2 rounded-full dark:bg-[#6366f1] bg-[var(--accent)]"></span>
+                    {group.label}
+                  </h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8 gap-5">
+                    {group.items.map((stack, index) => (
+                      <div
+                        key={`${group.label}-${stack.language}`}
+                        data-aos={index % 3 === 0 ? 'fade-up-right' : index % 3 === 1 ? 'fade-up' : 'fade-up-left'}
+                        data-aos-duration={index % 3 === 0 ? '1000' : index % 3 === 1 ? '1200' : '1000'}
+                      >
+                        <TechStackIcon TechStackIcon={stack.icon} Language={stack.language} />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </section>
+              ))}
             </div>
           </TabPanel>
         </SwipeableViews>

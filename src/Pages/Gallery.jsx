@@ -51,6 +51,9 @@ export default function Gallery() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState(null); // for preview { ...item, _key }
+  const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : true;
+  const initialItems = isMobile ? 1 : 3;
+  const [showAll, setShowAll] = useState(false);
   // Premium glow intensity (0.0 - 0.8). Lower on Save-Data or reduced motion
   const computeGlow = () => {
     let v = 0.4;
@@ -93,6 +96,10 @@ export default function Gallery() {
     }, 50);
     return () => clearTimeout(t);
   }, [items, value]);
+
+  useEffect(() => {
+    try { AOS.refresh(); } catch {}
+  }, [showAll]);
 
   const fetchGallery = useCallback(async () => {
     try {
@@ -202,8 +209,18 @@ export default function Gallery() {
                     ))}
                   </div>
                 ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {(grouped[t.key] || []).map((item, i) => (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 w-full">
+                  {(() => {
+                    const list = grouped[t.key] || [];
+                    const displayed = showAll ? list : list.slice(0, initialItems);
+                    if (list.length === 0) {
+                      return (
+                        <div className="py-10 text-center w-full">
+                          <p className="text-lg md:text-xl dark:text-gray-300 text-lighttext/80">Coming soon</p>
+                        </div>
+                      );
+                    }
+                    return displayed.map((item, i) => (
                     <div
                       key={item.id || i}
                       data-aos={i % 3 === 0 ? "fade-up-right" : i % 3 === 1 ? "fade-up" : "fade-up-left"}
@@ -229,9 +246,9 @@ export default function Gallery() {
                               src={item.image_url}
                               alt={item.description || "Gallery image"}
                               className="h-full w-full object-cover"
-                              loading={i < 3 ? "eager" : "lazy"}
+                              loading={i < initialItems ? "eager" : "lazy"}
                               decoding="async"
-                              {...(i < 3 ? { fetchPriority: 'high' } : {})}
+                              {...(i < initialItems ? { fetchPriority: 'high' } : {})}
                               width={w}
                               height={h}
                               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -246,10 +263,27 @@ export default function Gallery() {
                         )}
                       </button>
                     </div>
-                  ))}
+                    ));
+                  })()}
                 </div>
                 )}
               </div>
+              {(() => {
+                const list = grouped[t.key] || [];
+                return list.length > initialItems ? (
+                  <div className="mt-6 w-full flex justify-start px-[5%]">
+                    <button
+                      onClick={() => setShowAll((s) => !s)}
+                      className="px-3 py-1.5 dark:text-slate-300 text-lighttext dark:hover:text-white hover:text-lighttext text-sm font-medium transition-all duration-300 ease-in-out flex items-center gap-2 dark:bg-white/5 bg-lightaccent/10 dark:hover:bg-white/10 hover:bg-lightaccent/15 rounded-md border dark:border-white/10 border-lightaccent/30 dark:hover:border-white/20 hover:border-lightaccent/50 backdrop-blur-sm group relative overflow-hidden"
+                    >
+                      <span className="relative z-10 flex items-center gap-2">
+                        {showAll ? 'See Less' : 'See more...'}
+                      </span>
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full dark:bg-purple-500/50 bg-[var(--accent)]/60"></span>
+                    </button>
+                  </div>
+                ) : null;
+              })()}
             </TabPanel>
           ))}
         </SwipeableViews>

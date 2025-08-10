@@ -38,7 +38,14 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
                 // Try to start audio when welcome completes
                 // We call via a microtask to ensure provider is mounted
                 setTimeout(() => {
-                  try { (window.__audioPlayHook && window.__audioPlayHook()); } catch {}
+                  try {
+                    const acked = (()=>{ try { return localStorage.getItem('audio_ack') === '1'; } catch { return false; }})();
+                    if (!acked) return; // show prompt; wait for first click
+                    const ua = navigator.userAgent || '';
+                    const isMobile = /Mobi|Android|iPhone|iPad|iPod|Windows Phone/i.test(ua);
+                    if (!isMobile && window.__audioUnmuteHook) window.__audioUnmuteHook();
+                    if (window.__audioPlayHook) window.__audioPlayHook();
+                  } catch {}
                 }, 0);
               } catch {}
             }} />
@@ -69,7 +76,7 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
           <Suspense fallback={<GallerySkeleton />}> 
             <Gallery />
           </Suspense>
-          <DeferMount rootMargin="1100px">
+          <DeferMount rootMargin="1100px" mountAfterMs={800}>
             <Suspense fallback={null}>
               <ContactPage />
             </Suspense>
@@ -78,7 +85,7 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
           <footer>
             <center>
               <hr className="my-3 border-gray-400 opacity-15 sm:mx-auto lg:my-6 text-center" />
-              <span className="block text-sm pb-4 text-gray-500 text-center dark:text-gray-400">
+              <span className="block text-sm text-gray-500 text-center dark:text-gray-400">
                 © 2025{" "}
                 <a href="https://flowbite.com/" className="hover:underline">
                   Zhafran™
@@ -114,7 +121,7 @@ const ProjectPageLayout = () => (
     <footer>
       <center>
         <hr className="my-3 border-gray-400 opacity-15 sm:mx-auto lg:my-6 text-center" />
-        <span className="block text-sm pb-4 text-gray-500 text-center dark:text-gray-400">
+  <span className="block text-sm text-gray-500 text-center dark:text-gray-400">
           © 2023{" "}
           <a href="https://flowbite.com/" className="hover:underline">
             zhafran™
