@@ -131,9 +131,11 @@ export default function FullWidthTabs() {
   const initialItems = isMobile ? 4 : 6;
 
   useEffect(() => {
-    AOS.init({
-      once: false,
-    });
+    AOS.init({ once: true, offset: 0 });
+    const t = setTimeout(() => {
+      try { AOS.refreshHard(); } catch {}
+    }, 100);
+    return () => clearTimeout(t);
   }, []);
 
 
@@ -196,7 +198,7 @@ export default function FullWidthTabs() {
 
   // Sisa dari komponen (return statement) tidak ada perubahan
   return (
-  <div className="md:px-[10%] px-[5%] w-full sm:mt-0 mt-[3rem] dark:bg-[#030014] bg-[var(--bg)] overflow-hidden" id="Portofolio">
+  <div className="md:px-[10%] px-[5%] w-full sm:mt-0 mt-[3rem] overflow-hidden" id="Portofolio" style={{ contentVisibility: 'auto', containIntrinsicSize: '1200px' }}>
       {/* Header section - unchanged */}
       <div className="text-center pb-10" data-aos="fade-up" data-aos-duration="1000">
         <h2 className="inline-block text-3xl md:text-5xl font-bold text-center mx-auto text-transparent bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)]">
@@ -209,31 +211,21 @@ export default function FullWidthTabs() {
       </div>
 
       <Box sx={{ width: "100%" }}>
-        {/* AppBar and Tabs section - unchanged */}
-        <AppBar
-          position="static"
-          elevation={0}
-          sx={{
-            bgcolor: "transparent",
-            border: theme.palette.mode === 'dark' ? "1px solid rgba(255, 255, 255, 0.1)" : "1px solid rgba(0,0,0,0.06)",
-            borderRadius: "20px",
-            position: "relative",
-            overflow: "hidden",
-          }}
-          className="md:px-4"
-        >
-          {/* theme-aware overlay to avoid yellow in dark mode */}
-          <Box
-            className="absolute inset-0 rounded-[20px] pointer-events-none backdrop-blur-md"
-            sx={{ 
-              zIndex: 0,
-              background: theme.palette.mode === 'dark'
-                ? 'linear-gradient(180deg, rgba(99,102,241,0.10) 0%, rgba(168,85,247,0.10) 100%)'
-                : 'linear-gradient(180deg, rgba(255,184,35,0.14) 0%, rgba(112,138,88,0.12) 100%)'
+        {/* Themed wrapper controls border/overlay via Tailwind to react to html.dark */}
+  <Box className="portfolio-tabs relative border dark:border-white/10 border-lightaccent/30 rounded-[20px] overflow-hidden md:px-4">
+          {/* Overlay: yellow-ish in light, purple in dark */}
+          <Box className="absolute inset-0 rounded-[20px] pointer-events-none bg-gradient-to-b from-[var(--accent)]/[0.12] to-[var(--muted)]/[0.10] dark:from-[#6366f1]/10 dark:to-[#a855f7]/10 backdrop-blur-md" sx={{ zIndex: 0 }} />
+          <AppBar
+            position="static"
+            elevation={0}
+            sx={{
+              bgcolor: "transparent",
+              boxShadow: "none",
+              backgroundColor: "transparent",
             }}
-          />
-          {/* Tabs remain unchanged */}
-          <Tabs
+          >
+            {/* Tabs remain unchanged */}
+            <Tabs
             value={value}
             onChange={handleChange}
             textColor="secondary"
@@ -253,7 +245,7 @@ export default function FullWidthTabs() {
                 borderRadius: "12px",
                 "&:hover": {
                   color: "#ffffff",
-                  backgroundColor: "rgba(99,102,241,0.12)",
+                  backgroundColor: "var(--tab-hover-bg)",
                   transform: "translateY(-2px)",
                   "& .lucide": {
                     transform: "scale(1.1) rotate(5deg)",
@@ -261,10 +253,10 @@ export default function FullWidthTabs() {
                 },
                 "&.Mui-selected": {
                   color: "#fff",
-                  background: "linear-gradient(135deg, rgba(99,102,241,0.25), rgba(168,85,247,0.25))",
-                  boxShadow: "0 4px 15px -3px rgba(99,102,241,0.25)",
+                  background: "var(--tab-selected-bg)",
+                  boxShadow: "var(--tab-selected-shadow)",
                   "& .lucide": {
-                    color: "#6366f1",
+                    color: "var(--tab-icon-selected)",
                   },
                 },
               },
@@ -291,8 +283,9 @@ export default function FullWidthTabs() {
               label="Tech Stack"
               {...a11yProps(2)}
             />
-          </Tabs>
-        </AppBar>
+            </Tabs>
+          </AppBar>
+        </Box>
 
         <SwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}

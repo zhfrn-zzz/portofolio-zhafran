@@ -45,7 +45,7 @@ const ContactPage = () => {
 
     try {
       // Ganti dengan email Anda di FormSubmit
-      const formSubmitUrl = 'https://formsubmit.co/ekizulfarrachman@gmail.com';
+      const formSubmitUrl = 'https://formsubmit.co/zhafranant@gmail.com';
       
       // Siapkan data form untuk FormSubmit
       const submitData = new FormData();
@@ -108,12 +108,12 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="px-[5%] sm:px-[5%] lg:px-[10%] " >
+  <div className="px-[5%] sm:px-[5%] lg:px-[10%] " style={{ contentVisibility: 'auto', containIntrinsicSize: '1000px' }}>
       <div className="text-center lg:mt-[5%] mt-10 mb-2 sm:px-0 px-[5%]">
         <h2
           data-aos="fade-down"
           data-aos-duration="1000"
-          className="inline-block text-3xl md:text-5xl font-bold text-center mx-auto text-transparent bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)]"
+          className="inline-block text-3xl md:text-5xl font-bold text-center mx-auto text-white dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7]"
         >
           Hubungi Saya
         </h2>
@@ -136,7 +136,7 @@ const ContactPage = () => {
           >
             <div className="flex justify-between items-start mb-8">
               <div>
-                <h2 className="text-4xl font-bold mb-3 text-transparent bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-gradient-to-r from-lighttext to-lightmuted">
+                <h2 className="text-4xl font-bold mb-3 text-white dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7]">
                   Hubungi
                 </h2>
                 <p className="dark:text-gray-400 text-lighttext/80">

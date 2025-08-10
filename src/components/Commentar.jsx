@@ -387,7 +387,7 @@ const Komentar = () => {
                     <div className="p-2 rounded-xl dark:bg-indigo-500/20 bg-[var(--accent)]/20">
                         <MessageCircle className="w-6 h-6 dark:text-indigo-400 text-[var(--accent)]" />
                     </div>
-                    <h3 className="text-xl font-semibold dark:text-white text-white">
+                    <h3 className="text-xl font-semibold text-white dark:text-white">
                         Comments <span className="dark:text-indigo-400 text-[var(--accent)]">({totalComments})</span>
                     </h3>
                 </div>

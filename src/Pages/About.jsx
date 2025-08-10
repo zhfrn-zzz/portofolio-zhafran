@@ -55,6 +55,11 @@ const ProfileImage = memo(() => (
             alt="Profile"
             className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
             loading="lazy"
+            decoding="async"
+            fetchPriority="low"
+            width="320"
+            height="320"
+            sizes="(max-width: 640px) 18rem, (max-width: 768px) 20rem, 20rem"
           />
 
           {/* Advanced hover effects - desktop only */}
@@ -187,6 +192,7 @@ const AboutPage = () => {
     <div
       className="h-auto pb-[10%] dark:text-white text-lighttext overflow-hidden px-[5%] sm:px-[5%] lg:px-[10%] mt-10 sm-mt-0" 
       id="About"
+      style={{ contentVisibility: 'auto', containIntrinsicSize: '1200px' }}
     >
       <Header />
 

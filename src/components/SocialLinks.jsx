@@ -25,7 +25,7 @@ const socialLinks = [
     displayName: "Instagram",
     subText: "@ekizr._",
     icon: Instagram,
-    url: "https://www.instagram.com/ekizr._/?hl=id",
+    url: "https://www.instagram.com/zhfrn_zzz/",
     color: "#E4405F",
     gradient: "from-[#833AB4] via-[#E4405F] to-[#FCAF45]",
   },
@@ -43,7 +43,7 @@ const socialLinks = [
     displayName: "Github",
     subText: "@EkiZR",
     icon: Github,
-    url: "https://github.com/EkiZR",
+    url: "https://github.com/zhfrn-zzz",
     color: "#ffffff",
     gradient: "from-[#333] to-[#24292e]",
   },
@@ -107,12 +107,15 @@ const SocialLinks = () => {
   }, []);
 
   return (
-    <div className="w-full rounded-2xl p-6 py-8 backdrop-blur-xl dark:bg-gradient-to-br dark:from-white/10 dark:to-white/5 bg-lightaccent/10 border dark:border-white/10 border-lightaccent/30">
+  <div className="w-full rounded-2xl p-6 py-8 backdrop-blur-xl transition-colors duration-300 
+          dark:bg-gradient-to-br dark:from-[#6366f1]/10 dark:via-[#7c3aed]/10 dark:to-[#a855f7]/10 
+          bg-gradient-to-br from-[var(--accent)]/10 via-[var(--muted)]/10 to-[var(--text)]/10 
+          border dark:border-white/10 border-lightaccent/30">
       <h3
-        className="text-xl font-semibold mb-6 flex items-center gap-2 bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)]"
+        className="text-xl font-semibold mb-6 flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)] dark:bg-gradient-to-r dark:from-[#6366f1] dark:via-[#7c3aed] dark:to-[#a855f7]"
         data-aos="fade-down"
       >
-        <span className="inline-block w-8 h-1 rounded-full dark:bg-indigo-500" style={{ background: 'linear-gradient(90deg, var(--text), var(--accent))' }}></span>
+        <span className="inline-block w-8 h-1 rounded-full bg-gradient-to-r from-lighttext to-lightaccent dark:from-[#6366f1] dark:to-[#a855f7]"></span>
         Connect With Me
       </h3>
 
@@ -123,7 +126,7 @@ const SocialLinks = () => {
           target="_blank"
           rel="noopener noreferrer"
           className="group relative flex items-center justify-between p-4 rounded-lg 
-                     dark:bg-white/5 bg-lightaccent/15 border dark:border-white/10 border-lightaccent/30 overflow-hidden
+                     dark:bg-white/5 bg-white/60 border dark:border-white/10 border-lightaccent/30 overflow-hidden
                      dark:hover:border-white/20 hover:border-lightaccent/50 transition-all duration-500"
           data-aos="fade-up"
           data-aos-delay="100" 
@@ -185,7 +188,7 @@ const SocialLinks = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="group relative flex items-center gap-3 p-4 rounded-xl 
-                               dark:bg-white/5 bg-lightaccent/15 border dark:border-white/10 border-lightaccent/30 overflow-hidden
+                               dark:bg-white/5 bg-white/60 border dark:border-white/10 border-lightaccent/30 overflow-hidden
                                dark:hover:border-white/20 hover:border-lightaccent/50 transition-all duration-500"
               data-aos="fade-up" 
               data-aos-delay={200 + index * 100} 
@@ -242,7 +245,7 @@ const SocialLinks = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="group relative flex items-center gap-3 p-4 rounded-xl 
-                               dark:bg-white/5 bg-lightaccent/15 border dark:border-white/10 border-lightaccent/30 overflow-hidden
+                               dark:bg-white/5 bg-white/60 border dark:border-white/10 border-lightaccent/30 overflow-hidden
                                dark:hover:border-white/20 hover:border-lightaccent/50 transition-all duration-500"
               data-aos="fade-up" 
               data-aos-delay={400 + index * 100}

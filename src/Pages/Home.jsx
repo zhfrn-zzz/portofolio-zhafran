@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback, memo } from "react"
+import React, { useState, useEffect, useCallback, memo, lazy, Suspense } from "react"
 import { Github, Linkedin, Mail, ExternalLink, Instagram, Sparkles } from "lucide-react"
 // Removed Lottie, replaced with 3D Lanyard
-import Lanyard3D from "../components/Lanyard3D";
+const Lanyard3D = lazy(() => import("../components/Lanyard3D"));
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
@@ -81,9 +81,9 @@ const PAUSE_DURATION = 2000;
 const WORDS = ["Network & Telecom Student", "Tech Enthusiast", "Film Maker"];
 const TECH_STACK = ["React", "Javascript", "Node.js", "Tailwind"];
 const SOCIAL_LINKS = [
-  { icon: Github, link: "https://github.com/EkiZR" },
+  { icon: Github, link: "https://github.com/zhfrn-zzz" },
   { icon: Linkedin, link: "https://www.linkedin.com/in/ekizr/" },
-  { icon: Instagram, link: "https://www.instagram.com/ekizr._/?hl=id" }
+  { icon: Instagram, link: "https://www.instagram.com/zhfrn_zzz/" }
 ];
 
 const Home = () => {
@@ -94,24 +94,39 @@ const Home = () => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
 
-  // Optimize AOS initialization
+  // Optimize AOS initialization: defer to idle so it doesn't block LCP
   useEffect(() => {
     const initAOS = () => {
-      AOS.init({
-        once: true,
-        offset: 10,
-       
-      });
+      AOS.init({ once: true, offset: 10 });
     };
-
-    initAOS();
-    window.addEventListener('resize', initAOS);
-    return () => window.removeEventListener('resize', initAOS);
+    const idle = (cb) => ('requestIdleCallback' in window) ? requestIdleCallback(cb, { timeout: 1200 }) : setTimeout(cb, 300);
+    const idleId = idle(initAOS);
+    const onResize = () => idle(initAOS);
+    window.addEventListener('resize', onResize);
+    return () => {
+      if ('cancelIdleCallback' in window) try { cancelIdleCallback(idleId); } catch {}
+      window.removeEventListener('resize', onResize);
+    };
   }, []);
 
   useEffect(() => {
     setIsLoaded(true);
     return () => setIsLoaded(false);
+  }, []);
+
+  // Prefetch lanyard textures only on desktop to avoid mobile cost
+  useEffect(() => {
+    const isDesktop = typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches; // tailwind lg
+    if (!isDesktop) return;
+    const urls = ["/depan.png", "/belakang.png"];
+    const imgs = urls.map((u) => {
+      const img = new Image();
+      img.decoding = "async";
+      img.loading = "eager";
+      img.src = u;
+      return img;
+    });
+    return () => imgs.forEach((img) => { img.src = ""; });
   }, []);
 
   // Optimize typing effect
@@ -168,10 +183,8 @@ const Home = () => {
                 </div>
 
                 {/* Description */}
-                <p className="text-base md:text-lg dark:text-gray-400 text-lighttext/80 max-w-xl leading-relaxed font-light"
-                  data-aos="fade-up"
-                  data-aos-delay="1000">
-                  Menciptakan dan membuat perangkat Iot yang inovatif dan menarik, menggunakan ESP 32.
+                <p className="text-base md:text-lg dark:text-gray-400 text-lighttext/80 max-w-[38ch] sm:max-w-xl leading-relaxed font-light" style={{ containIntrinsicSize: '120px', contentVisibility: 'auto' }}>
+                  Menciptakan dan membuat perangkat Iot yang inovatif dan menarik, menggunakan ESP 32.  
                 </p>
 
                 {/* Tech Stack */}
@@ -197,7 +210,7 @@ const Home = () => {
             </div>
 
             {/* Right Column - 3D Lanyard */}
-            <div className="w-full py-[10%] sm:py-0 lg:w-1/2 h-auto lg:h-[600px] xl:h-[750px] relative flex items-center justify-center order-2 lg:order-2 mt-8 lg:mt-0"
+            <div className="w-full py-[10%] sm:py-0 lg:w-1/2 h-auto lg:h-[600px] xl:h-[750px] relative hidden lg:flex items-center justify-center order-2 lg:order-2 mt-8 lg:mt-0"
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
               data-aos="fade-left"
@@ -209,7 +222,11 @@ const Home = () => {
                 </div>
 
                 <div className={`relative lg:left-12 z-10 w-full h-[420px] sm:h-[520px] md:h-[560px] lg:h-[600px] opacity-90 transform transition-transform duration-500 ${isHovering ? "scale-105" : "scale-100"}`}>
-                  <Lanyard3D frontUrl={frontUrl} backUrl={backUrl} strapColor="#1f1f1f" showGloss={true} />
+                  <Suspense fallback={
+                    <div className="w-full h-full rounded-2xl border dark:border-white/10 border-lightaccent/30 bg-gradient-to-b from-black/10 to-black/5 dark:from-white/5 dark:to-white/0 animate-pulse" aria-label="Loading 3D preview" />
+                  }>
+                    <Lanyard3D frontUrl={frontUrl} backUrl={backUrl} strapColor="#1f1f1f" showGloss={true} />
+                  </Suspense>
                 </div>
 
                 <div className={`absolute inset-0 pointer-events-none transition-all duration-700 ${
