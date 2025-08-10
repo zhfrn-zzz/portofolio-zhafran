@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useCallback } from "react";
+                                                                                                                                                                                import React, { useEffect, useState, useCallback } from "react";
 import { supabase } from "../supabase";
 import PropTypes from "prop-types";
-import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
@@ -233,10 +232,10 @@ export default function FullWidthTabs() {
       </div>
 
       <Box sx={{ width: "100%" }}>
-        {/* Themed wrapper controls border/overlay via Tailwind to react to html.dark */}
-  <Box className="portfolio-tabs relative border dark:border-white/10 border-lightaccent/30 rounded-[20px] overflow-hidden md:px-4">
-          {/* Overlay: yellow-ish in light, purple in dark */}
-          <Box className="absolute inset-0 rounded-[20px] pointer-events-none bg-gradient-to-b from-[var(--accent)]/[0.12] to-[var(--muted)]/[0.10] dark:from-[#6366f1]/10 dark:to-[#a855f7]/10 backdrop-blur-md" sx={{ zIndex: 0 }} />
+        {/* Themed wrapper: move gradient/background to container so it doesn't sit above content */}
+        <Box
+          className="portfolio-tabs relative border dark:border-white/10 border-lightaccent/30 rounded-[20px] overflow-hidden md:px-4 bg-gradient-to-b from-[var(--accent)]/[0.12] to-[var(--muted)]/[0.10] dark:from-[#6366f1]/10 dark:to-[#a855f7]/10 backdrop-blur-md"
+        >
           <AppBar
             position="static"
             elevation={0}
@@ -309,11 +308,7 @@ export default function FullWidthTabs() {
           </AppBar>
         </Box>
 
-        <SwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={value}
-          onChangeIndex={setValue}
-        >
+          {/* Render TabPanels directly without swipeable-views */}
           <TabPanel value={value} index={0} dir={theme.direction}>
             <div className="container mx-auto flex justify-center items-center overflow-hidden">
               {projects.length === 0 ? (
@@ -403,7 +398,7 @@ export default function FullWidthTabs() {
               ))}
             </div>
           </TabPanel>
-        </SwipeableViews>
+        {/* End TabPanels */}
       </Box>
     </div>
   );

@@ -6,7 +6,6 @@ import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import SwipeableViews from "react-swipeable-views";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Image as ImageIcon, RectangleVertical, Square, X } from "lucide-react";
@@ -196,7 +195,6 @@ export default function Gallery() {
           </AppBar>
         </Box>
 
-        <SwipeableViews axis={theme.direction === "rtl" ? "x-reverse" : "x"} index={value} onChangeIndex={setValue}>
           {TABS.map((t, idx) => (
             <TabPanel key={t.key} value={value} index={idx} dir={theme.direction}>
               <div className="container mx-auto flex justify-center items-center overflow-hidden pb-[5%]">
@@ -286,7 +284,7 @@ export default function Gallery() {
               })()}
             </TabPanel>
           ))}
-        </SwipeableViews>
+  {/* End TabPanels without swipe */}
       </Box>
 
       <AnimatePresence>
