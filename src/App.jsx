@@ -13,6 +13,7 @@ const Gallery = lazy(() => import("./Pages/Gallery"));
 const ContactPage = lazy(() => import("./Pages/Contact"));
 const ProjectDetails = lazy(() => import("./components/ProjectDetail"));
 const WelcomeScreen = lazy(() => import("./Pages/WelcomeScreen"));
+const ComingSoon = lazy(() => import("./Pages/ComingSoon"));
 import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from './components/ThemeProvider';
 import { AudioProvider, useAudio } from './components/AudioProvider';
@@ -149,6 +150,7 @@ function App() {
     <Routes>
   <Route path="/" element={<LandingPage showWelcome={showWelcome} setShowWelcome={setShowWelcome} />} />
         <Route path="/project/:id" element={<ProjectPageLayout />} />
+  <Route path="/coming-soon" element={<Suspense fallback={null}><ComingSoon /></Suspense>} />
         <Route path="*" element={<Suspense fallback={null}><NotFoundPage /></Suspense>} /> {/* Ini route 404 */}
       </Routes>
       </AudioProvider>
