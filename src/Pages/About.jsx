@@ -140,7 +140,9 @@ const AboutPage = () => {
   useEffect(() => {
     const initAOS = () => {
       AOS.init({
-        once: false, 
+        once: false,
+        mirror: true,
+        offset: 0,
       });
     };
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { supabase } from "../supabase";
 import { useTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
@@ -49,16 +50,41 @@ export default function Gallery() {
   const [value, setValue] = useState(0);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selected, setSelected] = useState(null); // for preview
+  const [selected, setSelected] = useState(null); // for preview { ...item, _key }
+  // Premium glow intensity (0.0 - 0.8). Lower on Save-Data or reduced motion
+  const computeGlow = () => {
+    let v = 0.4;
+    try {
+      const m = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (m) v = 0.25;
+      const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (conn?.saveData) v = 0.2;
+    } catch {}
+    return v;
+  };
+  const [glowOpacity, setGlowOpacity] = useState(computeGlow());
 
   useEffect(() => {
-    AOS.init({ once: true, offset: 0 });
+    AOS.init({ once: false, offset: 0, mirror: true });
     // Ensure initial positions are computed after layout
     const t = setTimeout(() => {
       try { AOS.refreshHard(); } catch {}
     }, 100);
     return () => clearTimeout(t);
   }, []);
+
+  // Modal UX: close on Escape, lock scroll while open
+  useEffect(() => {
+    if (!selected) return;
+    const onKey = (e) => { if (e.key === 'Escape') setSelected(null); };
+    document.addEventListener('keydown', onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [selected]);
 
   // Refresh AOS when items arrive or when tab changes
   useEffect(() => {
@@ -185,7 +211,7 @@ export default function Gallery() {
                       data-aos-offset="0"
                     >
                       <button
-                        onClick={() => setSelected(item)}
+                        onClick={() => setSelected({ ...item, _key: item.id ?? i })}
                         className={`group relative w-full overflow-hidden rounded-2xl border dark:border-white/10 border-lightaccent/30 dark:bg-white/5 bg-white/60 hover:dark:border-white/20 hover:border-lightaccent/50 transition-all duration-500 hover:scale-[1.01] ${ratioClass(
                           t.key
                         )}`}
@@ -197,7 +223,9 @@ export default function Gallery() {
                           if (ratio === '9_16') { w = 540; h = 960; }
                           if (ratio === '1_1') { w = 800; h = 800; }
                           return (
-                            <img
+                            <motion.img
+                              layoutId={`photo-${item.id ?? i}`}
+                              transition={{ type: 'spring', stiffness: 400, damping: 40 }}
                               src={item.image_url}
                               alt={item.description || "Gallery image"}
                               className="h-full w-full object-cover"
@@ -227,37 +255,67 @@ export default function Gallery() {
         </SwipeableViews>
       </Box>
 
-      {selected && (
-        <div
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60"
-          onClick={() => setSelected(null)}
-        >
-          <div
-            className="relative rounded-2xl overflow-hidden border dark:border-white/10 border-lightaccent/30 backdrop-blur-sm max-w-[92vw] md:max-w-[85vw] lg:max-w-[75vw]"
-            onClick={(e) => e.stopPropagation()}
+      <AnimatePresence>
+        {selected && (
+          <motion.div
+            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60"
+            onClick={() => setSelected(null)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           >
-            <button
-              className="absolute top-3 right-3 z-10 rounded-full p-2 dark:bg-white/10 bg-black/10 hover:scale-105 transition-all"
-              onClick={() => setSelected(null)}
-              aria-label="Close preview"
+            <motion.div
+              className="relative rounded-2xl overflow-hidden border dark:border-white/10 border-lightaccent/30 backdrop-blur-sm max-w-[92vw] md:max-w-[85vw] lg:max-w-[75vw]"
+              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0.98, scale: 0.98 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 30 }}
             >
-              <X className="w-5 h-5 text-white" />
-            </button>
-            <img
-              src={selected.image_url}
-              alt={selected.description || "Selected image"}
-              className="block w-auto h-auto max-w-[92vw] max-h-[75vh] mx-auto"
-              loading="eager"
-              decoding="async"
-            />
-            {selected.description && (
-              <div className="px-4 py-3 text-sm md:text-base dark:text-gray-200 text-white bg-black/40 border-t dark:border-white/10 border-lightaccent/30">
-                {selected.description}
+              <button
+                className="absolute top-3 right-3 z-10 rounded-full p-2 dark:bg-white/10 bg-black/10 hover:scale-105 transition-all"
+                onClick={() => setSelected(null)}
+                aria-label="Close preview"
+              >
+                <X className="w-5 h-5 text-white" />
+              </button>
+              {/* Ambient glow behind the expanded image (theme-aware) */}
+              <div aria-hidden className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center" style={{ opacity: glowOpacity }}>
+                {/* Dark theme glow: indigo/purple */}
+                <div
+                  className="hidden dark:block w-[70vw] max-w-[900px] h-[50vh] max-h-[520px] rounded-full blur-3xl"
+                  style={{
+                    background:
+                      'radial-gradient(circle at 50% 50%, rgba(99,102,241,0.42), rgba(168,85,247,0.22), rgba(0,0,0,0) 60%)',
+                  }}
+                />
+                {/* Light theme glow: use accent/muted-like hues */}
+                <div
+                  className="block dark:hidden w-[70vw] max-w-[900px] h-[50vh] max-h-[520px] rounded-full blur-3xl"
+                  style={{
+                    background:
+                      'radial-gradient(circle at 50% 50%, rgba(255,184,35,0.28), rgba(112,138,88,0.16), rgba(0,0,0,0) 60%)',
+                  }}
+                />
               </div>
-            )}
-          </div>
-        </div>
-      )}
+              <motion.img
+                layoutId={`photo-${selected._key}`}
+                src={selected.image_url}
+                alt={selected.description || "Selected image"}
+                className="relative z-[1] block w-auto h-auto max-w-[92vw] max-h-[75vh] mx-auto shadow-2xl drop-shadow-[0_25px_80px_rgba(99,102,241,0.35)] ring-1 ring-black/10 dark:ring-white/10 rounded-xl"
+                loading="eager"
+                decoding="async"
+                transition={{ type: 'spring', stiffness: 260, damping: 30 }}
+              />
+              {selected.description && (
+                <div className="px-4 py-3 text-sm md:text-base dark:text-gray-200 text-white bg-black/40 border-t dark:border-white/10 border-lightaccent/30">
+                  {selected.description}
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -23,7 +23,7 @@ const socialLinks = [
   {
     name: "Instagram",
     displayName: "Instagram",
-    subText: "@ekizr._",
+    subText: "@zhfrn_zzz._",
     icon: Instagram,
     url: "https://www.instagram.com/zhfrn_zzz/",
     color: "#E4405F",
@@ -41,7 +41,7 @@ const socialLinks = [
   {
     name: "GitHub",
     displayName: "Github",
-    subText: "@EkiZR",
+    subText: "@zhfrn-zzz",
     icon: Github,
     url: "https://github.com/zhfrn-zzz",
     color: "#ffffff",
@@ -102,7 +102,8 @@ const SocialLinks = () => {
   useEffect(() => {
     AOS.init({
       offset: 10,
-     
+      once: false,
+      mirror: true,
     });
   }, []);
 

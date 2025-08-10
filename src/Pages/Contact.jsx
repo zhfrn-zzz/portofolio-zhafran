@@ -19,6 +19,8 @@ const ContactPage = () => {
   useEffect(() => {
     AOS.init({
       once: false,
+      mirror: true,
+      offset: 0,
     });
   }, []);
 

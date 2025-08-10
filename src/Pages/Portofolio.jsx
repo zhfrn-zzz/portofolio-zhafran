@@ -131,7 +131,7 @@ export default function FullWidthTabs() {
   const initialItems = isMobile ? 4 : 6;
 
   useEffect(() => {
-    AOS.init({ once: true, offset: 0 });
+    AOS.init({ once: false, offset: 0, mirror: true });
     const t = setTimeout(() => {
       try { AOS.refreshHard(); } catch {}
     }, 100);
