@@ -119,22 +119,12 @@ const StatCard = memo(({ icon: Icon, color, value, label, description, animation
 ));
 
 const AboutPage = () => {
-  // Memoized calculations
-  const { totalProjects, totalCertificates, YearExperience } = useMemo(() => {
-    const storedProjects = JSON.parse(localStorage.getItem("projects") || "[]");
-    const storedCertificates = JSON.parse(localStorage.getItem("certificates") || "[]");
-    
-    const startDate = new Date("2021-11-06");
-    const today = new Date();
-    const experience = today.getFullYear() - startDate.getFullYear() -
-      (today < new Date(today.getFullYear(), startDate.getMonth(), startDate.getDate()) ? 1 : 0);
-
-    return {
-      totalProjects: storedProjects.length,
-      totalCertificates: storedCertificates.length,
-      YearExperience: experience
-    };
-  }, []);
+  // Static stats (requested): totalProjects=1, totalCertificates=0, YearExperience=1
+  const { totalProjects, totalCertificates, YearExperience } = useMemo(() => ({
+    totalProjects: 1,
+    totalCertificates: 0,
+    YearExperience: 1,
+  }), []);
 
   // Optimized AOS initialization
   useEffect(() => {
@@ -249,7 +239,7 @@ const AboutPage = () => {
       </div>
 
             <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 lg:gap-4 lg:px-0 w-full">
-              <a href="https://drive.google.com/drive/folders/1BOm51Grsabb3zj6Xk27K-iRwI1zITcpo" className="w-full lg:w-auto">
+              <a href="/coming-soon" className="w-full lg:w-auto">
               <button 
                 data-aos="fade-up"
                 data-aos-duration="800"

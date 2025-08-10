@@ -15,7 +15,7 @@ const socialLinks = [
     displayName: "Let's Connect",
     subText: "on LinkedIn",
     icon: Linkedin,
-    url: "https://www.linkedin.com/in/ekizr/",
+  url: "/coming-soon",
     color: "#0A66C2",
     gradient: "from-[#0A66C2] to-[#0077B5]",
     isPrimary: true,
@@ -34,7 +34,7 @@ const socialLinks = [
     displayName: "Youtube",
     subText: "@eki zulfar",
     icon: Youtube,
-    url: "https://www.youtube.com/@eki_zulfar",
+  url: "/coming-soon",
     color: "#FF0000",
     gradient: "from-[#FF0000] to-[#CC0000]",
   },
@@ -88,7 +88,7 @@ const socialLinks = [
         </g>
       </svg>
     ),
-    url: "https://tiktok.com/@eki_zulfar",
+  url: "/coming-soon",
     color: "black",
     gradient: "from-[#000000] via-[#25F4EE] to-[#FE2C55]",
   },
@@ -124,8 +124,8 @@ const SocialLinks = () => {
         {/* LinkedIn - Primary Row */}
         <a
           href={linkedIn.url}
-          target="_blank"
-          rel="noopener noreferrer"
+          target={linkedIn.url.startsWith('/') ? undefined : "_blank"}
+          rel={linkedIn.url.startsWith('/') ? undefined : "noopener noreferrer"}
           className="group relative flex items-center justify-between p-4 rounded-lg 
                      dark:bg-white/5 bg-white/60 border dark:border-white/10 border-lightaccent/30 overflow-hidden
                      dark:hover:border-white/20 hover:border-lightaccent/50 transition-all duration-500"
@@ -182,12 +182,12 @@ const SocialLinks = () => {
 
         {/* Second Row - Instagram & YouTube */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {[instagram, youtube].map((link, index) => (
+      {[instagram, youtube].map((link, index) => (
             <a
               key={link.name}
               href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
+        target={link.url.startsWith('/') ? undefined : "_blank"}
+        rel={link.url.startsWith('/') ? undefined : "noopener noreferrer"}
               className="group relative flex items-center gap-3 p-4 rounded-xl 
                                dark:bg-white/5 bg-white/60 border dark:border-white/10 border-lightaccent/30 overflow-hidden
                                dark:hover:border-white/20 hover:border-lightaccent/50 transition-all duration-500"
@@ -239,12 +239,12 @@ const SocialLinks = () => {
 
         {/* Third Row - GitHub & TikTok */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {[github, tiktok].map((link, index) => (
+      {[github, tiktok].map((link, index) => (
             <a
               key={link.name}
               href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
+        target={link.url.startsWith('/') ? undefined : "_blank"}
+        rel={link.url.startsWith('/') ? undefined : "noopener noreferrer"}
               className="group relative flex items-center gap-3 p-4 rounded-xl 
                                dark:bg-white/5 bg-white/60 border dark:border-white/10 border-lightaccent/30 overflow-hidden
                                dark:hover:border-white/20 hover:border-lightaccent/50 transition-all duration-500"
