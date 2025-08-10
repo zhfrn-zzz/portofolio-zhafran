@@ -84,6 +84,19 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
                 </a>
                 . All Rights Reserved.
               </span>
+              <div className="text-sm text-gray-500 dark:text-gray-400 pb-6">
+                <p>Special Thanks and Credits To:</p>
+                <p>
+                  <a href="https://www.tiktok.com/@eki_zulfar" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                    @EkiZr (Website Framework)
+                  </a>
+                </p>
+                <p>
+                  <a href="https://www.tiktok.com/@sora.tune" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                    @sora.tune (Music)
+                  </a>
+                </p>
+              </div>
             </center>
           </footer>
         </div>
@@ -107,6 +120,19 @@ const ProjectPageLayout = () => (
           </a>
           . All Rights Reserved.
         </span>
+        <div className="text-sm text-gray-500 dark:text-gray-400 pb-6">
+          <p>Special Thanks and Credits To:</p>
+          <p>
+            <a href="https://www.tiktok.com/@eki_zulfar" target="_blank" rel="noopener noreferrer" className="hover:underline">
+              @EkiZr (Website Framework)
+            </a>
+          </p>
+          <p>
+            <a href="https://www.tiktok.com/@sora.tune" target="_blank" rel="noopener noreferrer" className="hover:underline">
+              @sora.tune (Music)
+            </a>
+          </p>
+        </div>
       </center>
     </footer>
   </>
