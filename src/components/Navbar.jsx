@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from './ThemeProvider';
-import { Menu, X } from "lucide-react";
+import { Menu, X, Volume2, VolumeX } from "lucide-react";
+import { useAudio } from './AudioProvider';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -9,6 +10,7 @@ const Navbar = () => {
     const { theme, toggle } = useTheme();
     const [animating, setAnimating] = useState(false);
     const [goingRight, setGoingRight] = useState(true);
+    const audio = useAudio();
     
     const navItems = [
         { href: "#Home", label: "Home" },
@@ -148,6 +150,14 @@ const Navbar = () => {
                                                     {/* subtle glow */}
                                                     <span className={`absolute inset-0 rounded-full pointer-events-none transition-opacity duration-700 ${theme === 'dark' ? 'opacity-20' : 'opacity-40'} bg-white`} style={{filter:'blur(10px)'}} />
                                                 </button>
+                                                {/* Audio Toggle */}
+                                                <button
+                                                    onClick={audio.toggleMute}
+                                                    aria-label={audio.muted ? 'Unmute music' : 'Mute music'}
+                                                    className="p-2 rounded-full border border-white/10 dark:text-[#e2d3fd] text-lighttext hover:text-white hover:bg-white/5 transition"
+                                                >
+                                                    {audio.muted ? <VolumeX className="w-5 h-5"/> : <Volume2 className="w-5 h-5"/>}
+                                                </button>
                     </div>
         
                     {/* Mobile Menu Button */}
@@ -172,6 +182,14 @@ const Navbar = () => {
                                                         }}
                                                         onAnimationEnd={() => setAnimating(false)}
                                                     />
+                                                </button>
+                                                {/* Audio toggle mobile */}
+                                                <button
+                                                    onClick={audio.toggleMute}
+                                                    aria-label={audio.muted ? 'Unmute music' : 'Mute music'}
+                                                    className="p-2 rounded-full border border-white/10 dark:text-[#e2d3fd] text-lighttext hover:text-white hover:bg-white/5 transition"
+                                                >
+                                                    {audio.muted ? <VolumeX className="w-5 h-5"/> : <Volume2 className="w-5 h-5"/>}
                                                 </button>
                         <button
                             onClick={() => setIsOpen(!isOpen)}

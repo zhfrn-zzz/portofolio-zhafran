@@ -15,6 +15,8 @@ const ProjectDetails = lazy(() => import("./components/ProjectDetail"));
 const WelcomeScreen = lazy(() => import("./Pages/WelcomeScreen"));
 import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from './components/ThemeProvider';
+import { AudioProvider, useAudio } from './components/AudioProvider';
+import AudioPrompt from './components/AudioPrompt';
 const NotFoundPage = lazy(() => import("./Pages/404"));
 import DeferMount from './components/DeferMount';
 
@@ -29,7 +31,16 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
   <AnimatePresence mode="wait">
         {showWelcome && (
           <Suspense fallback={null}>
-            <WelcomeScreen onLoadingComplete={() => setShowWelcome(false)} />
+            <WelcomeScreen onLoadingComplete={() => {
+              setShowWelcome(false);
+              try {
+                // Try to start audio when welcome completes
+                // We call via a microtask to ensure provider is mounted
+                setTimeout(() => {
+                  try { (window.__audioPlayHook && window.__audioPlayHook()); } catch {}
+                }, 0);
+              } catch {}
+            }} />
           </Suspense>
         )}
       </AnimatePresence>
@@ -107,11 +118,14 @@ function App() {
   return (
     <BrowserRouter>
       <ThemeProvider>
+  <AudioProvider>
+  <AudioPrompt />
     <Routes>
   <Route path="/" element={<LandingPage showWelcome={showWelcome} setShowWelcome={setShowWelcome} />} />
         <Route path="/project/:id" element={<ProjectPageLayout />} />
         <Route path="*" element={<Suspense fallback={null}><NotFoundPage /></Suspense>} /> {/* Ini route 404 */}
       </Routes>
+      </AudioProvider>
       </ThemeProvider>
     </BrowserRouter>
   );
