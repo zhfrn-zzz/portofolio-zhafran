@@ -18,29 +18,15 @@ import { ThemeProvider } from './components/ThemeProvider';
 const NotFoundPage = lazy(() => import("./Pages/404"));
 import DeferMount from './components/DeferMount';
 
-function shouldShowWelcome() {
-  try {
-    const nav = navigator;
-    const conn = nav.connection || nav.mozConnection || nav.webkitConnection;
-    const saveData = conn?.saveData || false;
-    const effective = conn?.effectiveType || '4g';
-    const downlink = conn?.downlink || 10;
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const seen = localStorage.getItem('seen_welcome') === '1';
-    if (seen) return false;
-    if (saveData || prefersReduced) return false;
-    if (['slow-2g', '2g', '3g'].includes(effective)) return false;
-    if (downlink < 1.5) return false;
-    return true;
-  } catch {
-    return true;
-  }
-}
+// Always show the Welcome Screen on first render of each page load.
+// Note: Previously this was gated by network heuristics and localStorage.
+// We simplify to ensure it always appears as requested.
+function shouldShowWelcome() { return true; }
 
 const LandingPage = ({ showWelcome, setShowWelcome }) => {
   return (
     <>
-      <AnimatePresence mode="wait">
+  <AnimatePresence mode="wait">
         {showWelcome && (
           <Suspense fallback={null}>
             <WelcomeScreen onLoadingComplete={() => setShowWelcome(false)} />
@@ -118,17 +104,11 @@ const ProjectPageLayout = () => (
 function App() {
   const [showWelcome, setShowWelcome] = useState(() => shouldShowWelcome());
 
-  React.useEffect(() => {
-    if (!showWelcome) return;
-    const t = setTimeout(() => setShowWelcome(false), 1800);
-    return () => clearTimeout(t);
-  }, [showWelcome]);
-
   return (
     <BrowserRouter>
       <ThemeProvider>
-      <Routes>
-  <Route path="/" element={<LandingPage showWelcome={showWelcome} setShowWelcome={(v)=>{ if(!v){ try{ localStorage.setItem('seen_welcome','1'); }catch{} } setShowWelcome(v); }} />} />
+    <Routes>
+  <Route path="/" element={<LandingPage showWelcome={showWelcome} setShowWelcome={setShowWelcome} />} />
         <Route path="/project/:id" element={<ProjectPageLayout />} />
         <Route path="*" element={<Suspense fallback={null}><NotFoundPage /></Suspense>} /> {/* Ini route 404 */}
       </Routes>
