@@ -1,4 +1,5 @@
 import React from 'react';
+import TransText from './TransText';
 
 const LoadingScreen = () => {
   return (
@@ -9,7 +10,7 @@ const LoadingScreen = () => {
           <div className="w-12 h-12 rounded-full border-4 border-t-transparent border-[#6366f1] animate-spin"></div>
           <div className="relative">
             <div className="absolute -inset-1 bg-gradient-to-r from-[#6366f1] to-[#a855f7] rounded blur opacity-20"></div>
-            <span className="relative text-gray-200 text-sm">Memuat...</span>
+            <span className="relative text-gray-200 text-sm"><TransText k="common.loading" fallback="Memuat..." /></span>
           </div>
         </div>
       </div>

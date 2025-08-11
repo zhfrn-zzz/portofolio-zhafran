@@ -20,18 +20,33 @@ import { AudioProvider, useAudio } from './components/AudioProvider';
 import AudioPrompt from './components/AudioPrompt';
 const NotFoundPage = lazy(() => import("./Pages/404"));
 import DeferMount from './components/DeferMount';
+import { I18nProvider } from './components/I18nProvider';
 
-// Show the Welcome Screen only once per page load; skip on SPA sub-route returns.
+// Track welcome display per page load (resets on full reload)
+let __welcomeShownThisLoad = false;
+
+// Show Welcome on fresh loads; allow skipping exactly once via a flag when navigating from sub-routes.
 function shouldShowWelcome() {
   try {
-    const shown = sessionStorage.getItem('welcome_shown') === '1';
-    return !shown;
-  } catch {
-    return true;
-  }
+    if (sessionStorage.getItem('skip_welcome_once') === '1') {
+      sessionStorage.removeItem('skip_welcome_once');
+      return false;
+    }
+  } catch {}
+  return !__welcomeShownThisLoad;
 }
 
 const LandingPage = ({ showWelcome, setShowWelcome }) => {
+  // If a one-time skip flag is present (set by internal navigations), hide welcome immediately
+  React.useEffect(() => {
+    try {
+      if (sessionStorage.getItem('skip_welcome_once') === '1') {
+        sessionStorage.removeItem('skip_welcome_once');
+        if (showWelcome) setShowWelcome(false);
+      }
+    } catch {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
   <AnimatePresence mode="wait">
@@ -39,7 +54,7 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
           <Suspense fallback={null}>
             <WelcomeScreen onLoadingComplete={() => {
               setShowWelcome(false);
-              try { sessionStorage.setItem('welcome_shown', '1'); } catch {}
+              __welcomeShownThisLoad = true;
               try {
                 // Try to start audio when welcome completes
                 // We call via a microtask to ensure provider is mounted
@@ -157,6 +172,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <I18nProvider>
       <ThemeProvider>
   <AudioProvider>
   <AudioPrompt />
@@ -168,6 +184,7 @@ function App() {
       </Routes>
       </AudioProvider>
       </ThemeProvider>
+      </I18nProvider>
     </BrowserRouter>
   );
 }

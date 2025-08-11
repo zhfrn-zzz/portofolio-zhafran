@@ -1,26 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Share2, User, Mail, MessageSquare, Send } from "lucide-react";
-import { Link } from "react-router-dom";
 import SocialLinks from "../components/SocialLinks";
 import Komentar from "../components/Commentar";
+import { useI18n } from "../components/I18nProvider";
+import TransText from "../components/TransText";
 import Swal from "sweetalert2";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
 
 const ContactPage = () => {
+  const { t } = useI18n();
+  const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : true;
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   useEffect(() => {
     AOS.init({
       once: false,
       mirror: true,
       offset: 0,
+  duration: isMobile ? 500 : 1200,
+  easing: 'ease-out-cubic',
     });
   }, []);
 
@@ -35,10 +39,10 @@ const ContactPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
+    
     Swal.fire({
-      title: 'Mengirim Pesan...',
-      html: 'Harap tunggu selagi kami mengirim pesan Anda',
+      title: t('contact.toast.sendingTitle', 'Mengirim Pesan...'),
+      html: t('contact.toast.sending', 'Harap tunggu selagi kami mengirim pesan Anda'),
       allowOutsideClick: false,
       didOpen: () => {
         Swal.showLoading();
@@ -59,15 +63,13 @@ const ContactPage = () => {
       submitData.append('_template', 'table'); // Format email sebagai tabel
 
       await axios.post(formSubmitUrl, submitData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+        headers: { 'Content-Type': 'multipart/form-data' }
       });
 
      
       Swal.fire({
-        title: 'Berhasil!',
-        text: 'Pesan Anda telah berhasil terkirim!',
+        title: t('contact.toast.successTitle', 'Berhasil!'),
+        text: t('contact.toast.success', 'Pesan Anda telah berhasil terkirim!'),
         icon: 'success',
         confirmButtonColor: '#6366f1',
         timer: 2000,
@@ -83,8 +85,8 @@ const ContactPage = () => {
     } catch (error) {
       if (error.request && error.request.status === 0) {
         Swal.fire({
-          title: 'Berhasil!',
-          text: 'Pesan Anda telah berhasil terkirim!',
+    title: t('contact.toast.successTitle', 'Berhasil!'),
+    text: t('contact.toast.success', 'Pesan Anda telah berhasil terkirim!'),
           icon: 'success',
           confirmButtonColor: '#6366f1',
           timer: 2000,
@@ -93,13 +95,13 @@ const ContactPage = () => {
 
         setFormData({
           name: "",
-          email: "",
-          message: "",
+    email: "",
+    message: "",
         });
       } else {
         Swal.fire({
-          title: 'Gagal!',
-          text: 'Terjadi kesalahan. Silakan coba lagi nanti.',
+    title: t('contact.toast.errorTitle', 'Gagal!'),
+    text: t('contact.toast.error', 'Terjadi kesalahan. Silakan coba lagi nanti.'),
           icon: 'error',
           confirmButtonColor: '#6366f1'
         });
@@ -115,16 +117,15 @@ const ContactPage = () => {
         <h2
           data-aos="fade-down"
           data-aos-duration="1000"
-          className="inline-block text-3xl md:text-5xl font-bold text-center mx-auto text-black dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7]"
         >
-          Hubungi Saya
+    <TransText k="contact.heading" fallback="Hubungi Saya" />
         </h2>
         <p
           data-aos="fade-up"
           data-aos-duration="1100"
           className="dark:text-slate-400 text-lighttext/80 max-w-2xl mx-auto text-sm md:text-base mt-2"
         >
-          Punya pertanyaan? Kirimi saya pesan, dan saya akan segera membalasnya.
+    {t('contact.subtitle', 'Punya pertanyaan? Kirimi saya pesan, dan saya akan segera membalasnya.')}
         </p>
       </div>
 
@@ -139,10 +140,10 @@ const ContactPage = () => {
             <div className="flex justify-between items-start mb-8">
               <div>
                 <h2 className="text-4xl font-bold mb-3 text-black dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7]">
-                  Hubungi
+      <TransText k="contact.form.title" fallback="Hubungi" />
                 </h2>
                 <p className="dark:text-gray-400 text-lighttext/80">
-                  Ada yang ingin didiskusikan? Kirim saya pesan dan mari kita bicara.
+      {t('contact.form.desc', 'Ada yang ingin didiskusikan? Kirim saya pesan dan mari kita bicara.')}
                 </p>
               </div>
               <Share2 className="w-10 h-10 dark:text-[#6366f1] text-[var(--accent)] opacity-50" />
@@ -153,15 +154,15 @@ const ContactPage = () => {
               className="space-y-6"
             >
               <div
-                data-aos="fade-up"
-                data-aos-delay="100"
+                data-aos={isMobile ? undefined : "fade-up"}
+                data-aos-delay={isMobile ? undefined : "100"}
                 className="relative group"
               >
                 <User className="absolute left-4 top-4 w-5 h-5 dark:text-gray-400 text-lighttext/60 group-focus-within:dark:text-[#6366f1] group-focus-within:text-[var(--accent)] transition-colors" />
                 <input
                   type="text"
                   name="name"
-                  placeholder="Nama Anda"
+      placeholder={t('contact.placeholder.name', 'Nama Anda')}
                   value={formData.name}
                   onChange={handleChange}
                   disabled={isSubmitting}
@@ -170,15 +171,15 @@ const ContactPage = () => {
                 />
               </div>
               <div
-                data-aos="fade-up"
-                data-aos-delay="200"
+                data-aos={isMobile ? undefined : "fade-up"}
+                data-aos-delay={isMobile ? undefined : "200"}
                 className="relative group"
               >
                 <Mail className="absolute left-4 top-4 w-5 h-5 dark:text-gray-400 text-lighttext/60 group-focus-within:dark:text-[#6366f1] group-focus-within:text-[var(--accent)] transition-colors" />
                 <input
                   type="email"
                   name="email"
-                  placeholder="Email Anda"
+      placeholder={t('contact.placeholder.email', 'Email Anda')}
                   value={formData.email}
                   onChange={handleChange}
                   disabled={isSubmitting}
@@ -187,14 +188,14 @@ const ContactPage = () => {
                 />
               </div>
               <div
-                data-aos="fade-up"
-                data-aos-delay="300"
+                data-aos={isMobile ? undefined : "fade-up"}
+                data-aos-delay={isMobile ? undefined : "300"}
                 className="relative group"
               >
                 <MessageSquare className="absolute left-4 top-4 w-5 h-5 dark:text-gray-400 text-lighttext/60 group-focus-within:dark:text-[#6366f1] group-focus-within:text-[var(--accent)] transition-colors" />
                 <textarea
                   name="message"
-                  placeholder="Pesan Anda"
+      placeholder={t('contact.placeholder.message', 'Pesan Anda')}
                   value={formData.message}
                   onChange={handleChange}
                   disabled={isSubmitting}
@@ -203,14 +204,14 @@ const ContactPage = () => {
                 />
               </div>
               <button
-                data-aos="fade-up"
-                data-aos-delay="400"
+                data-aos={isMobile ? undefined : "fade-up"}
+                data-aos-delay={isMobile ? undefined : "400"}
                 type="submit"
                 disabled={isSubmitting}
                 className="w-full dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-lightaccent text-white py-4 rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#6366f1]/20 active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 <Send className="w-5 h-5" />
-                {isSubmitting ? 'Mengirim...' : 'Kirim Pesan'}
+    {isSubmitting ? t('contact.button.sending', 'Mengirim...') : t('contact.button.send', 'Kirim Pesan')}
               </button>
             </form>
 

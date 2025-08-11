@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Code2, Github, Globe, User } from 'lucide-react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import TransText from '../components/TransText';
 
 const TypewriterEffect = ({ text }) => {
   const [displayText, setDisplayText] = useState('');
@@ -123,22 +124,21 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
               >
         <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold space-y-2 sm:space-y-4">
       <div className="mb-2 sm:mb-4">
-  <span data-aos="fade-right" data-aos-delay="200" className="inline-block px-2 bg-clip-text text-transparent bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)] dark:bg-gradient-to-r dark:from-white dark:via-blue-100 dark:to-purple-200" style={{ WebkitTextFillColor: 'transparent' }}>
-                      Selamat Datang
-                    </span>{' '}
-  <span data-aos="fade-right" data-aos-delay="400" className="inline-block px-2 bg-clip-text text-transparent bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)] dark:bg-gradient-to-r dark:from-white dark:via-blue-100 dark:to-purple-200" style={{ WebkitTextFillColor: 'transparent' }}>
-                      Di
-                    </span>{' '}
-  <span data-aos="fade-right" data-aos-delay="600" className="inline-block px-2 bg-clip-text text-transparent bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)] dark:bg-gradient-to-r dark:from-white dark:via-blue-100 dark:to-purple-200" style={{ WebkitTextFillColor: 'transparent' }}>
-                      Website
+  <span data-aos="fade-right" data-aos-delay="300" className="inline-block px-2">
+                      <TransText
+                        k="welcome.line1"
+                        fallback="Selamat Datang Di Website"
+                        className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)] dark:bg-gradient-to-r dark:from-white dark:via-blue-100 dark:to-purple-200"
+                      />
                     </span>
                   </div>
                   <div>
-          <span data-aos="fade-up" data-aos-delay="800" className="inline-block px-2 bg-clip-text text-transparent bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)] dark:bg-gradient-to-r dark:from-indigo-500 dark:via-purple-400 dark:to-pink-400" style={{ WebkitTextFillColor: 'transparent' }}>
-                      Portfolio
-                    </span>{' '}
-          <span data-aos="fade-up" data-aos-delay="1000" className="inline-block px-2 bg-clip-text text-transparent bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)] dark:bg-gradient-to-r dark:from-indigo-500 dark:via-purple-400 dark:to-pink-400" style={{ WebkitTextFillColor: 'transparent' }}>
-                      Saya
+          <span data-aos="fade-up" data-aos-delay="700" className="inline-block px-2">
+                      <TransText
+                        k="welcome.line2"
+                        fallback="Portfolio Saya"
+                        className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)] dark:bg-gradient-to-r dark:from-indigo-500 dark:via-purple-400 dark:to-pink-400"
+                      />
                     </span>
                   </div>
                 </h1>
@@ -152,7 +152,7 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
                 data-aos-delay="1200"
               >
         <a
-                  href="https://www.zhafran.my.id"
+                  href="https://www.zhafran.asia"
                   className="inline-flex items-center gap-2 px-4 py-2 sm:px-6 sm:py-3 rounded-full relative group hover:scale-105 transition-transform duration-300"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -164,7 +164,7 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
       <div className="relative flex items-center gap-2 text-lg sm:text-xl md:text-2xl">
     <Globe className="w-4 h-4 sm:w-5 sm:h-5 dark:text-indigo-600 text-black" />
           <span className="bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-indigo-300 dark:via-purple-300 dark:to-pink-300 bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)]">
-                      <TypewriterEffect text="www.zhafran.my.id" />
+                      <TypewriterEffect text="www.zhafran.asia" />
                     </span>
                   </div>
                 </a>

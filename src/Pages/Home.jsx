@@ -5,21 +5,30 @@ import { Github, Mail, ExternalLink, Instagram, Sparkles, Linkedin } from "lucid
 const Lanyard3D = lazy(() => import("../components/Lanyard3D"));
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+import { useI18n } from '../components/I18nProvider'
+import TransText from '../components/TransText'
 
 // Memoized Components
-const StatusBadge = memo(() => (
+const StatusBadge = memo(() => {
+  const { t } = useI18n();
+  return (
   <div className="inline-block animate-float lg:mx-0" data-aos="zoom-in" data-aos-delay="400">
     <div className="relative group">
   <div className="absolute -inset-0.5 rounded-full blur opacity-30 group-hover:opacity-50 transition duration-1000 dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-lightaccent"></div>
   <div className="relative px-3 sm:px-4 py-2 rounded-full dark:bg-black/40 bg-lightaccent/15 backdrop-blur-xl border dark:border-white/10 border-lightaccent/30">
-    <span className="sm:text-sm text-[0.7rem] font-medium flex items-center bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-gradient-to-r from-lighttext to-lightmuted">
+    <span className="sm:text-sm text-[0.7rem] font-medium flex items-center">
           <Sparkles className="sm:w-4 sm:h-4 w-3 h-3 mr-2 text-blue-400" />
-          Siap Berinovasi
+          <TransText
+            k="home.status"
+            fallback="Siap Berinovasi"
+            className="bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-gradient-to-r from-lighttext to-lightmuted"
+          />
         </span>
       </div>
     </div>
   </div>
-));
+);
+});
 
 const MainTitle = memo(() => (
   <div className="space-y-2" data-aos="fade-up" data-aos-delay="600">
@@ -101,8 +110,11 @@ const CTAButton = memo(({ href, text, icon: Icon }) => {
       <div className="relative h-11 dark:bg-[#030014] bg-[var(--bg)] backdrop-blur-xl rounded-lg border dark:border-white/10 border-lightaccent/30 leading-none overflow-hidden">
         <div className="absolute inset-0 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 dark:bg-gradient-to-r dark:from-[#4f52c9]/20 dark:to-[#8644c5]/20 bg-lightaccent/15"></div>
         <span className="absolute inset-0 flex items-center justify-center gap-2 text-sm group-hover:gap-3 transition-all duration-300">
-          <span className="font-medium z-10 dark:bg-gradient-to-r dark:from-gray-200 dark:to-white dark:bg-clip-text dark:text-transparent text-lighttext">
-            {text}
+          <span className="font-medium z-10">
+            <TransText
+              text={text}
+              className="dark:bg-gradient-to-r dark:from-gray-200 dark:to-white dark:bg-clip-text dark:text-transparent text-lighttext"
+            />
           </span>
           <Icon className={`w-4 h-4 dark:text-gray-200 text-lighttext ${href === '#Contact' ? 'group-hover:translate-x-1' : 'group-hover:rotate-45'} transform transition-all duration-300 z-10`} />
         </span>
@@ -134,7 +146,7 @@ const SocialLink = memo(({ icon: Icon, link }) => {
 const TYPING_SPEED = 100;
 const ERASING_SPEED = 50;
 const PAUSE_DURATION = 2000;
-const WORDS = ["Siswa Jaringan & Telekomunikasi", "Tech Entusiast", "Film Maker", "3D Generalist"];
+// Typing words depend on language
 const TECH_STACK = ["React", "Javascript", "Node.js", "Tailwind"];
 const SOCIAL_LINKS = [
   { icon: Github, link: "https://github.com/zhfrn-zzz" },
@@ -149,6 +161,13 @@ const Home = () => {
   const [charIndex, setCharIndex] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
+  const { t, lang } = useI18n();
+
+  const WORDS = React.useMemo(() => (
+    lang === 'en'
+      ? ["Computer & Telecommunications Student", "Tech Enthusiast", "Film Maker", "3D Generalist"]
+      : ["Siswa Jaringan & Telekomunikasi", "Tech Entusiast", "Film Maker", "3D Generalist"]
+  ), [lang]);
 
   // Restore previous scroll if saved (e.g., returning from an internal sub-route)
   useEffect(() => {
@@ -254,7 +273,7 @@ const Home = () => {
 
                 {/* Description */}
                 <p className="text-base md:text-lg dark:text-gray-400 text-lighttext/80 max-w-[38ch] sm:max-w-xl leading-relaxed font-light" style={{ containIntrinsicSize: '120px', contentVisibility: 'auto' }}>
-                  Menciptakan dan membuat perangkat Iot yang inovatif dan menarik, menggunakan ESP 32.  
+                  {t('home.description', 'Menciptakan perangkat IoT yang inovatif dan menarik menggunakan ESP32.')}
                 </p>
 
                 {/* Tech Stack */}
@@ -266,8 +285,8 @@ const Home = () => {
 
                 {/* CTA Buttons */}
                 <div className="flex flex-row gap-3 w-full justify-start" data-aos="fade-up" data-aos-delay="1400">
-                  <CTAButton href="#Portofolio" text="Proyek" icon={ExternalLink} />
-                  <CTAButton href="#Contact" text="Kontak" icon={Mail} />
+                  <CTAButton href="#Portofolio" text={t('home.ctaProjects', 'Proyek')} icon={ExternalLink} />
+                  <CTAButton href="#Contact" text={t('home.ctaContact', 'Kontak')} icon={Mail} />
                 </div>
 
                 {/* Social Links */}

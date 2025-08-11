@@ -1,14 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ExternalLink, ArrowRight } from 'lucide-react';
+import { useI18n } from './I18nProvider';
 
 const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
+  const { t } = useI18n();
   // Handle kasus ketika ProjectLink kosong
   const handleLiveDemo = (e) => {
     if (!ProjectLink) {
       console.log("ProjectLink kosong");
       e.preventDefault();
-      alert("Tautan demo langsung tidak tersedia");
+      alert(t('project.demoUnavailable', 'Tautan demo langsung tidak tersedia'));
     }
   };
   
@@ -16,7 +18,7 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
     if (!id) {
       console.log("ID kosong");
       e.preventDefault();
-      alert("Detail proyek tidak tersedia");
+      alert(t('project.detailsUnavailable', 'Detail proyek tidak tersedia'));
     }
   };
   
@@ -58,11 +60,11 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
                   onClick={handleLiveDemo}
                   className="inline-flex items-center space-x-2 dark:text-blue-400 text-lighttext hover:dark:text-blue-300 hover:text-lighttext transition-colors duration-200"
                 >
-                  <span className="text-sm font-medium">Demo Langsung</span>
+                  <span className="text-sm font-medium">{t('project.liveDemo', 'Demo Langsung')}</span>
                   <ExternalLink className="w-4 h-4" />
                 </a>
               ) : (
-                <span className="text-gray-500 text-sm">Demo Tidak Tersedia</span>
+                <span className="text-gray-500 text-sm">{t('project.demoUnavailable', 'Demo Tidak Tersedia')}</span>
               )}
               
      
@@ -73,11 +75,11 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
                   onClick={handleDetails}
                   className="inline-flex items-center space-x-2 px-4 py-2 rounded-lg dark:bg-white/5 bg-lightaccent/15 hover:dark:bg-white/10 hover:bg-lightaccent/25 dark:text-white/90 text-lighttext transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#FFB823]/30"
                 >
-                  <span className="text-sm font-medium">Detail</span>
+                  <span className="text-sm font-medium">{t('common.details', 'Detail')}</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               ) : (
-                <span className="text-gray-500 text-sm">Detail Tidak Tersedia</span>
+                <span className="text-gray-500 text-sm">{t('project.detailsUnavailable', 'Detail Tidak Tersedia')}</span>
               )}
             </div>
           </div>

@@ -1,0 +1,158 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "about": "Tentang",
+    "portfolio": "Portofolio",
+    "gallery": "Galeri",
+    "contact": "Kontak"
+  },
+  "home": {
+    "status": "Siap Berinovasi",
+    "ctaProjects": "Proyek",
+  "ctaContact": "Kontak",
+  "description": "Menciptakan perangkat IoT yang inovatif dan menarik menggunakan ESP32."
+  },
+  "comingSoon": {
+    "title": "Segera Hadir",
+    "desc": "Halaman ini sedang disiapkan. Konten lengkap akan menyusul.",
+    "back": "Kembali",
+    "home": "Beranda"
+  },
+  "thankyou": {
+    "title": "Terima Kasih!",
+    "desc": "Pesan Anda telah diterima. Saya akan membalas secepatnya.",
+    "backHome": "Kembali ke Beranda"
+  },
+  "welcome": {
+    "line1": "Selamat Datang Di Website",
+    "line2": "Portfolio Saya"
+  },
+  "about": {
+    "title": "Tentang Saya",
+    "tagline": "Mengubah ide menjadi pengalaman digital",
+    "hello": "Halo, Saya",
+  "bio": "Seorang siswa Teknik Jaringan Komputer dan Telekomunikasi yang memiliki rasa ingin tahu yang besar. Seperti di bidang Coding, Film Maker, 3D Generalist, Fotography, Cyber Security, Ai, dan IoT. Saya selalu berusaha untuk belajar dan mengembangkan diri dalam bidang-bidang tersebut.",
+    "downloadCV": "Unduh CV",
+    "viewProjects": "Lihat Proyek",
+    "stats": {
+      "projects": { "label": "Total Proyek", "desc": "Solusi web inovatif yang dibuat" },
+      "certs": { "label": "Sertifikat", "desc": "Keahlian profesional terverifikasi" },
+      "years": { "label": "Tahun Pengalaman", "desc": "Perjalanan belajar yang berkelanjutan" }
+    }
+  },
+  "portfolio": {
+    "title": "Portofolio",
+    "subtitle": "Jelajahi perjalanan saya melalui proyek, sertifikat, dan keahlian teknis.",
+    "tabs": {
+      "projects": "Proyek",
+      "certificates": "Sertifikat"
+    },
+    "comingSoon": "Segera hadir"
+  },
+  "gallery": {
+    "title": "Galeri",
+    "comingSoon": "Segera hadir",
+    "alt": {
+      "galleryImage": "Gambar galeri",
+      "selectedImage": "Gambar terpilih"
+  },
+  "more": "Lihat lebih banyak...",
+  "less": "Lihat Lebih Sedikit",
+  "description": "Koleksi foto dengan rasio 9:16, 16:9, dan 1:1. Klik untuk pratinjau dan lihat deskripsi."
+  },
+  "social": {
+    "heading": "Terhubung dengan Saya",
+    "linkedin": {
+      "title": "Ayo Terhubung",
+      "subtitle": "di LinkedIn"
+    },
+    "instagram": { "subtitle": "@zhfrn_zzz._" },
+    "youtube": { "subtitle": "Segera Hadir" },
+    "tiktok": { "subtitle": "Segera Hadir" },
+    "github": { "subtitle": "@zhfrn-zzz" }
+  },
+  "project": {
+    "loading": "Memuat Proyek...",
+    "back": "Kembali",
+    "breadcrumbProjects": "Proyek",
+    "liveDemo": "Demo Langsung",
+    "github": "GitHub",
+    "techUsed": "Teknologi yang Digunakan",
+    "noTech": "Belum ada teknologi ditambahkan.",
+    "features": "Fitur Utama",
+    "noFeatures": "Belum ada fitur ditambahkan.",
+  "demoUnavailable": "Demo tidak tersedia",
+  "detailsUnavailable": "Detail proyek tidak tersedia",
+    "stats": {
+      "totalTech": "Total Teknologi"
+    },
+    "privateRepo": {
+      "title": "Kode Sumber Privat",
+      "text": "Maaf, source code untuk proyek ini bersifat privat.",
+      "confirm": "Mengerti"
+    }
+  },
+  "notFound": {
+    "title": "Oops! Halaman Tidak Ditemukan",
+    "desc": "Halaman yang Anda cari mungkin telah dipindahkan, dihapus, atau tidak pernah ada."
+  },
+  "contact": {
+    "heading": "Hubungi Saya",
+    "subtitle": "Punya pertanyaan? Kirimi saya pesan, dan saya akan segera membalasnya.",
+    "form": {
+      "title": "Hubungi",
+      "desc": "Ada yang ingin didiskusikan? Kirim saya pesan dan mari kita bicara."
+    },
+    "placeholder": {
+      "name": "Nama Anda",
+      "email": "Email Anda",
+      "message": "Pesan Anda"
+    },
+    "button": {
+      "send": "Kirim Pesan",
+      "sending": "Mengirim..."
+    },
+    "toast": {
+      "sendingTitle": "Mengirim Pesan...",
+      "sending": "Harap tunggu selagi kami mengirim pesan Anda",
+      "successTitle": "Berhasil!",
+      "success": "Pesan Anda telah berhasil terkirim!",
+      "errorTitle": "Gagal!",
+      "error": "Terjadi kesalahan. Silakan coba lagi nanti."
+    }
+  },
+  "comment": {
+    "title": "Komentar",
+    "send": "Kirim Komentar",
+    "sending": "Mengirim...",
+    "placeholder": "Tulis pesan Anda di sini...",
+    "empty": "Belum ada komentar. Mulai percakapan!",
+    "pinnedLabel": "Komentar Tersemat",
+    "adminBadge": "Admin",
+    "nameLabel": "Nama",
+    "namePlaceholder": "Masukkan nama Anda",
+    "messageLabel": "Pesan",
+    "profilePhotoOptional": "Foto Profil (opsional)",
+    "removePhoto": "Hapus Foto",
+    "choosePhoto": "Pilih Foto Profil",
+    "fileMax": "Maksimal Ukuran File: 5MB",
+    "errors": {
+      "fileTooLarge": "Ukuran file harus kurang dari 5MB. Silakan pilih gambar yang lebih kecil.",
+      "invalidImage": "Silakan pilih file gambar yang valid.",
+      "postFailed": "Gagal mengirim komentar. Silakan coba lagi."
+    },
+    "time": {
+      "justNow": "Baru saja",
+      "minutes": "menit yang lalu",
+      "hours": "jam yang lalu",
+      "days": "hari yang lalu"
+    }
+  },
+  "common": {
+    "back": "Kembali",
+    "home": "Beranda",
+    "loading": "Memuat...",
+    "comingSoon": "Segera hadir",
+    "details": "Detail"
+  }
+}

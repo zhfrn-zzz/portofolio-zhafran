@@ -1,0 +1,158 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "portfolio": "Portfolio",
+    "gallery": "Gallery",
+    "contact": "Contact"
+  },
+  "home": {
+    "status": "Ready to Innovate",
+    "ctaProjects": "Projects",
+    "ctaContact": "Contact",
+    "description": "Creating innovative and engaging IoT devices using ESP32."
+  },
+  "comingSoon": {
+    "title": "Coming Soon",
+    "desc": "This page is under construction. Full content is on the way.",
+    "back": "Back",
+    "home": "Home"
+  },
+  "thankyou": {
+    "title": "Thank You!",
+    "desc": "Your message has been received. I'll get back to you soon.",
+    "backHome": "Back to Home"
+  },
+  "welcome": {
+  "line1": "Welcome to My Portfolio",
+  "line2": "Website"
+  },
+  "about": {
+    "title": "About Me",
+    "tagline": "Turning ideas into digital experiences",
+    "hello": "Hello, I'm",
+  "bio": "A Computer and Network Engineering student with a strong curiosity. Interested in Coding, Filmmaking, 3D Generalist, Photography, Cyber Security, AI, and IoT. I always strive to learn and grow in these fields.",
+    "downloadCV": "Download CV",
+    "viewProjects": "View Projects",
+    "stats": {
+      "projects": { "label": "Total Projects", "desc": "Innovative web solutions built" },
+      "certs": { "label": "Certificates", "desc": "Verified professional skills" },
+      "years": { "label": "Years of Experience", "desc": "A continuous learning journey" }
+    }
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "subtitle": "Explore my journey through projects, certificates, and technical skills.",
+    "tabs": {
+      "projects": "Projects",
+      "certificates": "Certificates"
+    },
+    "comingSoon": "Coming soon"
+  },
+  "gallery": {
+    "title": "Gallery",
+    "comingSoon": "Coming soon",
+    "alt": {
+      "galleryImage": "Gallery image",
+      "selectedImage": "Selected image"
+  },
+  "more": "Show more...",
+  "less": "Show less",
+  "description": "A collection of photos in 9:16, 16:9, and 1:1 ratios. Click to preview and view descriptions."
+  },
+  "social": {
+    "heading": "Connect with Me",
+    "linkedin": {
+      "title": "Let's Connect",
+      "subtitle": "on LinkedIn"
+    },
+    "instagram": { "subtitle": "@zhfrn_zzz._" },
+    "youtube": { "subtitle": "Coming soon" },
+    "tiktok": { "subtitle": "Coming soon" },
+    "github": { "subtitle": "@zhfrn-zzz" }
+  },
+  "project": {
+    "loading": "Loading Project...",
+    "back": "Back",
+    "breadcrumbProjects": "Projects",
+    "liveDemo": "Live Demo",
+    "github": "GitHub",
+    "techUsed": "Technologies Used",
+    "noTech": "No technologies added yet.",
+    "features": "Key Features",
+    "noFeatures": "No features added yet.",
+  "demoUnavailable": "Live demo not available",
+  "detailsUnavailable": "Project details not available",
+    "stats": {
+      "totalTech": "Total Technologies"
+    },
+    "privateRepo": {
+      "title": "Private Source Code",
+      "text": "Sorry, the source code for this project is private.",
+      "confirm": "Understood"
+    }
+  },
+  "notFound": {
+    "title": "Oops! Page Not Found",
+    "desc": "The page you're looking for may have been moved, deleted, or never existed."
+  },
+  "contact": {
+    "heading": "Contact Me",
+    "subtitle": "Have a question? Send me a message and I'll reply soon.",
+    "form": {
+      "title": "Contact",
+      "desc": "Got something to discuss? Send me a message and let's talk."
+    },
+    "placeholder": {
+      "name": "Your name",
+      "email": "Your email",
+      "message": "Your message"
+    },
+    "button": {
+      "send": "Send Message",
+      "sending": "Sending..."
+    },
+    "toast": {
+      "sendingTitle": "Sending Message...",
+      "sending": "Please wait while we send your message",
+      "successTitle": "Success!",
+      "success": "Your message has been sent successfully!",
+      "errorTitle": "Failed!",
+      "error": "An error occurred. Please try again later."
+    }
+  },
+  "comment": {
+    "title": "Comments",
+    "send": "Send Comment",
+    "sending": "Sending...",
+    "placeholder": "Write your message here...",
+    "empty": "No comments yet. Start the conversation!",
+    "pinnedLabel": "Pinned Comment",
+    "adminBadge": "Admin",
+    "nameLabel": "Name",
+    "namePlaceholder": "Enter your name",
+    "messageLabel": "Message",
+    "profilePhotoOptional": "Profile Photo (optional)",
+    "removePhoto": "Remove Photo",
+    "choosePhoto": "Choose Profile Photo",
+    "fileMax": "Maximum file size: 5MB",
+    "errors": {
+      "fileTooLarge": "File size must be less than 5MB. Please choose a smaller image.",
+      "invalidImage": "Please select a valid image file.",
+      "postFailed": "Failed to post comment. Please try again."
+    },
+    "time": {
+      "justNow": "Just now",
+      "minutes": "minutes ago",
+      "hours": "hours ago",
+      "days": "days ago"
+    }
+  },
+  "common": {
+    "back": "Back",
+    "home": "Home",
+    "loading": "Loading...",
+    "comingSoon": "Coming soon",
+    "details": "Details"
+  }
+}

@@ -1,15 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Home, ArrowLeft } from 'lucide-react';
+import { useI18n } from '../components/I18nProvider';
+import TransText from '../components/TransText';
 
 export default function ComingSoon() {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const handleGoBack = () => {
     navigate(-1);
   };
 
   const handleGoHome = () => {
-    navigate('/');
+  try { sessionStorage.setItem('skip_welcome_once', '1'); } catch {}
+  navigate('/');
   };
 
   return (
@@ -24,9 +28,9 @@ export default function ComingSoon() {
 
         {/* Message */}
         <div className="mb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold mb-3">Segera Hadir</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold mb-3"><TransText k="comingSoon.title" fallback="Segera Hadir" /></h1>
           <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-md mx-auto leading-relaxed">
-            Halaman ini sedang disiapkan. Konten lengkap akan menyusul.
+            <TransText k="comingSoon.desc" fallback="Halaman ini sedang disiapkan. Konten lengkap akan menyusul." />
           </p>
         </div>
 
@@ -37,7 +41,7 @@ export default function ComingSoon() {
             className="flex items-center gap-2 px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200 shadow-md hover:shadow-lg"
           >
             <ArrowLeft size={20} />
-            Kembali
+            <TransText k="comingSoon.back" fallback="Kembali" />
           </button>
           
           <button
@@ -45,7 +49,7 @@ export default function ComingSoon() {
             className="flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-200 shadow-md hover:shadow-lg"
           >
             <Home size={20} />
-            Beranda
+            <TransText k="comingSoon.home" fallback="Beranda" />
           </button>
         </div>
       </div>

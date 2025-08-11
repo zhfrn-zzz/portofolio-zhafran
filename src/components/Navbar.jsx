@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from './ThemeProvider';
 import { Menu, X, Volume2, VolumeX } from "lucide-react";
 import { useAudio } from './AudioProvider';
+import { useI18n } from './I18nProvider';
+import TransText from './TransText';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -13,13 +15,14 @@ const Navbar = () => {
     const [goingRight, setGoingRight] = useState(true);
     const audio = useAudio();
     const navigate = useNavigate();
+    const { t, lang, setLang } = useI18n();
     
     const navItems = [
-        { href: "#Home", label: "Beranda" },
-        { href: "#About", label: "Tentang" },
-        { href: "#Portofolio", label: "Portofolio" },
-        { href: "#Gallery", label: "Galeri" },
-        { href: "#Contact", label: "Kontak" },
+        { href: "#Home", label: t('nav.home', 'Beranda') },
+        { href: "#About", label: t('nav.about', 'Tentang') },
+        { href: "#Portofolio", label: t('nav.portfolio', 'Portofolio') },
+        { href: "#Gallery", label: t('nav.gallery', 'Galeri') },
+        { href: "#Contact", label: t('nav.contact', 'Kontak') },
     ];
 
     useEffect(() => {
@@ -149,14 +152,19 @@ const Navbar = () => {
                                     onClick={(e) => scrollToSection(e, item.href)}
                                     className="group relative px-1 py-2 text-sm font-medium"
                                 >
-                                    <span
-                                        className={`relative z-10 transition-colors duration-300 ${
+                                                                        <span
+                                                                                className={`relative z-10 transition-colors duration-300 ${
                                             activeSection === item.href.substring(1)
-                                                ? "dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] dark:bg-clip-text dark:text-transparent font-semibold text-lighttext"
-                                                : "dark:text-[#e2d3fd] dark:group-hover:text-white text-lighttext group-hover:text-[var(--text)]"
+                                                                                                ? "font-semibold text-lighttext"
+                                                                                                : "dark:text-[#e2d3fd] dark:group-hover:text-white text-lighttext group-hover:text-[var(--text)]"
                                         }`}
                                     >
-                                        {item.label}
+                                                                                <TransText
+                                                                                    text={item.label}
+                                                                                    className={activeSection === item.href.substring(1)
+                                                                                        ? "dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] dark:bg-clip-text dark:text-transparent"
+                                                                                        : undefined}
+                                                                                />
                                     </span>
                                     <span
                                         className={`absolute bottom-0 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ${
@@ -168,6 +176,14 @@ const Navbar = () => {
                                 </a>
                             ))}
                                                 </div>
+                                                {/* Language Toggle */}
+                                                <button
+                                                    onClick={() => setLang(lang === 'id' ? 'en' : 'id')}
+                                                    aria-label="Toggle language"
+                                                    className="px-3 py-1 rounded-full border border-white/10 dark:text-[#e2d3fd] text-lighttext hover:text-white hover:bg-white/5 transition text-xs"
+                                                >
+                                                    {lang === 'id' ? 'EN' : 'ID'}
+                                                </button>
                                                 {/* Theme Toggle */}
                                                 <button
                                                     onClick={() => { setGoingRight(theme==='dark'); setAnimating(true); toggle(); }}
@@ -226,6 +242,14 @@ const Navbar = () => {
                                                         }}
                                                         onAnimationEnd={() => setAnimating(false)}
                                                     />
+                                                </button>
+                                                {/* Language toggle mobile */}
+                                                <button
+                                                    onClick={() => setLang(lang === 'id' ? 'en' : 'id')}
+                                                    aria-label="Toggle language"
+                                                    className="px-2 py-1 rounded-full border border-white/10 dark:text-[#e2d3fd] text-lighttext hover:text-white hover:bg-white/5 transition text-xs"
+                                                >
+                                                    {lang === 'id' ? 'EN' : 'ID'}
                                                 </button>
                                                 {/* Audio toggle mobile */}
                                                 <button

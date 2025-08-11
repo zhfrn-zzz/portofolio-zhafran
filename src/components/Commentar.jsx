@@ -4,6 +4,8 @@ import { MessageCircle, UserCircle2, Loader2, AlertCircle, Send, ImagePlus, X, P
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { supabase } from '../supabase';
+import { useI18n } from './I18nProvider';
+import TransText from './TransText';
 
 
 const Comment = memo(({ comment, formatDate, index, isPinned = false }) => (
@@ -17,7 +19,9 @@ const Comment = memo(({ comment, formatDate, index, isPinned = false }) => (
         {isPinned && (
             <div className="flex items-center gap-2 mb-3 dark:text-indigo-400 text-[var(--accent)]">
                 <Pin className="w-4 h-4" />
-                <span className="text-xs font-medium uppercase tracking-wide">Komen Tersemat</span>
+                                <span className="text-xs font-medium uppercase tracking-wide">
+                                    <TransText k="comment.pinnedLabel" fallback="Komentar Tersemat" />
+                                </span>
             </div>
         )}
         <div className="flex items-start gap-3">
@@ -46,9 +50,9 @@ const Comment = memo(({ comment, formatDate, index, isPinned = false }) => (
                             {comment.user_name}
                         </h4>
                         {isPinned && (
-                            <span className="px-2 py-0.5 text-xs dark:bg-indigo-500/20 dark:text-indigo-300 bg-[var(--accent)]/20 text-[var(--accent)] rounded-full">
-                                Admin
-                            </span>
+                                                        <span className="px-2 py-0.5 text-xs dark:bg-indigo-500/20 dark:text-indigo-300 bg-[var(--accent)]/20 text-[var(--accent)] rounded-full">
+                                                            <TransText k="comment.adminBadge" fallback="Admin" />
+                                                        </span>
                         )}
                     </div>
                     <span className="text-xs dark:text-gray-400 text-lighttext/70 whitespace-nowrap">
@@ -64,6 +68,8 @@ const Comment = memo(({ comment, formatDate, index, isPinned = false }) => (
 ));
 
 const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
+    const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : true;
+    const { t } = useI18n();
     const [newComment, setNewComment] = useState('');
     const [userName, setUserName] = useState('');
     const [imagePreview, setImagePreview] = useState(null);
@@ -76,7 +82,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
         if (file) {
             // Check file size (5MB limit)
             if (file.size > 5 * 1024 * 1024) {
-                alert('File size must be less than 5MB. Please choose a smaller image.');
+                alert(t('comment.errors.fileTooLarge', 'Ukuran file harus kurang dari 5MB. Silakan pilih gambar yang lebih kecil.'));
                 // Reset the input
                 if (e.target) e.target.value = '';
                 return;
@@ -84,7 +90,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
             
             // Check file type
             if (!file.type.startsWith('image/')) {
-                alert('Please select a valid image file.');
+                alert(t('comment.errors.invalidImage', 'Silakan pilih file gambar yang valid.'));
                 if (e.target) e.target.value = '';
                 return;
             }
@@ -94,7 +100,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
             reader.onloadend = () => setImagePreview(reader.result);
             reader.readAsDataURL(file);
         }
-    }, []);
+    }, [t]);
 
     const handleTextareaChange = useCallback((e) => {
         setNewComment(e.target.value);
@@ -119,41 +125,41 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
 
     return (
     <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2" data-aos="fade-up" data-aos-duration="1000">
-        <label className="block text-sm font-medium dark:text-white text-lighttext">
-                    Nama <span className="text-red-400">*</span>
-                </label>
+            <div className="space-y-2" data-aos={isMobile ? undefined : "fade-up"} data-aos-duration={isMobile ? undefined : "1000"}>
+                                <label className="block text-sm font-medium dark:text-white text-lighttext">
+                                    {t('comment.nameLabel', 'Nama')} <span className="text-red-400">*</span>
+                                </label>
                 <input
                     type="text"
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
                      maxLength={15}
-                    placeholder="Masukan nama Anda"
+                                        placeholder={t('comment.namePlaceholder', 'Masukkan nama Anda')}
                     className="w-full p-3 rounded-xl dark:bg-white/5 bg-white dark:border-white/10 border-lightaccent/30 dark:text-white text-lighttext placeholder-gray-500 focus:outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 transition-all"
                     required
                 />
             </div>
 
-            <div className="space-y-2" data-aos="fade-up" data-aos-duration="1200">
-                <label className="block text-sm font-medium dark:text-white text-lighttext">
-                    Pesan <span className="text-red-400">*</span>
-                </label>
+            <div className="space-y-2" data-aos={isMobile ? undefined : "fade-up"} data-aos-duration={isMobile ? undefined : "1200"}>
+                                <label className="block text-sm font-medium dark:text-white text-lighttext">
+                                    {t('comment.messageLabel', 'Pesan')} <span className="text-red-400">*</span>
+                                </label>
                 <textarea
                     ref={textareaRef}
                     value={newComment}
                      maxLength={200}
 
-                    onChange={handleTextareaChange}
-                    placeholder="Tulis pesan Anda di sini..."
+                                        onChange={handleTextareaChange}
+                                        placeholder={t('comment.placeholder', 'Tulis pesan Anda di sini...')}
                     className="w-full p-4 rounded-xl dark:bg-white/5 bg-white dark:border-white/10 border-lightaccent/30 dark:text-white text-lighttext placeholder-gray-500 focus:outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 transition-all resize-none min-h-[120px]"
                     required
                 />
             </div>
 
-            <div className="space-y-2" data-aos="fade-up" data-aos-duration="1400">
-                <label className="block text-sm font-medium dark:text-white text-lighttext">
-                    Foto Profil <span className="dark:text-gray-400 text-lighttext/70">(opsional)</span>
-                </label>
+            <div className="space-y-2" data-aos={isMobile ? undefined : "fade-up"} data-aos-duration={isMobile ? undefined : "1400"}>
+                                <label className="block text-sm font-medium dark:text-white text-lighttext">
+                                    {t('comment.profilePhotoOptional', 'Foto Profil (opsional)')}
+                                </label>
                 <div className="flex items-center gap-4 p-4 dark:bg-white/5 bg-lightaccent/10 dark:border-white/10 border-lightaccent/30 rounded-xl">
                     {imagePreview ? (
                         <div className="flex items-center gap-4">
@@ -172,7 +178,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
                                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-all group"
                             >
                                 <X className="w-4 h-4" />
-                                <span>Hapus Foto</span>
+                                <span>{t('comment.removePhoto', 'Hapus Foto')}</span>
                             </button>
                         </div>
                     ) : (
@@ -190,10 +196,10 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
                                 className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all border border-dashed group dark:bg-indigo-500/20 dark:text-indigo-400 dark:hover:bg-indigo-500/30 dark:border-indigo-500/50 dark:hover:border-indigo-500 bg-[var(--accent)]/20 text-[var(--accent)] hover:bg-[var(--accent)]/30 border-[var(--accent)]/50 hover:border-[var(--accent)]"
                             >
                                 <ImagePlus className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                                <span>Pilih Foto Profil</span>
+                                <span>{t('comment.choosePhoto', 'Pilih Foto Profil')}</span>
                             </button>
                             <p className="text-center dark:text-gray-400 text-lighttext/80 text-sm mt-2">
-                                Maksimal Ukuran File: 5MB
+                                {t('comment.fileMax', 'Maksimal Ukuran File: 5MB')}
                             </p>
                         </div>
                     )}
@@ -203,20 +209,20 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
             <button
                 type="submit"
                 disabled={isSubmitting}
-                data-aos="fade-up" data-aos-duration="1000"
+                data-aos={isMobile ? undefined : "fade-up"} data-aos-duration={isMobile ? undefined : "1000"}
                 className="relative w-full h-12 dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-lightaccent rounded-xl font-medium text-white overflow-hidden group transition-all duration-300 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed"
             >
                 <div className="absolute inset-0 bg-white/20 translate-y-12 group-hover:translate-y-0 transition-transform duration-300" />
                 <div className="relative flex items-center justify-center gap-2">
-                    {isSubmitting ? (
+            {isSubmitting ? (
                         <>
                             <Loader2 className="w-4 h-4 animate-spin" />
-                            <span>Mengirim...</span>
+                <span>{t('comment.sending', 'Mengirim...')}</span>
                         </>
                     ) : (
                         <>
                             <Send className="w-4 h-4" />
-                            <span>Kirim Komentar</span>
+                <span>{t('comment.send', 'Kirim Komentar')}</span>
                         </>
                     )}
                 </div>
@@ -230,12 +236,14 @@ const Komentar = () => {
     const [pinnedComment, setPinnedComment] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');
+    const { t, lang } = useI18n();
 
     useEffect(() => {
         // Initialize AOS
+        const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : true;
         AOS.init({
             once: false,
-            duration: 1000,
+            duration: isMobile ? 500 : 1000,
             mirror: true,
             offset: 0,
         });
@@ -348,16 +356,16 @@ const Komentar = () => {
                     }
                 ]);
 
-            if (error) {
+        if (error) {
                 throw error;
             }
         } catch (error) {
-            setError('Failed to post comment. Please try again.');
+        setError(t('comment.errors.postFailed', 'Gagal mengirim komentar. Silakan coba lagi.'));
             console.error('Error adding comment: ', error);
         } finally {
             setIsSubmitting(false);
         }
-    }, [uploadImage]);
+    }, [uploadImage, t]);
 
     const formatDate = useCallback((timestamp) => {
         if (!timestamp) return '';
@@ -367,31 +375,32 @@ const Komentar = () => {
         const diffHours = Math.floor(diffMinutes / 60);
         const diffDays = Math.floor(diffHours / 24);
 
-        if (diffMinutes < 1) return 'Just now';
-        if (diffMinutes < 60) return `${diffMinutes}m ago`;
-        if (diffHours < 24) return `${diffHours}h ago`;
-        if (diffDays < 7) return `${diffDays}d ago`;
+        if (diffMinutes < 1) return t('comment.time.justNow', 'Baru saja');
+        if (diffMinutes < 60) return `${diffMinutes} ${t('comment.time.minutes', 'menit yang lalu')}`;
+        if (diffHours < 24) return `${diffHours} ${t('comment.time.hours', 'jam yang lalu')}`;
+        if (diffDays < 7) return `${diffDays} ${t('comment.time.days', 'hari yang lalu')}`;
 
-        return new Intl.DateTimeFormat('en-US', {
+        const locale = lang === 'id' ? 'id-ID' : 'en-US';
+        return new Intl.DateTimeFormat(locale, {
             year: 'numeric',
             month: 'short',
             day: 'numeric'
         }).format(date);
-    }, []);
+    }, [t, lang]);
 
     // Calculate total comments (pinned + regular)
     const totalComments = comments.length + (pinnedComment ? 1 : 0);
 
     return (
         <div className="w-full rounded-2xl backdrop-blur-xl shadow-xl dark:bg-gradient-to-b dark:from-white/10 dark:to-white/5 bg-gradient-to-b from-[var(--accent)]/10 to-[var(--muted)]/5" data-aos="fade-up" data-aos-duration="1000">
-            <div className="p-6 border-b dark:border-white/10 border-[var(--accent)]/30" data-aos="fade-down" data-aos-duration="800">
+                        <div className="p-6 border-b dark:border-white/10 border-[var(--accent)]/30" data-aos="fade-down" data-aos-duration="800">
                 <div className="flex items-center gap-3">
                     <div className="p-2 rounded-xl dark:bg-indigo-500/20 bg-[var(--accent)]/20">
                         <MessageCircle className="w-6 h-6 dark:text-indigo-400 text-[var(--accent)]" />
                     </div>
-                    <h3 className="text-xl font-semibold text-black dark:text-white">
-                        Komentar <span className="dark:text-indigo-400 text-[var(--accent)]">({totalComments})</span>
-                    </h3>
+                                        <h3 className="text-xl font-semibold text-black dark:text-white">
+                                            <TransText k="comment.title" fallback="Komentar" /> <span className="dark:text-indigo-400 text-[var(--accent)]">({totalComments})</span>
+                                        </h3>
                 </div>
             </div>
             <div className="p-6 space-y-6">
@@ -420,10 +429,10 @@ const Komentar = () => {
                     )}
                     
                     {/* Regular Comments */}
-                    {comments.length === 0 && !pinnedComment ? (
+            {comments.length === 0 && !pinnedComment ? (
                         <div className="text-center py-8" data-aos="fade-in">
                             <UserCircle2 className="w-12 h-12 text-indigo-400 mx-auto mb-3 opacity-50" />
-                            <p className="text-gray-400">Belum ada komentar. Mulai percakapan!</p>
+                <p className="text-gray-400"><TransText k="comment.empty" fallback="Belum ada komentar. Mulai percakapan!" /></p>
                         </div>
                     ) : (
                         comments.map((comment, index) => (

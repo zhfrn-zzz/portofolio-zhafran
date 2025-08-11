@@ -9,6 +9,8 @@ import {
 } from "lucide-react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { useI18n } from './I18nProvider';
+import TransText from './TransText';
 
 const socialLinks = [
   // LinkedIn temporarily hidden
@@ -98,13 +100,16 @@ const socialLinks = [
 
 const SocialLinks = () => {
   const navigate = useNavigate();
+  const { t } = useI18n();
+  const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : true;
   const linkedIn = socialLinks.find((link) => link.isPrimary);
   const otherLinks = socialLinks.filter((link) => !link.isPrimary);
   const [instagram, youtube, github, tiktok] = otherLinks;
 
   useEffect(() => {
     AOS.init({
-      offset: 10,
+      offset: 0,
+      duration: isMobile ? 450 : 800,
       once: false,
       mirror: true,
     });
@@ -117,16 +122,16 @@ const SocialLinks = () => {
           border dark:border-white/10 border-lightaccent/30">
       <h3
         className="text-xl font-semibold mb-6 flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)] dark:bg-gradient-to-r dark:from-[#6366f1] dark:via-[#7c3aed] dark:to-[#a855f7]"
-        data-aos="fade-down"
+        data-aos={isMobile ? undefined : "fade-down"}
       >
         <span className="inline-block w-8 h-1 rounded-full bg-gradient-to-r from-lighttext to-lightaccent dark:from-[#6366f1] dark:to-[#a855f7]"></span>
-        Terhubung dengan Saya
+        <TransText k="social.heading" fallback="Terhubung dengan Saya" />
       </h3>
 
       <div className="flex flex-col gap-4">
         {/* LinkedIn - Primary Row (hidden if undefined) */}
-        {linkedIn && (
-        <a
+  {linkedIn && (
+  <a
           href={linkedIn.url}
           target={linkedIn.url.startsWith('/') ? undefined : "_blank"}
           rel={linkedIn.url.startsWith('/') ? undefined : "noopener noreferrer"}
@@ -140,8 +145,8 @@ const SocialLinks = () => {
           className="group relative flex items-center justify-between p-4 rounded-lg 
                      dark:bg-white/5 bg-white/60 border dark:border-white/10 border-lightaccent/30 overflow-hidden
                      dark:hover:border-white/20 hover:border-lightaccent/50 transition-all duration-500"
-          data-aos="fade-up"
-          data-aos-delay="100" 
+          data-aos={isMobile ? undefined : "fade-up"}
+          data-aos-delay={isMobile ? undefined : "50"} 
         >
           {/* Hover Gradient Background */}
           <div
@@ -167,10 +172,10 @@ const SocialLinks = () => {
             {/* Text Container */}
             <div className="flex flex-col">
               <span className="text-lg font-bold pt-[0.2rem] dark:text-gray-200 text-lighttext tracking-tight leading-none group-hover:dark:text-white group-hover:text-lighttext transition-colors duration-300">
-                {linkedIn.displayName}
+                <TransText k="social.linkedin.title" fallback={linkedIn.displayName} />
               </span>
               <span className="text-sm dark:text-gray-400 text-lighttext/80 group-hover:dark:text-gray-300 group-hover:text-lighttext transition-colors duration-300">
-                {linkedIn.subText}
+                {t('social.linkedin.subtitle', linkedIn.subText)}
               </span>
             </div>
           </div>
@@ -193,7 +198,7 @@ const SocialLinks = () => {
   )}
 
         {/* Second Row - Instagram & YouTube */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {[instagram, youtube].map((link, index) => (
             <a
               key={link.name}
@@ -210,8 +215,8 @@ const SocialLinks = () => {
               className="group relative flex items-center gap-3 p-4 rounded-xl 
                                dark:bg-white/5 bg-white/60 border dark:border-white/10 border-lightaccent/30 overflow-hidden
                                dark:hover:border-white/20 hover:border-lightaccent/50 transition-all duration-500"
-              data-aos="fade-up" 
-              data-aos-delay={200 + index * 100} 
+              data-aos={isMobile ? undefined : "fade-up"} 
+              data-aos-delay={isMobile ? undefined : 100 + index * 50} 
             >
               <div
                 className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 bg-gradient-to-r ${link.gradient} dark:from-[#6366f1] dark:via-[#7c3aed] dark:to-[#a855f7]`}
@@ -236,7 +241,11 @@ const SocialLinks = () => {
                   {link.displayName}
                 </span>
                 <span className="text-xs dark:text-gray-400 text-lighttext/80 truncate group-hover:dark:text-gray-300 group-hover:text-lighttext transition-colors duration-300">
-                  {link.subText}
+                  {link.name === 'Instagram' ? t('social.instagram.subtitle', link.subText)
+                    : link.name === 'YouTube' || link.name === 'Youtube' ? t('social.youtube.subtitle', link.subText)
+                    : link.name === 'GitHub' ? t('social.github.subtitle', link.subText)
+                    : link.name === 'TikTok' ? t('social.tiktok.subtitle', link.subText)
+                    : link.subText}
                 </span>
               </div>
 
@@ -257,7 +266,7 @@ const SocialLinks = () => {
         </div>
 
         {/* Third Row - GitHub & TikTok */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {[github, tiktok].map((link, index) => (
             <a
               key={link.name}
@@ -274,8 +283,8 @@ const SocialLinks = () => {
               className="group relative flex items-center gap-3 p-4 rounded-xl 
                                dark:bg-white/5 bg-white/60 border dark:border-white/10 border-lightaccent/30 overflow-hidden
                                dark:hover:border-white/20 hover:border-lightaccent/50 transition-all duration-500"
-              data-aos="fade-up" 
-              data-aos-delay={400 + index * 100}
+              data-aos={isMobile ? undefined : "fade-up"} 
+              data-aos-delay={isMobile ? undefined : 150 + index * 50}
             >
               <div
                 className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 bg-gradient-to-r ${link.gradient} dark:from-[#6366f1] dark:via-[#7c3aed] dark:to-[#a855f7]`}
@@ -300,7 +309,11 @@ const SocialLinks = () => {
                   {link.displayName}
                 </span>
                 <span className="text-xs dark:text-gray-400 text-lighttext/80 truncate group-hover:dark:text-gray-300 group-hover:text-lighttext transition-colors duration-300">
-                  {link.subText}
+                  {link.name === 'Instagram' ? t('social.instagram.subtitle', link.subText)
+                    : link.name === 'YouTube' || link.name === 'Youtube' ? t('social.youtube.subtitle', link.subText)
+                    : link.name === 'GitHub' ? t('social.github.subtitle', link.subText)
+                    : link.name === 'TikTok' ? t('social.tiktok.subtitle', link.subText)
+                    : link.subText}
                 </span>
               </div>
 
