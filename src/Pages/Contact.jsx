@@ -115,7 +115,7 @@ const ContactPage = () => {
         <h2
           data-aos="fade-down"
           data-aos-duration="1000"
-          className="inline-block text-3xl md:text-5xl font-bold text-center mx-auto text-white dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7]"
+          className="inline-block text-3xl md:text-5xl font-bold text-center mx-auto text-black dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7]"
         >
           Hubungi Saya
         </h2>
@@ -138,7 +138,7 @@ const ContactPage = () => {
           >
             <div className="flex justify-between items-start mb-8">
               <div>
-                <h2 className="text-4xl font-bold mb-3 text-white dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7]">
+                <h2 className="text-4xl font-bold mb-3 text-black dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7]">
                   Hubungi
                 </h2>
                 <p className="dark:text-gray-400 text-lighttext/80">

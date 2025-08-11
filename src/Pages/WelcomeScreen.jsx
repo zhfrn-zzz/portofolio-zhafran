@@ -40,7 +40,7 @@ const IconButton = ({ Icon }) => (
   <div className="relative group hover:scale-110 transition-transform duration-300">
     <div className="absolute -inset-2 rounded-full blur opacity-30 group-hover:opacity-75 transition duration-300 bg-gradient-to-r dark:from-indigo-600 dark:to-purple-600 from-[var(--text)] via-[var(--muted)] to-[var(--accent)]" />
     <div className="relative p-2 sm:p-3 dark:bg-black/50 bg-lightaccent/15 backdrop-blur-sm rounded-full border dark:border-white/10 border-lightaccent/30">
-      <Icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 dark:text-white text-lighttext" />
+      <Icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 dark:text-white text-black" />
     </div>
   </div>
 );
@@ -102,7 +102,7 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
         >
           <BackgroundEffect />
           
-          <div className="relative min-h-screen flex items-center justify-center px-4">
+          <div className="relative min-h-screen flex items-center justify-center px-4 text-black dark:text-inherit">
             <div className="w-full max-w-4xl mx-auto">
               {/* Icons */}
               <motion.div 
@@ -123,22 +123,22 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
               >
         <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold space-y-2 sm:space-y-4">
       <div className="mb-2 sm:mb-4">
-  <span data-aos="fade-right" data-aos-delay="200" className="inline-block px-2 bg-clip-text dark:text-transparent text-white dark:bg-gradient-to-r dark:from-white dark:via-blue-100 dark:to-purple-200">
-                      Welcome
+  <span data-aos="fade-right" data-aos-delay="200" className="inline-block px-2 bg-clip-text text-transparent bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)] dark:bg-gradient-to-r dark:from-white dark:via-blue-100 dark:to-purple-200" style={{ WebkitTextFillColor: 'transparent' }}>
+                      Selamat Datang
                     </span>{' '}
-  <span data-aos="fade-right" data-aos-delay="400" className="inline-block px-2 bg-clip-text dark:text-transparent text-white dark:bg-gradient-to-r dark:from-white dark:via-blue-100 dark:to-purple-200">
-                      To
+  <span data-aos="fade-right" data-aos-delay="400" className="inline-block px-2 bg-clip-text text-transparent bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)] dark:bg-gradient-to-r dark:from-white dark:via-blue-100 dark:to-purple-200" style={{ WebkitTextFillColor: 'transparent' }}>
+                      Di
                     </span>{' '}
-  <span data-aos="fade-right" data-aos-delay="600" className="inline-block px-2 bg-clip-text dark:text-transparent text-white dark:bg-gradient-to-r dark:from-white dark:via-blue-100 dark:to-purple-200">
-                      My
+  <span data-aos="fade-right" data-aos-delay="600" className="inline-block px-2 bg-clip-text text-transparent bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)] dark:bg-gradient-to-r dark:from-white dark:via-blue-100 dark:to-purple-200" style={{ WebkitTextFillColor: 'transparent' }}>
+                      Website
                     </span>
                   </div>
                   <div>
-          <span data-aos="fade-up" data-aos-delay="800" className="inline-block px-2 bg-clip-text dark:text-transparent text-white dark:bg-gradient-to-r dark:from-indigo-500 dark:via-purple-400 dark:to-pink-400">
+          <span data-aos="fade-up" data-aos-delay="800" className="inline-block px-2 bg-clip-text text-transparent bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)] dark:bg-gradient-to-r dark:from-indigo-500 dark:via-purple-400 dark:to-pink-400" style={{ WebkitTextFillColor: 'transparent' }}>
                       Portfolio
                     </span>{' '}
-          <span data-aos="fade-up" data-aos-delay="1000" className="inline-block px-2 bg-clip-text dark:text-transparent text-white dark:bg-gradient-to-r dark:from-indigo-500 dark:via-purple-400 dark:to-pink-400">
-                      Website
+          <span data-aos="fade-up" data-aos-delay="1000" className="inline-block px-2 bg-clip-text text-transparent bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)] dark:bg-gradient-to-r dark:from-indigo-500 dark:via-purple-400 dark:to-pink-400" style={{ WebkitTextFillColor: 'transparent' }}>
+                      Saya
                     </span>
                   </div>
                 </h1>
@@ -161,8 +161,8 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
                   <span className="absolute inset-0 rounded-full overflow-hidden pointer-events-none">
                     <span className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                   </span>
-                  <div className="relative flex items-center gap-2 text-lg sm:text-xl md:text-2xl">
-          <Globe className="w-4 h-4 sm:w-5 sm:h-5 dark:text-indigo-600 text-lighttext" />
+      <div className="relative flex items-center gap-2 text-lg sm:text-xl md:text-2xl">
+    <Globe className="w-4 h-4 sm:w-5 sm:h-5 dark:text-indigo-600 text-black" />
           <span className="bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-indigo-300 dark:via-purple-300 dark:to-pink-300 bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)]">
                       <TypewriterEffect text="www.zhafran.my.id" />
                     </span>

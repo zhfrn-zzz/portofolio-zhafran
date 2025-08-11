@@ -42,6 +42,12 @@ html.theme-transition, html.theme-transition * {
 	transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); /* ease-out expo-like */
 }
 
+/* Prevent AOS-driven invisibility during the brief theme toggle animation */
+html.theme-transition [data-aos] {
+	opacity: 1 !important;
+	transform: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
 	html.theme-transition, html.theme-transition * {
 		transition-duration: 1ms !important;

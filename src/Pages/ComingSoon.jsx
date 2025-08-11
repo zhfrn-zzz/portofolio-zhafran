@@ -1,13 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Home, ArrowLeft } from 'lucide-react';
 
 export default function ComingSoon() {
+  const navigate = useNavigate();
   const handleGoBack = () => {
-    window.history.back();
+    navigate(-1);
   };
 
   const handleGoHome = () => {
-    window.location.href = '/';
+    navigate('/');
   };
 
   return (
@@ -22,7 +24,7 @@ export default function ComingSoon() {
 
         {/* Message */}
         <div className="mb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold mb-3">Coming Soon</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold mb-3">Segera Hadir</h1>
           <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-md mx-auto leading-relaxed">
             Halaman ini sedang disiapkan. Konten lengkap akan menyusul.
           </p>

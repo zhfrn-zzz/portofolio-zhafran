@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, memo, lazy, Suspense } from "react"
-import { Github, Linkedin, Mail, ExternalLink, Instagram, Sparkles } from "lucide-react"
+import { Link, useNavigate } from "react-router-dom"
+import { Github, Mail, ExternalLink, Instagram, Sparkles, Linkedin } from "lucide-react"
 // Removed Lottie, replaced with 3D Lanyard
 const Lanyard3D = lazy(() => import("../components/Lanyard3D"));
 import AOS from 'aos'
@@ -13,7 +14,7 @@ const StatusBadge = memo(() => (
   <div className="relative px-3 sm:px-4 py-2 rounded-full dark:bg-black/40 bg-lightaccent/15 backdrop-blur-xl border dark:border-white/10 border-lightaccent/30">
     <span className="sm:text-sm text-[0.7rem] font-medium flex items-center bg-clip-text text-transparent dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-gradient-to-r from-lighttext to-lightmuted">
           <Sparkles className="sm:w-4 sm:h-4 w-3 h-3 mr-2 text-blue-400" />
-          Ready to Innovate
+          Siap Berinovasi
         </span>
       </div>
     </div>
@@ -25,7 +26,7 @@ const MainTitle = memo(() => (
     <h1 className="text-5xl sm:text-6xl md:text-6xl lg:text-6xl xl:text-7xl font-bold tracking-tight">
       <span className="relative inline-block">
   <span className="absolute -inset-2 blur-2xl opacity-20 bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] from-[var(--text)] via-[var(--muted)] to-[var(--accent)]"></span>
-  <span className="relative bg-clip-text dark:text-transparent text-white bg-gradient-to-r dark:from-white dark:via-blue-100 dark:to-purple-200">
+  <span className="relative bg-clip-text dark:text-transparent text-black bg-gradient-to-r dark:from-white dark:via-blue-100 dark:to-purple-200">
           Frontend
         </span>
       </span>
@@ -46,44 +47,99 @@ const TechStack = memo(({ tech }) => (
   </div>
 ));
 
-const CTAButton = memo(({ href, text, icon: Icon }) => (
-  <a href={href}>
-    <button className="group relative w-[160px]">
-  <div className="absolute -inset-0.5 rounded-xl opacity-50 blur-md group-hover:opacity-90 transition-all duration-700 dark:bg-gradient-to-r dark:from-[#4f52c9] dark:to-[#8644c5] bg-lightaccent/40"></div>
-  <div className="relative h-11 dark:bg-[#030014] bg-[var(--bg)] backdrop-blur-xl rounded-lg border dark:border-white/10 border-lightaccent/30 leading-none overflow-hidden">
+const CTAButton = memo(({ href, text, icon: Icon }) => {
+  const navigate = useNavigate();
+  const onClick = (e) => {
+    if (!href) return;
+    // Handle hash links (sections)
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      const selector = href;
+      const doScroll = () => {
+        const start = Date.now();
+        const tryScroll = () => {
+          const el = document.querySelector(selector);
+          if (el) {
+            const rect = el.getBoundingClientRect();
+            const top = rect.top + window.scrollY - 100;
+            window.scrollTo({ top, behavior: 'smooth' });
+            return;
+          }
+          if (Date.now() - start < 3500) requestAnimationFrame(tryScroll);
+        };
+        tryScroll();
+      };
+      const isHome = typeof window !== 'undefined' && window.location && window.location.pathname === '/';
+      if (!document.querySelector(selector)) {
+        if (!isHome) {
+          navigate('/');
+          setTimeout(doScroll, 100);
+        } else {
+          // Nudge viewport near the bottom to trigger deferred mount
+          try {
+            const targetY = Math.max(0, document.body.scrollHeight - window.innerHeight * 0.8);
+            window.scrollTo({ top: targetY, behavior: 'smooth' });
+          } catch {}
+          setTimeout(doScroll, 150);
+        }
+      } else {
+        doScroll();
+      }
+      return;
+    }
+    // Internal route
+    if (href.startsWith('/')) {
+      e.preventDefault();
+      navigate(href);
+      return;
+    }
+    // External links: let default behavior occur
+  };
+  return (
+    <button type="button" className="group relative w-[160px]" onClick={onClick}>
+      <div className="absolute -inset-0.5 rounded-xl opacity-50 blur-md group-hover:opacity-90 transition-all duration-700 dark:bg-gradient-to-r dark:from-[#4f52c9] dark:to-[#8644c5] bg-lightaccent/40"></div>
+      <div className="relative h-11 dark:bg-[#030014] bg-[var(--bg)] backdrop-blur-xl rounded-lg border dark:border-white/10 border-lightaccent/30 leading-none overflow-hidden">
         <div className="absolute inset-0 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 dark:bg-gradient-to-r dark:from-[#4f52c9]/20 dark:to-[#8644c5]/20 bg-lightaccent/15"></div>
         <span className="absolute inset-0 flex items-center justify-center gap-2 text-sm group-hover:gap-3 transition-all duration-300">
           <span className="font-medium z-10 dark:bg-gradient-to-r dark:from-gray-200 dark:to-white dark:bg-clip-text dark:text-transparent text-lighttext">
             {text}
           </span>
-          <Icon className={`w-4 h-4 dark:text-gray-200 text-lighttext ${text === 'Contact' ? 'group-hover:translate-x-1' : 'group-hover:rotate-45'} transform transition-all duration-300 z-10`} />
+          <Icon className={`w-4 h-4 dark:text-gray-200 text-lighttext ${href === '#Contact' ? 'group-hover:translate-x-1' : 'group-hover:rotate-45'} transform transition-all duration-300 z-10`} />
         </span>
       </div>
     </button>
-  </a>
-));
+  );
+});
 
-const SocialLink = memo(({ icon: Icon, link }) => (
-  <a href={link} target="_blank" rel="noopener noreferrer">
+const SocialLink = memo(({ icon: Icon, link }) => {
+  const isExternal = /^https?:/i.test(link) || link.startsWith('mailto:');
+  const isInternal = link.startsWith('/');
+  const content = (
     <button className="group relative p-3">
   <div className="absolute inset-0 rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-300 bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] from-[var(--text)] via-[var(--muted)] to-[var(--accent)]"></div>
       <div className="relative rounded-xl dark:bg-black/50 bg-lightaccent/15 backdrop-blur-xl p-2 flex items-center justify-center border dark:border-white/10 border-lightaccent/30 group-hover:dark:border-white/20 group-hover:border-lightaccent/50 transition-all duration-300">
         <Icon className="w-5 h-5 dark:text-gray-400 text-lighttext group-hover:dark:text-white group-hover:text-lighttext transition-colors" />
       </div>
     </button>
-  </a>
-));
+  );
+  if (isInternal) return <Link to={link}>{content}</Link>;
+  return (
+    <a href={link} target={isExternal ? "_blank" : undefined} rel={isExternal ? "noopener noreferrer" : undefined}>
+      {content}
+    </a>
+  );
+});
 
 // Constants
 const TYPING_SPEED = 100;
 const ERASING_SPEED = 50;
 const PAUSE_DURATION = 2000;
-const WORDS = ["Network & Telecom Student", "Tech Enthusiast", "Film Maker"];
+const WORDS = ["Siswa Jaringan & Telekomunikasi", "Tech Entusiast", "Film Maker", "3D Generalist"];
 const TECH_STACK = ["React", "Javascript", "Node.js", "Tailwind"];
 const SOCIAL_LINKS = [
   { icon: Github, link: "https://github.com/zhfrn-zzz" },
-  { icon: Linkedin, link: "https://www.linkedin.com/in/ekizr/" },
-  { icon: Instagram, link: "https://www.instagram.com/zhfrn_zzz/" }
+  { icon: Instagram, link: "https://www.instagram.com/zhfrn_zzz/" },
+  { icon: Linkedin, link: "/coming-soon" },
 ];
 
 const Home = () => {
@@ -93,6 +149,20 @@ const Home = () => {
   const [charIndex, setCharIndex] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
+
+  // Restore previous scroll if saved (e.g., returning from an internal sub-route)
+  useEffect(() => {
+    try {
+      const y = sessionStorage.getItem('prev_scrollY');
+      if (y) {
+        sessionStorage.removeItem('prev_scrollY');
+        // Defer to ensure content measures are ready
+        setTimeout(() => {
+          window.scrollTo({ top: Number(y), behavior: 'instant' });
+        }, 0);
+      }
+    } catch {}
+  }, []);
 
   // Optimize AOS initialization: defer to idle so it doesn't block LCP
   useEffect(() => {
@@ -196,8 +266,8 @@ const Home = () => {
 
                 {/* CTA Buttons */}
                 <div className="flex flex-row gap-3 w-full justify-start" data-aos="fade-up" data-aos-delay="1400">
-                  <CTAButton href="#Portofolio" text="Projects" icon={ExternalLink} />
-                  <CTAButton href="#Contact" text="Contact" icon={Mail} />
+                  <CTAButton href="#Portofolio" text="Proyek" icon={ExternalLink} />
+                  <CTAButton href="#Contact" text="Kontak" icon={Mail} />
                 </div>
 
                 {/* Social Links */}
@@ -216,10 +286,14 @@ const Home = () => {
               data-aos="fade-left"
               data-aos-delay="600">
               <div className="relative w-full opacity-90">
-                <div className={`absolute inset-0 rounded-3xl blur-3xl transition-all duration-700 ease-in-out bg-gradient-to-r dark:from-[#6366f1]/10 dark:to-[#a855f7]/10 from-[var(--text)]/10 via-[var(--muted)]/10 to-[var(--accent)]/10 ${
-                  isHovering ? "opacity-50 scale-105" : "opacity-20 scale-100"
-                }`}>
-                </div>
+                {/* Subtle ambient glow; in light mode, prefer neutral to avoid yellow cast */}
+                <div className={`absolute inset-0 rounded-3xl blur-3xl transition-all duration-700 ease-in-out ${
+                  isHovering ? "opacity-30 scale-105" : "opacity-20 scale-100"
+                }`}
+                  style={{
+                    background: 'radial-gradient(60% 60% at 50% 50%, rgba(120,120,120,0.08), rgba(0,0,0,0))'
+                  }}
+                />
 
                 <div className={`relative lg:left-12 z-10 w-full h-[420px] sm:h-[520px] md:h-[560px] lg:h-[600px] opacity-90 transform transition-transform duration-500 ${isHovering ? "scale-105" : "scale-100"}`}>
                   <Suspense fallback={
@@ -230,12 +304,15 @@ const Home = () => {
                 </div>
 
                 <div className={`absolute inset-0 pointer-events-none transition-all duration-700 ${
-                  isHovering ? "opacity-50" : "opacity-20"
+                  isHovering ? "opacity-30" : "opacity-20"
                 }`}>
-                  <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] blur-3xl animate-[pulse_6s_cubic-bezier(0.4,0,0.6,1)_infinite] transition-all duration-700 bg-gradient-to-br dark:from-indigo-500/10 dark:to-purple-500/10 from-[var(--muted)]/10 via-[var(--text)]/10 to-[var(--accent)]/10 ${
+                  <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] blur-3xl animate-[pulse_6s_cubic-bezier(0.4,0,0.6,1)_infinite] transition-all duration-700 ${
                     isHovering ? "scale-110" : "scale-100"
-                  }`}>
-                  </div>
+                  }`}
+                    style={{
+                      background: 'radial-gradient(40% 40% at 50% 50%, rgba(120,120,120,0.10), rgba(0,0,0,0))'
+                    }}
+                  />
                 </div>
               </div>
             </div>

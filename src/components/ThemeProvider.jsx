@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import AOS from 'aos';
 
 const ThemeContext = createContext({ theme: 'dark', toggle: () => {} });
 
@@ -17,6 +18,15 @@ export const ThemeProvider = ({ children }) => {
       root.classList.remove('dark');
     }
     localStorage.setItem('theme', theme);
+
+    // After toggling theme, refresh AOS so elements don’t stay hidden
+    // due to removed aos-animate classes during DOM/style changes.
+    try {
+      // Slight delay lets layout settle before AOS recalculates
+      setTimeout(() => {
+        try { AOS.refreshHard(); } catch {}
+      }, 50);
+    } catch {}
   }, [theme]);
 
   const startThemeTransition = () => {

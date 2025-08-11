@@ -142,7 +142,7 @@ export default function Gallery() {
   <div className="md:px-[10%] px-[5%] w-full sm:mt-0 mt-[3rem] overflow-hidden" id="Gallery">
       <div className="text-center pb-8" data-aos="fade-up" data-aos-duration="1000">
         <h2 className="inline-block text-3xl md:text-5xl font-bold text-center mx-auto text-transparent bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)]">
-          Gallery
+          Galeri
         </h2>
         <p className="dark:text-slate-400 text-lighttext/80 max-w-2xl mx-auto text-sm md:text-base mt-2">
           Koleksi foto dengan ratio 9:16, 16:9, dan 1:1. Klik untuk preview dan lihat deskripsi.
@@ -214,7 +214,7 @@ export default function Gallery() {
                     if (list.length === 0) {
                       return (
                         <div className="py-10 text-center w-full">
-                          <p className="text-lg md:text-xl dark:text-gray-300 text-lighttext/80">Coming soon</p>
+                          <p className="text-lg md:text-xl dark:text-gray-300 text-lighttext/80">Segera hadir</p>
                         </div>
                       );
                     }
@@ -242,7 +242,7 @@ export default function Gallery() {
                               layoutId={`photo-${item.id ?? i}`}
                               transition={{ type: 'spring', stiffness: 400, damping: 40 }}
                               src={item.image_url}
-                              alt={item.description || "Gallery image"}
+                              alt={item.description || "Gambar galeri"}
                               className="h-full w-full object-cover"
                               loading={i < initialItems ? "eager" : "lazy"}
                               decoding="async"
@@ -275,7 +275,7 @@ export default function Gallery() {
                       className="px-3 py-1.5 dark:text-slate-300 text-lighttext dark:hover:text-white hover:text-lighttext text-sm font-medium transition-all duration-300 ease-in-out flex items-center gap-2 dark:bg-white/5 bg-lightaccent/10 dark:hover:bg-white/10 hover:bg-lightaccent/15 rounded-md border dark:border-white/10 border-lightaccent/30 dark:hover:border-white/20 hover:border-lightaccent/50 backdrop-blur-sm group relative overflow-hidden"
                     >
                       <span className="relative z-10 flex items-center gap-2">
-                        {showAll ? 'See Less' : 'See more...'}
+                        {showAll ? 'Lihat Lebih Sedikit' : 'Lihat lebih banyak...'}
                       </span>
                       <span className="absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full dark:bg-purple-500/50 bg-[var(--accent)]/60"></span>
                     </button>
@@ -333,7 +333,7 @@ export default function Gallery() {
               <motion.img
                 layoutId={`photo-${selected._key}`}
                 src={selected.image_url}
-                alt={selected.description || "Selected image"}
+                alt={selected.description || "Gambar terpilih"}
                 className="relative z-[1] block w-auto h-auto max-w-[92vw] max-h-[75vh] mx-auto shadow-2xl drop-shadow-[0_25px_80px_rgba(99,102,241,0.35)] ring-1 ring-black/10 dark:ring-white/10 rounded-xl"
                 loading="eager"
                 decoding="async"

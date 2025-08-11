@@ -12,7 +12,7 @@ const Header = memo(() => (
         data-aos="zoom-in-up"
         data-aos-duration="600"
       >
-        About Me
+  Tentang Saya
       </h2>
     </div>
     <p 
@@ -21,7 +21,7 @@ const Header = memo(() => (
       data-aos-duration="800"
     >
       <Sparkles className="w-5 h-5 dark:text-purple-400 text-lightaccent" />
-      Transforming ideas into digital experiences
+  Mengubah ide menjadi pengalaman digital
       <Sparkles className="w-5 h-5 dark:text-purple-400 text-lightaccent" />
     </p>
   </div>
@@ -158,24 +158,24 @@ const AboutPage = () => {
       icon: Code,
       color: "from-[#6366f1] to-[#a855f7]",
       value: totalProjects,
-      label: "Total Projects",
-      description: "Innovative web solutions crafted",
+  label: "Total Proyek",
+  description: "Solusi web inovatif yang dibuat",
       animation: "fade-right",
     },
     {
       icon: Award,
       color: "from-[#a855f7] to-[#6366f1]",
       value: totalCertificates,
-      label: "Certificates",
-      description: "Professional skills validated",
+  label: "Sertifikat",
+  description: "Keahlian profesional terverifikasi",
       animation: "fade-up",
     },
     {
       icon: Globe,
       color: "from-[#6366f1] to-[#a855f7]",
       value: YearExperience,
-      label: "Years of Experience",
-      description: "Continuous learning journey",
+  label: "Tahun Pengalaman",
+  description: "Perjalanan belajar yang berkelanjutan",
       animation: "fade-left",
     },
   ], [totalProjects, totalCertificates, YearExperience]);
@@ -197,10 +197,10 @@ const AboutPage = () => {
               data-aos-duration="1000"
             >
               <span className="text-transparent bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)]">
-                Hello, I'm
+                Halo, Saya
               </span>
               <span 
-                className="block mt-2 bg-clip-text dark:text-transparent text-white dark:bg-gradient-to-r dark:from-white dark:to-white"
+                className="block mt-2 bg-clip-text dark:text-transparent text-black dark:bg-gradient-to-r dark:from-white dark:to-white"
                 data-aos="fade-right"
                 data-aos-duration="1300"
               >
@@ -245,7 +245,7 @@ const AboutPage = () => {
                 data-aos-duration="800"
                 className="w-full lg:w-auto sm:px-6 py-2 sm:py-3 rounded-lg dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-lightaccent text-white font-medium transition-all duration-300 hover:scale-105 flex items-center justify-center lg:justify-start gap-2 shadow-lg hover:shadow-xl "
               >
-                <FileText className="w-4 h-4 sm:w-5 sm:h-5" /> Download CV
+                <FileText className="w-4 h-4 sm:w-5 sm:h-5" /> Unduh CV
               </button>
               </a>
               <a href="#Portofolio" className="w-full lg:w-auto">
@@ -254,7 +254,7 @@ const AboutPage = () => {
                 data-aos-duration="1000"
                 className="w-full lg:w-auto sm:px-6 py-2 sm:py-3 rounded-lg border dark:border-[#a855f7]/50 border-lightaccent text-lighttext dark:text-[#a855f7] font-medium transition-all duration-300 hover:scale-105 flex items-center justify-center lg:justify-start gap-2 dark:hover:bg-[#a855f7]/10 hover:bg-lightaccent/15 "
               >
-                <Code className="w-4 h-4 sm:w-5 sm:h-5" /> View Projects
+                <Code className="w-4 h-4 sm:w-5 sm:h-5" /> Lihat Proyek
               </button>
               </a>
             </div>

@@ -17,7 +17,7 @@ const Comment = memo(({ comment, formatDate, index, isPinned = false }) => (
         {isPinned && (
             <div className="flex items-center gap-2 mb-3 dark:text-indigo-400 text-[var(--accent)]">
                 <Pin className="w-4 h-4" />
-                <span className="text-xs font-medium uppercase tracking-wide">Pinned Comment</span>
+                <span className="text-xs font-medium uppercase tracking-wide">Komen Tersemat</span>
             </div>
         )}
         <div className="flex items-start gap-3">
@@ -121,14 +121,14 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
     <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2" data-aos="fade-up" data-aos-duration="1000">
         <label className="block text-sm font-medium dark:text-white text-lighttext">
-                    Name <span className="text-red-400">*</span>
+                    Nama <span className="text-red-400">*</span>
                 </label>
                 <input
                     type="text"
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
                      maxLength={15}
-                    placeholder="Enter your name"
+                    placeholder="Masukan nama Anda"
                     className="w-full p-3 rounded-xl dark:bg-white/5 bg-white dark:border-white/10 border-lightaccent/30 dark:text-white text-lighttext placeholder-gray-500 focus:outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 transition-all"
                     required
                 />
@@ -136,7 +136,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
 
             <div className="space-y-2" data-aos="fade-up" data-aos-duration="1200">
                 <label className="block text-sm font-medium dark:text-white text-lighttext">
-                    Message <span className="text-red-400">*</span>
+                    Pesan <span className="text-red-400">*</span>
                 </label>
                 <textarea
                     ref={textareaRef}
@@ -144,7 +144,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
                      maxLength={200}
 
                     onChange={handleTextareaChange}
-                    placeholder="Write your message here..."
+                    placeholder="Tulis pesan Anda di sini..."
                     className="w-full p-4 rounded-xl dark:bg-white/5 bg-white dark:border-white/10 border-lightaccent/30 dark:text-white text-lighttext placeholder-gray-500 focus:outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 transition-all resize-none min-h-[120px]"
                     required
                 />
@@ -152,7 +152,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
 
             <div className="space-y-2" data-aos="fade-up" data-aos-duration="1400">
                 <label className="block text-sm font-medium dark:text-white text-lighttext">
-                    Profile Photo <span className="dark:text-gray-400 text-lighttext/70">(optional)</span>
+                    Foto Profil <span className="dark:text-gray-400 text-lighttext/70">(opsional)</span>
                 </label>
                 <div className="flex items-center gap-4 p-4 dark:bg-white/5 bg-lightaccent/10 dark:border-white/10 border-lightaccent/30 rounded-xl">
                     {imagePreview ? (
@@ -172,7 +172,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
                                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/20 text-red-400 hover:bg-red-500/30 transition-all group"
                             >
                                 <X className="w-4 h-4" />
-                                <span>Remove Photo</span>
+                                <span>Hapus Foto</span>
                             </button>
                         </div>
                     ) : (
@@ -190,10 +190,10 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
                                 className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all border border-dashed group dark:bg-indigo-500/20 dark:text-indigo-400 dark:hover:bg-indigo-500/30 dark:border-indigo-500/50 dark:hover:border-indigo-500 bg-[var(--accent)]/20 text-[var(--accent)] hover:bg-[var(--accent)]/30 border-[var(--accent)]/50 hover:border-[var(--accent)]"
                             >
                                 <ImagePlus className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                                <span>Choose Profile Photo</span>
+                                <span>Pilih Foto Profil</span>
                             </button>
                             <p className="text-center dark:text-gray-400 text-lighttext/80 text-sm mt-2">
-                                Max file size: 5MB
+                                Maksimal Ukuran File: 5MB
                             </p>
                         </div>
                     )}
@@ -211,12 +211,12 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
                     {isSubmitting ? (
                         <>
                             <Loader2 className="w-4 h-4 animate-spin" />
-                            <span>Posting...</span>
+                            <span>Mengirim...</span>
                         </>
                     ) : (
                         <>
                             <Send className="w-4 h-4" />
-                            <span>Post Comment</span>
+                            <span>Kirim Komentar</span>
                         </>
                     )}
                 </div>
@@ -389,8 +389,8 @@ const Komentar = () => {
                     <div className="p-2 rounded-xl dark:bg-indigo-500/20 bg-[var(--accent)]/20">
                         <MessageCircle className="w-6 h-6 dark:text-indigo-400 text-[var(--accent)]" />
                     </div>
-                    <h3 className="text-xl font-semibold text-white dark:text-white">
-                        Comments <span className="dark:text-indigo-400 text-[var(--accent)]">({totalComments})</span>
+                    <h3 className="text-xl font-semibold text-black dark:text-white">
+                        Komentar <span className="dark:text-indigo-400 text-[var(--accent)]">({totalComments})</span>
                     </h3>
                 </div>
             </div>
@@ -423,7 +423,7 @@ const Komentar = () => {
                     {comments.length === 0 && !pinnedComment ? (
                         <div className="text-center py-8" data-aos="fade-in">
                             <UserCircle2 className="w-12 h-12 text-indigo-400 mx-auto mb-3 opacity-50" />
-                            <p className="text-gray-400">No comments yet. Start the conversation!</p>
+                            <p className="text-gray-400">Belum ada komentar. Mulai percakapan!</p>
                         </div>
                     ) : (
                         comments.map((comment, index) => (

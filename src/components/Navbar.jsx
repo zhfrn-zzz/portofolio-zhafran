@@ -15,11 +15,11 @@ const Navbar = () => {
     const navigate = useNavigate();
     
     const navItems = [
-        { href: "#Home", label: "Home" },
-        { href: "#About", label: "About" },
+        { href: "#Home", label: "Beranda" },
+        { href: "#About", label: "Tentang" },
         { href: "#Portofolio", label: "Portofolio" },
-    { href: "#Gallery", label: "Gallery" },
-        { href: "#Contact", label: "Contact" },
+        { href: "#Gallery", label: "Galeri" },
+        { href: "#Contact", label: "Kontak" },
     ];
 
     useEffect(() => {
@@ -197,7 +197,7 @@ const Navbar = () => {
                                                 {/* Audio Toggle */}
                                                 <button
                                                     onClick={audio.toggleMute}
-                                                    aria-label={audio.muted ? 'Unmute music' : 'Mute music'}
+                                                    aria-label={audio.muted ? 'Nyalakan musik' : 'Matikan musik'}
                                                     className="p-2 rounded-full border border-white/10 dark:text-[#e2d3fd] text-lighttext hover:text-white hover:bg-white/5 transition"
                                                 >
                                                     {audio.muted ? <VolumeX className="w-5 h-5"/> : <Volume2 className="w-5 h-5"/>}
@@ -230,7 +230,7 @@ const Navbar = () => {
                                                 {/* Audio toggle mobile */}
                                                 <button
                                                     onClick={audio.toggleMute}
-                                                    aria-label={audio.muted ? 'Unmute music' : 'Mute music'}
+                                                    aria-label={audio.muted ? 'Nyalakan musik' : 'Matikan musik'}
                                                     className="p-2 rounded-full border border-white/10 dark:text-[#e2d3fd] text-lighttext hover:text-white hover:bg-white/5 transition"
                                                 >
                                                     {audio.muted ? <VolumeX className="w-5 h-5"/> : <Volume2 className="w-5 h-5"/>}

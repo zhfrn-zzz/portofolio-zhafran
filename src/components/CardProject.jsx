@@ -8,7 +8,7 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
     if (!ProjectLink) {
       console.log("ProjectLink kosong");
       e.preventDefault();
-      alert("Live demo link is not available");
+      alert("Tautan demo langsung tidak tersedia");
     }
   };
   
@@ -16,7 +16,7 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
     if (!id) {
       console.log("ID kosong");
       e.preventDefault();
-      alert("Project details are not available");
+      alert("Detail proyek tidak tersedia");
     }
   };
   
@@ -58,11 +58,11 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
                   onClick={handleLiveDemo}
                   className="inline-flex items-center space-x-2 dark:text-blue-400 text-lighttext hover:dark:text-blue-300 hover:text-lighttext transition-colors duration-200"
                 >
-                  <span className="text-sm font-medium">Live Demo</span>
+                  <span className="text-sm font-medium">Demo Langsung</span>
                   <ExternalLink className="w-4 h-4" />
                 </a>
               ) : (
-                <span className="text-gray-500 text-sm">Demo Not Available</span>
+                <span className="text-gray-500 text-sm">Demo Tidak Tersedia</span>
               )}
               
      
@@ -73,11 +73,11 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
                   onClick={handleDetails}
                   className="inline-flex items-center space-x-2 px-4 py-2 rounded-lg dark:bg-white/5 bg-lightaccent/15 hover:dark:bg-white/10 hover:bg-lightaccent/25 dark:text-white/90 text-lighttext transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#FFB823]/30"
                 >
-                  <span className="text-sm font-medium">Details</span>
+                  <span className="text-sm font-medium">Detail</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               ) : (
-                <span className="text-gray-500 text-sm">Details Not Available</span>
+                <span className="text-gray-500 text-sm">Detail Tidak Tersedia</span>
               )}
             </div>
           </div>

@@ -21,10 +21,15 @@ import AudioPrompt from './components/AudioPrompt';
 const NotFoundPage = lazy(() => import("./Pages/404"));
 import DeferMount from './components/DeferMount';
 
-// Always show the Welcome Screen on first render of each page load.
-// Note: Previously this was gated by network heuristics and localStorage.
-// We simplify to ensure it always appears as requested.
-function shouldShowWelcome() { return true; }
+// Show the Welcome Screen only once per page load; skip on SPA sub-route returns.
+function shouldShowWelcome() {
+  try {
+    const shown = sessionStorage.getItem('welcome_shown') === '1';
+    return !shown;
+  } catch {
+    return true;
+  }
+}
 
 const LandingPage = ({ showWelcome, setShowWelcome }) => {
   return (
@@ -34,6 +39,7 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
           <Suspense fallback={null}>
             <WelcomeScreen onLoadingComplete={() => {
               setShowWelcome(false);
+              try { sessionStorage.setItem('welcome_shown', '1'); } catch {}
               try {
                 // Try to start audio when welcome completes
                 // We call via a microtask to ensure provider is mounted

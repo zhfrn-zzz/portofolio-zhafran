@@ -1,6 +1,7 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
-  // Linkedin, // hidden for now
+  Linkedin, 
   Github,
   Instagram,
   Youtube,
@@ -11,16 +12,16 @@ import "aos/dist/aos.css";
 
 const socialLinks = [
   // LinkedIn temporarily hidden
-  // {
-  //   name: "LinkedIn",
-  //   displayName: "Let's Connect",
-  //   subText: "on LinkedIn",
-  //   icon: Linkedin,
-  //   url: "/coming-soon",
-  //   color: "#0A66C2",
-  //   gradient: "from-[#0A66C2] to-[#0077B5]",
-  //   isPrimary: true,
-  // },
+  {
+     name: "LinkedIn",
+     displayName: "Ayo Terhubung",
+     subText: "di LinkedIn",
+     icon: Linkedin,
+     url: "/coming-soon",
+     color: "#0A66C2",
+     gradient: "from-[#0A66C2] to-[#0077B5]",
+     isPrimary: true,
+   },
   {
     name: "Instagram",
     displayName: "Instagram",
@@ -33,7 +34,7 @@ const socialLinks = [
   {
     name: "YouTube",
     displayName: "Youtube",
-    subText: "@eki zulfar",
+  subText: "Segera Hadir",
     icon: Youtube,
   url: "/coming-soon",
     color: "#FF0000",
@@ -41,7 +42,7 @@ const socialLinks = [
   },
   {
     name: "GitHub",
-    displayName: "Github",
+  displayName: "GitHub",
     subText: "@zhfrn-zzz",
     icon: Github,
     url: "https://github.com/zhfrn-zzz",
@@ -51,7 +52,7 @@ const socialLinks = [
   {
     name: "TikTok",
     displayName: "Tiktok",
-    subText: "@eki_zulfar",
+  subText: "Segera Hadir",
     icon: ({ className, ...props }) => (
       <svg
         width="24px"
@@ -96,6 +97,7 @@ const socialLinks = [
 ];
 
 const SocialLinks = () => {
+  const navigate = useNavigate();
   const linkedIn = socialLinks.find((link) => link.isPrimary);
   const otherLinks = socialLinks.filter((link) => !link.isPrimary);
   const [instagram, youtube, github, tiktok] = otherLinks;
@@ -118,7 +120,7 @@ const SocialLinks = () => {
         data-aos="fade-down"
       >
         <span className="inline-block w-8 h-1 rounded-full bg-gradient-to-r from-lighttext to-lightaccent dark:from-[#6366f1] dark:to-[#a855f7]"></span>
-        Connect With Me
+        Terhubung dengan Saya
       </h3>
 
       <div className="flex flex-col gap-4">
@@ -128,6 +130,13 @@ const SocialLinks = () => {
           href={linkedIn.url}
           target={linkedIn.url.startsWith('/') ? undefined : "_blank"}
           rel={linkedIn.url.startsWith('/') ? undefined : "noopener noreferrer"}
+          onClick={(e) => {
+            if (linkedIn.url.startsWith('/')) {
+              e.preventDefault();
+              try { sessionStorage.setItem('prev_scrollY', String(window.scrollY)); } catch {}
+              navigate(linkedIn.url);
+            }
+          }}
           className="group relative flex items-center justify-between p-4 rounded-lg 
                      dark:bg-white/5 bg-white/60 border dark:border-white/10 border-lightaccent/30 overflow-hidden
                      dark:hover:border-white/20 hover:border-lightaccent/50 transition-all duration-500"
@@ -180,8 +189,8 @@ const SocialLinks = () => {
                                translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"
             />
           </div>
-        </a>
-        )}
+  </a>
+  )}
 
         {/* Second Row - Instagram & YouTube */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -189,8 +198,15 @@ const SocialLinks = () => {
             <a
               key={link.name}
               href={link.url}
-        target={link.url.startsWith('/') ? undefined : "_blank"}
-        rel={link.url.startsWith('/') ? undefined : "noopener noreferrer"}
+              target={link.url.startsWith('/') ? undefined : "_blank"}
+              rel={link.url.startsWith('/') ? undefined : "noopener noreferrer"}
+              onClick={(e) => {
+                if (link.url.startsWith('/')) {
+                  e.preventDefault();
+                  try { sessionStorage.setItem('prev_scrollY', String(window.scrollY)); } catch {}
+                  navigate(link.url);
+                }
+              }}
               className="group relative flex items-center gap-3 p-4 rounded-xl 
                                dark:bg-white/5 bg-white/60 border dark:border-white/10 border-lightaccent/30 overflow-hidden
                                dark:hover:border-white/20 hover:border-lightaccent/50 transition-all duration-500"
@@ -246,8 +262,15 @@ const SocialLinks = () => {
             <a
               key={link.name}
               href={link.url}
-        target={link.url.startsWith('/') ? undefined : "_blank"}
-        rel={link.url.startsWith('/') ? undefined : "noopener noreferrer"}
+              target={link.url.startsWith('/') ? undefined : "_blank"}
+              rel={link.url.startsWith('/') ? undefined : "noopener noreferrer"}
+              onClick={(e) => {
+                if (link.url.startsWith('/')) {
+                  e.preventDefault();
+                  try { sessionStorage.setItem('prev_scrollY', String(window.scrollY)); } catch {}
+                  navigate(link.url);
+                }
+              }}
               className="group relative flex items-center gap-3 p-4 rounded-xl 
                                dark:bg-white/5 bg-white/60 border dark:border-white/10 border-lightaccent/30 overflow-hidden
                                dark:hover:border-white/20 hover:border-lightaccent/50 transition-all duration-500"

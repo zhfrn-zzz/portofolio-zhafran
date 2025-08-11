@@ -42,7 +42,7 @@ const ToggleButton = ({ onClick, isShowingMore }) => (
     "
   >
     <span className="relative z-10 flex items-center gap-2">
-      {isShowingMore ? "See Less" : "See More"}
+  {isShowingMore ? "Lihat Lebih Sedikit" : "Lihat Lebih Banyak"}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"
@@ -222,12 +222,12 @@ export default function FullWidthTabs() {
   <div className="md:px-[10%] px-[5%] w-full sm:mt-0 mt-[3rem] overflow-hidden" id="Portofolio" style={{ contentVisibility: 'auto', containIntrinsicSize: '1200px' }}>
       {/* Header section - unchanged */}
       <div className="text-center pb-10" data-aos="fade-up" data-aos-duration="1000">
-        <h2 className="inline-block text-3xl md:text-5xl font-bold text-center mx-auto text-transparent bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)]">
-          Portfolio Showcase
+  <h2 className="inline-block text-3xl md:text-5xl font-bold text-center mx-auto text-transparent bg-clip-text dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-gradient-to-r from-[var(--text)] via-[var(--muted)] to-[var(--accent)]">
+    Portofolio
         </h2>
   <p className="dark:text-slate-400 text-lighttext/80 max-w-2xl mx-auto text-sm md:text-base mt-2">
-          Explore my journey through projects, certifications, and technical expertise. 
-          Each section represents a milestone in my continuous learning path.
+    Jelajahi perjalanan saya melalui proyek, sertifikat, dan keahlian teknis. 
+    Setiap bagian merepresentasikan pencapaian dalam proses belajar saya.
         </p>
       </div>
 
@@ -289,21 +289,9 @@ export default function FullWidthTabs() {
               },
             }}
           >
-            <Tab
-              icon={<Code className="mb-2 w-5 h-5 transition-all duration-300" />}
-              label="Projects"
-              {...a11yProps(0)}
-            />
-            <Tab
-              icon={<Award className="mb-2 w-5 h-5 transition-all duration-300" />}
-              label="Certificates"
-              {...a11yProps(1)}
-            />
-            <Tab
-              icon={<Boxes className="mb-2 w-5 h-5 transition-all duration-300" />}
-              label="Tech Stack"
-              {...a11yProps(2)}
-            />
+            <Tab icon={<Code className="mb-2 w-5 h-5 transition-all duration-300" />} label="Proyek" {...a11yProps(0)} />
+            <Tab icon={<Award className="mb-2 w-5 h-5 transition-all duration-300" />} label="Sertifikat" {...a11yProps(1)} />
+            <Tab icon={<Boxes className="mb-2 w-5 h-5 transition-all duration-300" />} label="Teknologi" {...a11yProps(2)} />
             </Tabs>
           </AppBar>
         </Box>
@@ -313,7 +301,7 @@ export default function FullWidthTabs() {
             <div className="container mx-auto flex justify-center items-center overflow-hidden">
               {projects.length === 0 ? (
                 <div className="py-10 text-center w-full">
-                  <p className="text-lg md:text-xl dark:text-gray-300 text-lighttext/80">Coming soon</p>
+                  <p className="text-lg md:text-xl dark:text-gray-300 text-lighttext/80">Segera hadir</p>
                 </div>
               ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-5">
@@ -349,7 +337,7 @@ export default function FullWidthTabs() {
             <div className="container mx-auto flex justify-center items-center overflow-hidden">
               {certificates.length === 0 ? (
                 <div className="py-10 text-center w-full">
-                  <p className="text-lg md:text-xl dark:text-gray-300 text-lighttext/80">Coming soon</p>
+                  <p className="text-lg md:text-xl dark:text-gray-300 text-lighttext/80">Segera hadir</p>
                 </div>
               ) : (
               <div className="grid grid-cols-1 md:grid-cols-3 md:gap-5 gap-4">
