@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import {
-  Linkedin,
+  // Linkedin, // hidden for now
   Github,
   Instagram,
   Youtube,
@@ -10,16 +10,17 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 
 const socialLinks = [
-  {
-    name: "LinkedIn",
-    displayName: "Let's Connect",
-    subText: "on LinkedIn",
-    icon: Linkedin,
-  url: "/coming-soon",
-    color: "#0A66C2",
-    gradient: "from-[#0A66C2] to-[#0077B5]",
-    isPrimary: true,
-  },
+  // LinkedIn temporarily hidden
+  // {
+  //   name: "LinkedIn",
+  //   displayName: "Let's Connect",
+  //   subText: "on LinkedIn",
+  //   icon: Linkedin,
+  //   url: "/coming-soon",
+  //   color: "#0A66C2",
+  //   gradient: "from-[#0A66C2] to-[#0077B5]",
+  //   isPrimary: true,
+  // },
   {
     name: "Instagram",
     displayName: "Instagram",
@@ -121,7 +122,8 @@ const SocialLinks = () => {
       </h3>
 
       <div className="flex flex-col gap-4">
-        {/* LinkedIn - Primary Row */}
+        {/* LinkedIn - Primary Row (hidden if undefined) */}
+        {linkedIn && (
         <a
           href={linkedIn.url}
           target={linkedIn.url.startsWith('/') ? undefined : "_blank"}
@@ -179,6 +181,7 @@ const SocialLinks = () => {
             />
           </div>
         </a>
+        )}
 
         {/* Second Row - Instagram & YouTube */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
