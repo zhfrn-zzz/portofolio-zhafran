@@ -194,3 +194,4 @@ export default function Lanyard3DBandLite() {
     </Canvas>
   );
 }
+// removed

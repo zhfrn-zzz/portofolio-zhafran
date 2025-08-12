@@ -158,3 +158,4 @@ export default function Lanyard3DBandScene() {
 
 useGLTF.preload('/assets/3d/card.glb');
 useTexture.preload('/assets/images/tag_texture.png');
+// removed

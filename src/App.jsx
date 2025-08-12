@@ -47,6 +47,15 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
     } catch {}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  // Failsafe: ensure welcome cannot block the app longer than 7s total
+  React.useEffect(() => {
+    if (!showWelcome) return;
+    const id = setTimeout(() => {
+      try { setShowWelcome(false); } catch {}
+      __welcomeShownThisLoad = true;
+    }, 7000);
+    return () => clearTimeout(id);
+  }, [showWelcome, setShowWelcome]);
   return (
     <>
   <AnimatePresence mode="wait">

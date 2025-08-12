@@ -19,7 +19,7 @@ const TypewriterEffect = ({ text }) => {
       }
     }, 260);
     
-    return () => clearInterval(timer);
+  return () => clearInterval(timer);
   }, [text]);
 
   return (
@@ -63,7 +63,13 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
       }, 1000);
     }, 4000);
     
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      try {
+        // Ensure AOS state doesn't interfere with the main app after unmount
+        if (AOS && typeof AOS.refreshHard === 'function') AOS.refreshHard();
+      } catch {}
+    };
   }, [onLoadingComplete]);
 
   const containerVariants = {
