@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, memo, lazy, Suspense } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { Github, Mail, ExternalLink, Instagram, Sparkles, Linkedin } from "lucide-react"
-const Lanyard3D = lazy(() => import("../components/Lanyard3D"));
+const Lanyard3D = lazy(() => import("../components/Lanyard3DBandLite"));
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import { useI18n } from '../components/I18nProvider'
@@ -311,11 +311,11 @@ const Home = () => {
                   }}
                 />
 
-                <div className={`relative lg:left-12 z-10 w-full h-[420px] sm:h-[520px] md:h-[560px] lg:h-[600px] opacity-90 transform transition-transform duration-500 ${isHovering ? "scale-105" : "scale-100"}`}>
+        <div className={`relative lg:left-12 z-10 w-full h-[420px] sm:h-[520px] md:h-[560px] lg:h-[600px] opacity-90 transform transition-transform duration-500 ${isHovering ? "scale-105" : "scale-100"}`}>
                   <Suspense fallback={
                     <div className="w-full h-full rounded-2xl border dark:border-white/10 border-lightaccent/30 bg-gradient-to-b from-black/10 to-black/5 dark:from-white/5 dark:to-white/0 animate-pulse" aria-label="Loading 3D preview" />
                   }>
-                    <Lanyard3D frontUrl={frontUrl} backUrl={backUrl} strapColor="#1f1f1f" showGloss={true} />
+          <Lanyard3D />
                   </Suspense>
                 </div>
 
