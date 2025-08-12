@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom"
 import { Github, Mail, ExternalLink, Instagram, Sparkles, Linkedin } from "lucide-react"
 import PropTypes from 'prop-types'
 const Lanyard3D = lazy(() => import("../components/Lanyard3D"));
-import AOS from 'aos'
+import MobileOptimizedWrapper from '../components/MobileOptimizedWrapper';
+import { initializeAOS } from '../utils/aosConfig';
 import 'aos/dist/aos.css'
 import { useI18n } from '../components/I18nProvider'
 import TransText from '../components/TransText'
@@ -196,7 +197,7 @@ const Home = () => {
   // Optimize AOS initialization: defer to idle so it doesn't block LCP
   useEffect(() => {
     const initAOS = () => {
-      AOS.init({ once: true, offset: 10 });
+      initializeAOS({ once: true, offset: 10 });
     };
     const idle = (cb) => ('requestIdleCallback' in window) ? requestIdleCallback(cb, { timeout: 1200 }) : setTimeout(cb, 300);
     const idleId = idle(initAOS);
@@ -325,11 +326,29 @@ const Home = () => {
                 />
 
         <div className={`relative lg:left-12 z-10 w-full h-[420px] sm:h-[520px] md:h-[560px] lg:h-[600px] opacity-90 transform transition-transform duration-500 ${isHovering ? "scale-105" : "scale-100"}`}>
-                  <Suspense fallback={
-                    <div className="w-full h-full rounded-2xl border dark:border-white/10 border-lightaccent/30 bg-gradient-to-b from-black/10 to-black/5 dark:from-white/5 dark:to-white/0 animate-pulse" aria-label="Loading 3D preview" />
-                  }>
-                    <Lanyard3D frontUrl={frontUrl} backUrl={backUrl} strapColor="#1f1f1f" showGloss={true} />
-                  </Suspense>
+                  <MobileOptimizedWrapper
+                    fallback={
+                      <div className="w-full h-full rounded-2xl border dark:border-white/10 border-lightaccent/30 bg-gradient-to-b from-black/10 to-black/5 dark:from-white/5 dark:to-white/0 flex items-center justify-center">
+                        <div className="text-center p-8">
+                          <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-white/10 flex items-center justify-center">
+                            <Sparkles className="w-8 h-8 text-blue-400" />
+                          </div>
+                          <p className="text-gray-400 text-sm">3D Preview tersedia di desktop</p>
+                        </div>
+                      </div>
+                    }
+                    disableOn={{
+                      battery: { level: 0.3, charging: false },
+                      connection: ['slow-2g', '2g'],
+                      reducedMotion: true
+                    }}
+                  >
+                    <Suspense fallback={
+                      <div className="w-full h-full rounded-2xl border dark:border-white/10 border-lightaccent/30 bg-gradient-to-b from-black/10 to-black/5 dark:from-white/5 dark:to-white/0 animate-pulse" aria-label="Loading 3D preview" />
+                    }>
+                      <Lanyard3D frontUrl={frontUrl} backUrl={backUrl} strapColor="#1f1f1f" showGloss={true} />
+                    </Suspense>
+                  </MobileOptimizedWrapper>
                 </div>
 
                 <div className={`absolute inset-0 pointer-events-none transition-all duration-700 ${

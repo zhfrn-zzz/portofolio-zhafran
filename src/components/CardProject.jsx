@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 import { useI18n } from './I18nProvider';
 import PropTypes from 'prop-types';
+import OptimizedImage from './OptimizedImage';
 
 const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
   const { t } = useI18n();
@@ -32,14 +33,12 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
     
         <div className="relative p-5 z-10">
           <div className="relative overflow-hidden rounded-lg">
-            <img
+            <OptimizedImage
               src={Img}
               alt={Title}
               className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-              loading="lazy"
-              decoding="async"
-              width="800"
-              height="450"
+              priority={false}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
           

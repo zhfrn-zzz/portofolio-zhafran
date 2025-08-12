@@ -16,6 +16,9 @@ const ContactPage = lazy(() => import("./Pages/Contact"));
 const ProjectDetails = lazy(() => import("./components/ProjectDetail"));
 const WelcomeScreen = lazy(() => import("./Pages/WelcomeScreen"));
 const ComingSoon = lazy(() => import("./Pages/ComingSoon"));
+// Performance monitoring components (development only)
+const DesktopPerformanceAnalyzer = lazy(() => import("./components/DesktopPerformanceAnalyzer"));
+const PerformanceMonitor = lazy(() => import("./components/PerformanceMonitor"));
 import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from './components/ThemeProvider';
 import { AudioProvider, useAudio } from './components/AudioProvider';
@@ -221,6 +224,18 @@ function App() {
         </AudioProvider>
         </ThemeProvider>
         </I18nProvider>
+        
+        {/* Performance monitoring untuk development */}
+        {import.meta.env.DEV && (
+          <>
+            <Suspense fallback={null}>
+              <DesktopPerformanceAnalyzer />
+            </Suspense>
+            <Suspense fallback={null}>
+              <PerformanceMonitor enabled={true} />
+            </Suspense>
+          </>
+        )}
       </BrowserRouter>
     </HelmetProvider>
   );

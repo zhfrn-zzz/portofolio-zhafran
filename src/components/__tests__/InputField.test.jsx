@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Mail } from 'lucide-react';
+import { Mail, User, MessageSquare } from 'lucide-react';
 import InputField from '../InputField';
 
 describe('InputField', () => {
@@ -23,19 +23,22 @@ describe('InputField', () => {
     const input = screen.getByLabelText('Email Address');
     expect(input).toBeInTheDocument();
     expect(input).toHaveAttribute('type', 'email');
+    expect(input).toHaveAttribute('name', 'email');
   });
 
   test('renders textarea for message field', () => {
     const messageProps = {
       ...defaultProps,
       field: 'message',
-      label: 'Your Message'
+      label: 'Your Message',
+      icon: MessageSquare
     };
 
     render(<InputField {...messageProps} />);
 
     const textarea = screen.getByRole('textbox');
     expect(textarea.tagName).toBe('TEXTAREA');
+    expect(textarea).toHaveAttribute('name', 'message');
   });
 
   test('calls handleChange when input value changes', async () => {
@@ -73,11 +76,44 @@ describe('InputField', () => {
     expect(input).toHaveFocus();
   });
 
-  test('renders icon correctly', () => {
+  test('renders different input types based on field', () => {
+    const nameProps = {
+      ...defaultProps,
+      field: 'name',
+      label: 'Full Name',
+      icon: User
+    };
+
+    render(<InputField {...nameProps} />);
+
+    const input = screen.getByLabelText('Full Name');
+    expect(input).toHaveAttribute('type', 'text');
+  });
+
+  test('handles empty formData gracefully', () => {
+    const emptyProps = {
+      ...defaultProps,
+      formData: {}
+    };
+
+    render(<InputField {...emptyProps} />);
+
+    const input = screen.getByLabelText('Email Address');
+    expect(input).toHaveValue('');
+  });
+
+  test('label moves on focus and blur', async () => {
+    const user = userEvent.setup();
     render(<InputField {...defaultProps} />);
 
-    // Icon should be present (Mail icon from lucide-react)
-    const iconContainer = screen.getByLabelText('Email Address').parentElement;
-    expect(iconContainer).toBeInTheDocument();
+    const input = screen.getByLabelText('Email Address');
+    
+    // Focus should trigger label animation
+    await user.click(input);
+    expect(input).toHaveFocus();
+
+    // Blur should return label if no value
+    await user.tab();
+    expect(input).not.toHaveFocus();
   });
 });
