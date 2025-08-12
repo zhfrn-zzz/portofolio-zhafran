@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useI18n } from './I18nProvider';
 
@@ -107,3 +108,12 @@ export default function TransText({ k: keyPath, fallback, text: explicitText, as
     </AnimatePresence>
   );
 }
+
+TransText.propTypes = {
+  k: PropTypes.string,
+  fallback: PropTypes.string,
+  text: PropTypes.string,
+  as: PropTypes.string,
+  className: PropTypes.string,
+  fancyDesktop: PropTypes.bool,
+};

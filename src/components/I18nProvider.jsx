@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useMemo, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import en from '../i18n/en.json';
 import id from '../i18n/id.json';
@@ -70,3 +71,7 @@ export function I18nProvider({ children }) {
 export function useI18n() {
   return useContext(I18nContext);
 }
+
+I18nProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};

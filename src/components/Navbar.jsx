@@ -5,6 +5,7 @@ import { Menu, X, Volume2, VolumeX } from "lucide-react";
 import { useAudio } from './AudioProvider';
 import { useI18n } from './I18nProvider';
 import TransText from './TransText';
+import PropTypes from 'prop-types';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);

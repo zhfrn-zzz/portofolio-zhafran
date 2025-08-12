@@ -1,9 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React, { useState, lazy, Suspense } from 'react';
+import { HelmetProvider, Helmet } from 'react-helmet-async';
 import "./index.css";
 import Home from "./Pages/Home";
 import Navbar from "./components/Navbar";
 import Preconnect from "./components/Preconnect";
+import ErrorBoundary from "./components/ErrorBoundary";
 // PreloadAssets will be loaded lazily after idle to avoid competing with LCP
 import GallerySkeleton from "./components/GallerySkeleton";
 const AnimatedBackground = lazy(() => import("./components/Background"));
@@ -85,30 +87,54 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
 
       {!showWelcome && (
         <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] dark:bg-[#030014] dark:text-gray-100 transition-colors duration-500">
+          <Helmet>
+            <title>Zhafran - Frontend Developer | Computer & Telecommunications Student</title>
+            <meta name="description" content="Portfolio of Zhafran, a Computer & Telecommunications student and Frontend Developer specializing in React, JavaScript, and modern web technologies." />
+            <meta name="keywords" content="Zhafran, Frontend Developer, React, JavaScript, Portfolio, Computer Science, Telecommunications" />
+            <meta name="author" content="Zhafran" />
+            <meta property="og:title" content="Zhafran - Frontend Developer Portfolio" />
+            <meta property="og:description" content="Explore my projects and skills in modern web development." />
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content="https://zhafran.vercel.app" />
+            <meta name="twitter:card" content="summary_large_image" />
+            <link rel="canonical" href="https://zhafran.vercel.app" />
+          </Helmet>
           <Preconnect />
           <Navbar />
-          <Home />
+          <ErrorBoundary>
+            <Home />
+          </ErrorBoundary>
           <DeferMount rootMargin="800px" mountAfterMs={2000}>
             <Suspense fallback={null}>
-              <AnimatedBackground />
+              <ErrorBoundary>
+                <AnimatedBackground />
+              </ErrorBoundary>
             </Suspense>
           </DeferMount>
           <DeferMount rootMargin="800px">
             <Suspense fallback={null}>
-              <About />
+              <ErrorBoundary>
+                <About />
+              </ErrorBoundary>
             </Suspense>
           </DeferMount>
           <DeferMount rootMargin="900px">
             <Suspense fallback={null}>
-              <Portofolio />
+              <ErrorBoundary>
+                <Portofolio />
+              </ErrorBoundary>
             </Suspense>
           </DeferMount>
           <Suspense fallback={<GallerySkeleton />}> 
-            <Gallery />
+            <ErrorBoundary>
+              <Gallery />
+            </ErrorBoundary>
           </Suspense>
           <DeferMount rootMargin="1100px" mountAfterMs={800}>
             <Suspense fallback={null}>
-              <ContactPage />
+              <ErrorBoundary>
+                <ContactPage />
+              </ErrorBoundary>
             </Suspense>
           </DeferMount>
           <IdlePreloader />
@@ -180,21 +206,23 @@ function App() {
   const [showWelcome, setShowWelcome] = useState(() => shouldShowWelcome());
 
   return (
-    <BrowserRouter>
-      <I18nProvider>
-      <ThemeProvider>
-  <AudioProvider>
-  <AudioPrompt />
-    <Routes>
-  <Route path="/" element={<LandingPage showWelcome={showWelcome} setShowWelcome={setShowWelcome} />} />
-        <Route path="/project/:id" element={<ProjectPageLayout />} />
-  <Route path="/coming-soon" element={<Suspense fallback={null}><ComingSoon /></Suspense>} />
-        <Route path="*" element={<Suspense fallback={null}><NotFoundPage /></Suspense>} /> {/* Ini route 404 */}
-      </Routes>
-      </AudioProvider>
-      </ThemeProvider>
-      </I18nProvider>
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <I18nProvider>
+        <ThemeProvider>
+    <AudioProvider>
+    <AudioPrompt />
+      <Routes>
+    <Route path="/" element={<LandingPage showWelcome={showWelcome} setShowWelcome={setShowWelcome} />} />
+          <Route path="/project/:id" element={<ProjectPageLayout />} />
+    <Route path="/coming-soon" element={<Suspense fallback={null}><ComingSoon /></Suspense>} />
+          <Route path="*" element={<Suspense fallback={null}><NotFoundPage /></Suspense>} /> {/* Ini route 404 */}
+        </Routes>
+        </AudioProvider>
+        </ThemeProvider>
+        </I18nProvider>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 

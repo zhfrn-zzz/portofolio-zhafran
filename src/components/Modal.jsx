@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Eye, ArrowRight, ExternalLink } from 'lucide-react';
+import PropTypes from 'prop-types';
 
 const ProjectCardModal = ({ title, description, link }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,6 +53,12 @@ const ProjectCardModal = ({ title, description, link }) => {
       )}
     </>
   );
+};
+
+ProjectCardModal.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  link: PropTypes.string.isRequired,
 };
 
 export default ProjectCardModal;

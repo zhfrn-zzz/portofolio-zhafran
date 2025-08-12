@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 import { useI18n } from './I18nProvider';
+import PropTypes from 'prop-types';
 
 const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
   const { t } = useI18n();
@@ -89,6 +90,14 @@ const CardProject = ({ Img, Title, Description, Link: ProjectLink, id }) => {
       </div>
     </div>
   );
+};
+
+CardProject.propTypes = {
+  Img: PropTypes.string.isRequired,
+  Title: PropTypes.string.isRequired,
+  Description: PropTypes.string.isRequired,
+  Link: PropTypes.string,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default CardProject;

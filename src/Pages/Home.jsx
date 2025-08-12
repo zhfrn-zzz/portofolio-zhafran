@@ -1,11 +1,21 @@
 import React, { useState, useEffect, useCallback, memo, lazy, Suspense } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { Github, Mail, ExternalLink, Instagram, Sparkles, Linkedin } from "lucide-react"
+import PropTypes from 'prop-types'
 const Lanyard3D = lazy(() => import("../components/Lanyard3D"));
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 import { useI18n } from '../components/I18nProvider'
 import TransText from '../components/TransText'
+import { 
+  TYPING_SPEED, 
+  ERASING_SPEED, 
+  PAUSE_DURATION, 
+  TECH_STACK, 
+  SOCIAL_LINKS, 
+  WORDS_EN, 
+  WORDS_ID 
+} from '../constants'
 
 // Memoized Components
 const StatusBadge = memo(() => {
@@ -54,6 +64,10 @@ const TechStack = memo(({ tech }) => (
     {tech}
   </div>
 ));
+
+TechStack.propTypes = {
+  tech: PropTypes.string.isRequired,
+};
 
 const CTAButton = memo(({ href, text, icon: Icon }) => {
   const navigate = useNavigate();
@@ -121,6 +135,12 @@ const CTAButton = memo(({ href, text, icon: Icon }) => {
   );
 });
 
+CTAButton.propTypes = {
+  href: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  icon: PropTypes.elementType.isRequired,
+};
+
 const SocialLink = memo(({ icon: Icon, link }) => {
   const isExternal = /^https?:/i.test(link) || link.startsWith('mailto:');
   const isInternal = link.startsWith('/');
@@ -140,17 +160,12 @@ const SocialLink = memo(({ icon: Icon, link }) => {
   );
 });
 
-// Constants
-const TYPING_SPEED = 100;
-const ERASING_SPEED = 50;
-const PAUSE_DURATION = 2000;
-// Typing words depend on language
-const TECH_STACK = ["React", "Javascript", "Node.js", "Tailwind"];
-const SOCIAL_LINKS = [
-  { icon: Github, link: "https://github.com/zhfrn-zzz" },
-  { icon: Instagram, link: "https://www.instagram.com/zhfrn_zzz/" },
-  { icon: Linkedin, link: "/coming-soon" },
-];
+SocialLink.propTypes = {
+  icon: PropTypes.elementType.isRequired,
+  link: PropTypes.string.isRequired,
+};
+
+// Use imported constants from ../constants/index.js
 
 const Home = () => {
   const [text, setText] = useState("")
@@ -162,9 +177,7 @@ const Home = () => {
   const { t, lang } = useI18n();
 
   const WORDS = React.useMemo(() => (
-    lang === 'en'
-      ? ["Computer & Telecommunications Student", "Tech Enthusiast", "Film Maker", "3D Generalist"]
-      : ["Siswa Jaringan & Telekomunikasi", "Tech Entusiast", "Film Maker", "3D Generalist"]
+    lang === 'en' ? WORDS_EN : WORDS_ID
   ), [lang]);
 
   // Restore previous scroll if saved
