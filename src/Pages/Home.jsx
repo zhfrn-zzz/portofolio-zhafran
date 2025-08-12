@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, memo, lazy, Suspense } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { Github, Mail, ExternalLink, Instagram, Sparkles, Linkedin } from "lucide-react"
-// Removed Lottie, replaced with 3D Lanyard
 const Lanyard3D = lazy(() => import("../components/Lanyard3D"));
 import AOS from 'aos'
 import 'aos/dist/aos.css'
@@ -60,7 +59,6 @@ const CTAButton = memo(({ href, text, icon: Icon }) => {
   const navigate = useNavigate();
   const onClick = (e) => {
     if (!href) return;
-    // Handle hash links (sections)
     if (href.startsWith('#')) {
       e.preventDefault();
       const selector = href;
@@ -169,13 +167,12 @@ const Home = () => {
       : ["Siswa Jaringan & Telekomunikasi", "Tech Entusiast", "Film Maker", "3D Generalist"]
   ), [lang]);
 
-  // Restore previous scroll if saved (e.g., returning from an internal sub-route)
+  // Restore previous scroll if saved
   useEffect(() => {
     try {
       const y = sessionStorage.getItem('prev_scrollY');
       if (y) {
         sessionStorage.removeItem('prev_scrollY');
-        // Defer to ensure content measures are ready
         setTimeout(() => {
           window.scrollTo({ top: Number(y), behavior: 'instant' });
         }, 0);
