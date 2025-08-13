@@ -12,7 +12,6 @@ export default defineConfig({
           // Vendor chunks untuk caching yang lebih baik
           'react-vendor': ['react', 'react-dom'],
           'mui-vendor': ['@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled'],
-          'three-vendor': ['three', '@react-three/fiber', '@react-three/drei'],
           'router-vendor': ['react-router-dom'],
           'motion-vendor': ['framer-motion'],
           'utils': ['aos', 'sweetalert2', '@supabase/supabase-js']
@@ -45,11 +44,6 @@ export default defineConfig({
       '@mui/material',
       '@emotion/react',
       '@emotion/styled'
-    ],
-    exclude: [
-      '@react-three/fiber',
-      '@react-three/drei',
-      'three'
     ]
   }
 })

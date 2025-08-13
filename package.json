@@ -21,12 +21,8 @@
     "@mui/material": "^6.5.0",
     "@mui/styled-engine-sc": "^6.1.6",
     "@react-spring/web": "^9.7.5",
-    "@react-three/drei": "^9.100.0",
-    "@react-three/fiber": "^8.15.16",
-    "@react-three/rapier": "^1.4.0",
     "@shadcn/ui": "^0.0.4",
     "@supabase/supabase-js": "^2.54.0",
-    "@types/three": "^0.179.0",
     "add": "^2.0.6",
     "aos": "^2.3.4",
     "axios": "^1.10.0",
@@ -43,7 +39,6 @@
     "styled-components": "^6.1.13",
     "sweetalert2": "^11.22.3",
     "tailwind-merge": "^2.5.5",
-    "three": "^0.179.1",
     "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {

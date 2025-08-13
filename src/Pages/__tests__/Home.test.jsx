@@ -3,13 +3,6 @@ import { screen } from '@testing-library/react';
 import { renderWithProviders } from '../../utils/test-utils';
 import Home from '../Home';
 
-// Mock the 3D components to avoid Three.js issues in tests
-jest.mock('../../components/Lanyard3D', () => {
-  return function MockLanyard3D() {
-    return <div data-testid="lanyard-3d">3D Lanyard Mock</div>;
-  };
-});
-
 describe('Home Page', () => {
   test('renders main heading', () => {
     renderWithProviders(<Home />);

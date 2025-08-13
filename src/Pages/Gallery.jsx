@@ -248,7 +248,7 @@ export default function Gallery() {
                               className="h-full w-full object-cover"
                               loading={i < initialItems ? "eager" : "lazy"}
                               decoding="async"
-                              {...(i < initialItems ? { fetchPriority: 'high' } : {})}
+                              {...(i < initialItems ? { fetchpriority: 'high' } : {})}
                               width={w}
                               height={h}
                               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

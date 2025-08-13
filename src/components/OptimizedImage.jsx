@@ -87,17 +87,10 @@ const OptimizedImage = ({
             isLoaded ? 'opacity-100' : 'opacity-0'
           } w-full h-full object-cover`}
           onLoad={handleLoad}
-          {...(priority ? { fetchPriority: 'high' } : {})}
+          {...(priority ? { fetchpriority: 'high' } : {})}
           {...props}
         />
       )}
-      
-      <style jsx>{`
-        @keyframes shimmer {
-          0% { background-position: -200% 0; }
-          100% { background-position: 200% 0; }
-        }
-      `}</style>
     </div>
   );
 };

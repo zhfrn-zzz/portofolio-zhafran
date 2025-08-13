@@ -58,7 +58,7 @@ const ProfileImage = memo(() => (
             className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
             loading="lazy"
             decoding="async"
-            fetchPriority="low"
+            fetchpriority="low"
             width="320"
             height="320"
             sizes="(max-width: 640px) 18rem, (max-width: 768px) 20rem, 20rem"
@@ -278,24 +278,6 @@ const AboutPage = () => {
         </a>
       </div>
 
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-20px); }
-        }
-        @keyframes spin-slower {
-          to { transform: rotate(360deg); }
-        }
-        .animate-bounce-slow {
-          animation: bounce 3s infinite;
-        }
-        .animate-pulse-slow {
-          animation: pulse 3s infinite;
-        }
-        .animate-spin-slower {
-          animation: spin-slower 8s linear infinite;
-        }
-      `}</style>
     </div>
   );
 };
