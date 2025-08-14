@@ -8,7 +8,10 @@ import Preconnect from "./components/Preconnect";
 import ErrorBoundary from "./components/ErrorBoundary";
 // PreloadAssets will be loaded lazily after idle to avoid competing with LCP
 import GallerySkeleton from "./components/GallerySkeleton";
-const AnimatedBackground = lazy(() => import("./components/Background"));
+// Performance optimization components
+import { PerformanceProvider } from "./components/PerformanceOptimizer";
+const OptimizedBackground = lazy(() => import("./components/OptimizedBackground"));
+const SimplePerformanceMonitor = lazy(() => import("./components/SimplePerformanceMonitor"));
 const About = lazy(() => import("./Pages/About"));
 const Portofolio = lazy(() => import("./Pages/Portofolio"));
 const Gallery = lazy(() => import("./Pages/Gallery"));
@@ -102,15 +105,13 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
             <meta name="twitter:card" content="summary_large_image" />
             <link rel="canonical" href="https://zhafran.vercel.app" />
           </Helmet>
-          <Preconnect />
-          <Navbar />
           <ErrorBoundary>
             <Home />
           </ErrorBoundary>
           <DeferMount rootMargin="800px" mountAfterMs={2000}>
             <Suspense fallback={null}>
               <ErrorBoundary>
-                <AnimatedBackground />
+                <OptimizedBackground />
               </ErrorBoundary>
             </Suspense>
           </DeferMount>
@@ -213,29 +214,42 @@ function App() {
       <BrowserRouter>
         <I18nProvider>
         <ThemeProvider>
-    <AudioProvider>
-    <AudioPrompt />
-      <Routes>
-    <Route path="/" element={<LandingPage showWelcome={showWelcome} setShowWelcome={setShowWelcome} />} />
+        <PerformanceProvider>
+        <AudioProvider>
+        <Preconnect />
+        <Navbar />
+        <AudioPrompt />
+        <Routes>
+          <Route path="/" element={<LandingPage showWelcome={showWelcome} setShowWelcome={setShowWelcome} />} />
           <Route path="/project/:id" element={<ProjectPageLayout />} />
-    <Route path="/coming-soon" element={<Suspense fallback={null}><ComingSoon /></Suspense>} />
+          <Route path="/coming-soon" element={<Suspense fallback={null}><ComingSoon /></Suspense>} />
           <Route path="*" element={<Suspense fallback={null}><NotFoundPage /></Suspense>} /> {/* Ini route 404 */}
         </Routes>
-        </AudioProvider>
-        </ThemeProvider>
-        </I18nProvider>
         
-        {/* Performance monitoring untuk development */}
+        {/* Performance monitoring - moved inside PerformanceProvider */}
+        <Suspense fallback={null}>
+          <ErrorBoundary>
+            <SimplePerformanceMonitor />
+          </ErrorBoundary>
+        </Suspense>
         {import.meta.env.DEV && (
           <>
             <Suspense fallback={null}>
-              <DesktopPerformanceAnalyzer />
+              <ErrorBoundary>
+                <DesktopPerformanceAnalyzer />
+              </ErrorBoundary>
             </Suspense>
             <Suspense fallback={null}>
-              <PerformanceMonitor enabled={true} />
+              <ErrorBoundary>
+                <PerformanceMonitor enabled={true} />
+              </ErrorBoundary>
             </Suspense>
           </>
         )}
+        </AudioProvider>
+        </PerformanceProvider>
+        </ThemeProvider>
+        </I18nProvider>
       </BrowserRouter>
     </HelmetProvider>
   );
