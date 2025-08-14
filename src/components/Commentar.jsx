@@ -68,7 +68,7 @@ const Comment = memo(({ comment, formatDate, index, isPinned = false }) => (
 ));
 
 const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
-    const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : true;
+    const [isMobileDevice, setIsMobileDevice] = useState(false);
     const { t } = useI18n();
     const [newComment, setNewComment] = useState('');
     const [userName, setUserName] = useState('');
@@ -76,6 +76,19 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
     const [imageFile, setImageFile] = useState(null);
     const textareaRef = useRef(null);
     const fileInputRef = useRef(null);
+
+    // Mobile detection with proper fallback
+    useEffect(() => {
+        const checkMobile = () => {
+            if (typeof window !== 'undefined') {
+                setIsMobileDevice(window.innerWidth < 768);
+            }
+        };
+        
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     const handleImageChange = useCallback((e) => {
         const file = e.target.files[0];
@@ -124,42 +137,50 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
     }, [newComment, userName, imageFile, onSubmit]);
 
     return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2" data-aos={isMobile ? undefined : "fade-up"} data-aos-duration={isMobile ? undefined : "1000"}>
-                                <label className="block text-sm font-medium dark:text-white text-lighttext">
-                                    {t('comment.nameLabel', 'Nama')} <span className="text-red-400">*</span>
-                                </label>
+        <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-2" 
+                 data-aos={isMobileDevice ? "fade-right" : "fade-up"} 
+                 data-aos-duration={isMobileDevice ? "500" : "1000"}
+                 data-aos-delay={isMobileDevice ? "0" : "100"}>
+                <label className="block text-sm font-medium dark:text-white text-lighttext">
+                    {t('comment.nameLabel', 'Nama')} <span className="text-red-400">*</span>
+                </label>
                 <input
                     type="text"
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
-                     maxLength={15}
-                                        placeholder={t('comment.namePlaceholder', 'Masukkan nama Anda')}
+                    maxLength={15}
+                    placeholder={t('comment.namePlaceholder', 'Masukkan nama Anda')}
                     className="w-full p-3 rounded-xl dark:bg-white/5 bg-white dark:border-white/10 border-lightaccent/30 dark:text-white text-lighttext placeholder-gray-500 focus:outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 transition-all"
                     required
                 />
             </div>
 
-            <div className="space-y-2" data-aos={isMobile ? undefined : "fade-up"} data-aos-duration={isMobile ? undefined : "1200"}>
-                                <label className="block text-sm font-medium dark:text-white text-lighttext">
-                                    {t('comment.messageLabel', 'Pesan')} <span className="text-red-400">*</span>
-                                </label>
+            <div className="space-y-2" 
+                 data-aos={isMobileDevice ? "fade-left" : "fade-up"} 
+                 data-aos-duration={isMobileDevice ? "500" : "1200"}
+                 data-aos-delay={isMobileDevice ? "100" : "200"}>
+                <label className="block text-sm font-medium dark:text-white text-lighttext">
+                    {t('comment.messageLabel', 'Pesan')} <span className="text-red-400">*</span>
+                </label>
                 <textarea
                     ref={textareaRef}
                     value={newComment}
-                     maxLength={200}
-
-                                        onChange={handleTextareaChange}
-                                        placeholder={t('comment.placeholder', 'Tulis pesan Anda di sini...')}
+                    maxLength={200}
+                    onChange={handleTextareaChange}
+                    placeholder={t('comment.placeholder', 'Tulis pesan Anda di sini...')}
                     className="w-full p-4 rounded-xl dark:bg-white/5 bg-white dark:border-white/10 border-lightaccent/30 dark:text-white text-lighttext placeholder-gray-500 focus:outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 transition-all resize-none min-h-[120px]"
                     required
                 />
             </div>
 
-            <div className="space-y-2" data-aos={isMobile ? undefined : "fade-up"} data-aos-duration={isMobile ? undefined : "1400"}>
-                                <label className="block text-sm font-medium dark:text-white text-lighttext">
-                                    {t('comment.profilePhotoOptional', 'Foto Profil (opsional)')}
-                                </label>
+            <div className="space-y-2" 
+                 data-aos={isMobileDevice ? "fade-right" : "fade-up"} 
+                 data-aos-duration={isMobileDevice ? "500" : "1400"}
+                 data-aos-delay={isMobileDevice ? "200" : "300"}>
+                <label className="block text-sm font-medium dark:text-white text-lighttext">
+                    {t('comment.profilePhotoOptional', 'Foto Profil (opsional)')}
+                </label>
                 <div className="flex items-center gap-4 p-4 dark:bg-white/5 bg-lightaccent/10 dark:border-white/10 border-lightaccent/30 rounded-xl">
                     {imagePreview ? (
                         <div className="flex items-center gap-4">
@@ -209,7 +230,9 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
             <button
                 type="submit"
                 disabled={isSubmitting}
-                data-aos={isMobile ? undefined : "fade-up"} data-aos-duration={isMobile ? undefined : "1000"}
+                data-aos={isMobileDevice ? "zoom-in" : "fade-up"} 
+                data-aos-duration={isMobileDevice ? "400" : "1000"}
+                data-aos-delay={isMobileDevice ? "300" : "400"}
                 className="relative w-full h-12 dark:bg-gradient-to-r dark:from-[#6366f1] dark:to-[#a855f7] bg-lightaccent rounded-xl font-medium text-white overflow-hidden group transition-all duration-300 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] disabled:opacity-50 disabled:hover:scale-100 disabled:cursor-not-allowed"
             >
                 <div className="absolute inset-0 bg-white/20 translate-y-12 group-hover:translate-y-0 transition-transform duration-300" />
@@ -236,23 +259,49 @@ const Komentar = () => {
     const [pinnedComment, setPinnedComment] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+    const [isMobileDevice, setIsMobileDevice] = useState(false);
     const { t, lang } = useI18n();
 
+    // Mobile detection with proper fallback
     useEffect(() => {
-        // Initialize AOS
-        const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : true;
-        AOS.init({
-            once: false,
-            duration: isMobile ? 500 : 1000,
-            mirror: true,
-            offset: 0,
-        });
+        const checkMobile = () => {
+            if (typeof window !== 'undefined') {
+                setIsMobileDevice(window.innerWidth < 768);
+            }
+        };
+        
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // Fetch pinned comment
+    useEffect(() => {
+        // Initialize AOS with mobile-optimized settings
+        AOS.init({
+            once: false,
+            duration: isMobileDevice ? 400 : 1000,
+            mirror: true,
+            offset: isMobileDevice ? 50 : 100,
+            delay: 0,
+            disable: false, // Never disable AOS
+            easing: 'ease-in-out',
+            anchorPlacement: 'top-bottom'
+        });
+
+        // Refresh AOS on mobile to ensure proper detection
+        if (isMobileDevice) {
+            setTimeout(() => {
+                AOS.refresh();
+            }, 100);
+        }
+    }, [isMobileDevice]);
+
+    // Fetch pinned comment with better error handling
     useEffect(() => {
         const fetchPinnedComment = async () => {
             try {
+                setIsLoading(true);
                 const { data, error } = await supabase
                     .from('portfolio_comments')
                     .select('*')
@@ -275,28 +324,42 @@ const Komentar = () => {
         fetchPinnedComment();
     }, []);
 
-    // Fetch regular comments (excluding pinned) and set up real-time subscription
+    // Fetch regular comments with improved mobile support
     useEffect(() => {
+        let isMounted = true;
+        
         const fetchComments = async () => {
-            const { data, error } = await supabase
-                .from('portfolio_comments')
-                .select('*')
-                .eq('is_pinned', false)
-                .order('created_at', { ascending: false });
-            
-            if (error) {
-                console.error('Error fetching comments:', error);
-                return;
+            try {
+                const { data, error } = await supabase
+                    .from('portfolio_comments')
+                    .select('*')
+                    .eq('is_pinned', false)
+                    .order('created_at', { ascending: false });
+                
+                if (error) {
+                    console.error('Error fetching comments:', error);
+                    if (isMounted) setError('Failed to load comments');
+                    return;
+                }
+                
+                if (isMounted) {
+                    setComments(data || []);
+                    setIsLoading(false);
+                }
+            } catch (err) {
+                console.error('Error in fetchComments:', err);
+                if (isMounted) {
+                    setError('Failed to load comments');
+                    setIsLoading(false);
+                }
             }
-            
-            setComments(data || []);
         };
 
         fetchComments();
 
-        // Set up real-time subscription
+        // Set up real-time subscription with better error handling
         const subscription = supabase
-            .channel('portfolio_comments')
+            .channel('portfolio_comments_channel')
             .on('postgres_changes', 
                 { 
                     event: '*', 
@@ -304,13 +367,24 @@ const Komentar = () => {
                     table: 'portfolio_comments',
                     filter: 'is_pinned=eq.false'
                 }, 
-                () => {
-                    fetchComments(); // Refresh comments when changes occur
+                (payload) => {
+                    console.log('Real-time update received:', payload);
+                    if (isMounted) {
+                        fetchComments(); // Refresh comments when changes occur
+                        
+                        // Refresh AOS after content update, especially important for mobile
+                        setTimeout(() => {
+                            AOS.refresh();
+                        }, 100);
+                    }
                 }
             )
-            .subscribe();
+            .subscribe((status) => {
+                console.log('Subscription status:', status);
+            });
 
         return () => {
+            isMounted = false;
             subscription.unsubscribe();
         };
     }, []);
@@ -356,11 +430,17 @@ const Komentar = () => {
                     }
                 ]);
 
-        if (error) {
+            if (error) {
                 throw error;
             }
+
+            // Force refresh AOS after successful comment submit (important for mobile)
+            setTimeout(() => {
+                AOS.refresh();
+            }, 200);
+            
         } catch (error) {
-        setError(t('comment.errors.postFailed', 'Gagal mengirim komentar. Silakan coba lagi.'));
+            setError(t('comment.errors.postFailed', 'Gagal mengirim komentar. Silakan coba lagi.'));
             console.error('Error adding comment: ', error);
         } finally {
             setIsSubmitting(false);
@@ -391,21 +471,49 @@ const Komentar = () => {
     // Calculate total comments (pinned + regular)
     const totalComments = comments.length + (pinnedComment ? 1 : 0);
 
+    // Loading state
+    if (isLoading) {
+        return (
+            <div className="w-full rounded-2xl backdrop-blur-xl shadow-xl dark:bg-gradient-to-b dark:from-white/10 dark:to-white/5 bg-gradient-to-b from-[var(--accent)]/10 to-[var(--muted)]/5">
+                <div className="p-6 border-b dark:border-white/10 border-[var(--accent)]/30">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 rounded-xl dark:bg-indigo-500/20 bg-[var(--accent)]/20">
+                            <MessageCircle className="w-6 h-6 dark:text-indigo-400 text-[var(--accent)]" />
+                        </div>
+                        <h3 className="text-xl font-semibold text-black dark:text-white">
+                            <TransText k="comment.title" fallback="Komentar" />
+                        </h3>
+                    </div>
+                </div>
+                <div className="p-6 flex items-center justify-center">
+                    <Loader2 className="w-8 h-8 animate-spin dark:text-indigo-400 text-[var(--accent)]" />
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div className="w-full rounded-2xl backdrop-blur-xl shadow-xl dark:bg-gradient-to-b dark:from-white/10 dark:to-white/5 bg-gradient-to-b from-[var(--accent)]/10 to-[var(--muted)]/5" data-aos="fade-up" data-aos-duration="1000">
-                        <div className="p-6 border-b dark:border-white/10 border-[var(--accent)]/30" data-aos="fade-down" data-aos-duration="800">
+        <div className="w-full rounded-2xl backdrop-blur-xl shadow-xl dark:bg-gradient-to-b dark:from-white/10 dark:to-white/5 bg-gradient-to-b from-[var(--accent)]/10 to-[var(--muted)]/5" 
+             data-aos={isMobileDevice ? "fade-up" : "fade-up"} 
+             data-aos-duration={isMobileDevice ? "600" : "1000"}
+             data-aos-offset={isMobileDevice ? "50" : "100"}>
+            <div className="p-6 border-b dark:border-white/10 border-[var(--accent)]/30" 
+                 data-aos={isMobileDevice ? "fade-down" : "fade-down"} 
+                 data-aos-duration={isMobileDevice ? "500" : "800"}>
                 <div className="flex items-center gap-3">
                     <div className="p-2 rounded-xl dark:bg-indigo-500/20 bg-[var(--accent)]/20">
                         <MessageCircle className="w-6 h-6 dark:text-indigo-400 text-[var(--accent)]" />
                     </div>
-                                        <h3 className="text-xl font-semibold text-black dark:text-white">
-                                            <TransText k="comment.title" fallback="Komentar" /> <span className="dark:text-indigo-400 text-[var(--accent)]">({totalComments})</span>
-                                        </h3>
+                    <h3 className="text-xl font-semibold text-black dark:text-white">
+                        <TransText k="comment.title" fallback="Komentar" /> <span className="dark:text-indigo-400 text-[var(--accent)]">({totalComments})</span>
+                    </h3>
                 </div>
             </div>
             <div className="p-6 space-y-6">
                 {error && (
-                    <div className="flex items-center gap-2 p-4 text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl" data-aos="fade-in">
+                    <div className="flex items-center gap-2 p-4 text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl" 
+                         data-aos="fade-in" 
+                         data-aos-duration={isMobileDevice ? "400" : "600"}>
                         <AlertCircle className="w-5 h-5 flex-shrink-0" />
                         <p className="text-sm">{error}</p>
                     </div>
@@ -415,10 +523,15 @@ const Komentar = () => {
                     <CommentForm onSubmit={handleCommentSubmit} isSubmitting={isSubmitting} error={error} />
                 </div>
 
-                <div className="space-y-4 h-[328px] overflow-y-auto overflow-x-hidden custom-scrollbar pt-1 pr-1 " data-aos="fade-up" data-aos-delay="200">
+                <div className="space-y-4 h-[328px] overflow-y-auto overflow-x-hidden custom-scrollbar pt-1 pr-1" 
+                     data-aos={isMobileDevice ? "fade-up" : "fade-up"} 
+                     data-aos-delay={isMobileDevice ? "100" : "200"}
+                     data-aos-duration={isMobileDevice ? "500" : "800"}>
                     {/* Pinned Comment */}
                     {pinnedComment && (
-                        <div data-aos="fade-down" data-aos-duration="800">
+                        <div data-aos={isMobileDevice ? "fade-right" : "fade-down"} 
+                             data-aos-duration={isMobileDevice ? "500" : "800"}
+                             data-aos-delay={isMobileDevice ? "0" : "100"}>
                             <Comment 
                                 comment={pinnedComment} 
                                 formatDate={formatDate}
@@ -429,20 +542,28 @@ const Komentar = () => {
                     )}
                     
                     {/* Regular Comments */}
-            {comments.length === 0 && !pinnedComment ? (
-                        <div className="text-center py-8" data-aos="fade-in">
+                    {comments.length === 0 && !pinnedComment ? (
+                        <div className="text-center py-8" 
+                             data-aos="fade-in" 
+                             data-aos-duration={isMobileDevice ? "500" : "800"}>
                             <UserCircle2 className="w-12 h-12 text-indigo-400 mx-auto mb-3 opacity-50" />
-                <p className="text-gray-400"><TransText k="comment.empty" fallback="Belum ada komentar. Mulai percakapan!" /></p>
+                            <p className="text-gray-400">
+                                <TransText k="comment.empty" fallback="Belum ada komentar. Mulai percakapan!" />
+                            </p>
                         </div>
                     ) : (
                         comments.map((comment, index) => (
-                            <Comment 
-                                key={comment.id} 
-                                comment={comment} 
-                                formatDate={formatDate}
-                                index={index + (pinnedComment ? 1 : 0)}
-                                isPinned={false}
-                            />
+                            <div key={comment.id}
+                                 data-aos={isMobileDevice ? "fade-left" : "fade-up"} 
+                                 data-aos-duration={isMobileDevice ? "400" : "600"}
+                                 data-aos-delay={isMobileDevice ? (index * 50) : (index * 100)}>
+                                <Comment 
+                                    comment={comment} 
+                                    formatDate={formatDate}
+                                    index={index + (pinnedComment ? 1 : 0)}
+                                    isPinned={false}
+                                />
+                            </div>
                         ))
                     )}
                 </div>

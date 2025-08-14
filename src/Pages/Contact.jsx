@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Share2, User, Mail, MessageSquare, Send } from "lucide-react";
 import SocialLinks from "../components/SocialLinks";
 import Komentar from "../components/Commentar";
+import ViewportLoader from "../components/ViewportLoader";
 import { useI18n } from "../components/I18nProvider";
 import TransText from "../components/TransText";
 import Swal from "sweetalert2";
@@ -220,8 +221,20 @@ const ContactPage = () => {
             </div>
           </div>
 
-          <div className="  dark:bg-white/5 bg-lightaccent/10 backdrop-blur-xl rounded-3xl p-3 py-3 md:p-10 md:py-8 shadow-2xl transform transition-all duration-500 hover:shadow-[#6366f1]/10 border dark:border-white/10 border-lightaccent/30">
-            <Komentar />
+          <div className="dark:bg-white/5 bg-lightaccent/10 backdrop-blur-xl rounded-3xl p-3 py-3 md:p-10 md:py-8 shadow-2xl transform transition-all duration-500 hover:shadow-[#6366f1]/10 border dark:border-white/10 border-lightaccent/30">
+            <ViewportLoader 
+              fallback={
+                <div className="flex items-center justify-center p-8">
+                  <div className="text-center">
+                    <MessageSquare className="w-12 h-12 mx-auto mb-4 dark:text-indigo-400 text-[var(--accent)] opacity-50" />
+                    <p className="dark:text-gray-400 text-lighttext/70">Loading comments...</p>
+                  </div>
+                </div>
+              }
+              loadOnce={true}
+            >
+              <Komentar />
+            </ViewportLoader>
           </div>
         </div>
       </div>
