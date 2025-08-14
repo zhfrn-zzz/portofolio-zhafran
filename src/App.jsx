@@ -29,6 +29,8 @@ import AudioPrompt from './components/AudioPrompt';
 const NotFoundPage = lazy(() => import("./Pages/404"));
 import DeferMount from './components/DeferMount';
 import { I18nProvider } from './components/I18nProvider';
+import { WelcomeProvider, useWelcome } from './hooks/useWelcomeContext.jsx';
+import AnimatedElements from './components/AnimatedElements';
 
 // Track welcome display per page load (resets on full reload)
 let __welcomeShownThisLoad = false;
@@ -45,6 +47,13 @@ function shouldShowWelcome() {
 }
 
 const LandingPage = ({ showWelcome, setShowWelcome }) => {
+  const { setIsWelcomeActive } = useWelcome();
+  
+  // Update welcome context when local state changes
+  React.useEffect(() => {
+    setIsWelcomeActive(showWelcome);
+  }, [showWelcome, setIsWelcomeActive]);
+  
   // If a one-time skip flag is present (set by internal navigations), hide welcome immediately
   React.useEffect(() => {
     try {
@@ -216,9 +225,14 @@ function App() {
         <ThemeProvider>
         <PerformanceProvider>
         <AudioProvider>
+        <WelcomeProvider>
         <Preconnect />
-        <Navbar />
-        <AudioPrompt />
+        <AnimatedElements delay={0.2}>
+          <Navbar />
+        </AnimatedElements>
+        <AnimatedElements delay={0.4}>
+          <AudioPrompt />
+        </AnimatedElements>
         <Routes>
           <Route path="/" element={<LandingPage showWelcome={showWelcome} setShowWelcome={setShowWelcome} />} />
           <Route path="/project/:id" element={<ProjectPageLayout />} />
@@ -227,11 +241,13 @@ function App() {
         </Routes>
         
         {/* Performance monitoring - moved inside PerformanceProvider */}
-        <Suspense fallback={null}>
-          <ErrorBoundary>
-            <SimplePerformanceMonitor />
-          </ErrorBoundary>
-        </Suspense>
+        <AnimatedElements delay={0.6}>
+          <Suspense fallback={null}>
+            <ErrorBoundary>
+              <SimplePerformanceMonitor />
+            </ErrorBoundary>
+          </Suspense>
+        </AnimatedElements>
         {import.meta.env.DEV && (
           <>
             <Suspense fallback={null}>
@@ -246,6 +262,7 @@ function App() {
             </Suspense>
           </>
         )}
+        </WelcomeProvider>
         </AudioProvider>
         </PerformanceProvider>
         </ThemeProvider>

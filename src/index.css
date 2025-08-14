@@ -249,3 +249,45 @@ html.dark .portfolio-tabs {
 	user-select: none;
 	cursor: default;
   } */
+
+/* Dark Logo Visibility Enhancement */
+.dark-logo-container {
+  position: relative;
+  display: inline-block;
+}
+
+.dark-logo-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 240, 240, 0.9));
+  border-radius: 0.75rem;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.dark-logo-container:hover::before {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(245, 245, 245, 0.95));
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dark-logo-container img {
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: filter 0.3s ease;
+}
+
+.dark-logo-container:hover img {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+/* Additional contrast enhancement for specific logos */
+.logo-contrast-boost {
+  filter: contrast(1.1) brightness(1.05);
+  transition: filter 0.3s ease;
+}
+
+.logo-contrast-boost:hover {
+  filter: contrast(1.2) brightness(1.1) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+}
